@@ -1,0 +1,48 @@
+.carta-login{
+    /*centrar el div de la pagina*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 600px;
+    flex-direction: column;
+    border: 2px solid #f1c40f;
+    border-radius: 10px;
+    padding: 20px 30px;
+    translate: 60%;
+}
+
+.carta-login h1{
+    font-size: 30px;
+    color: #f1c40f;
+    margin-bottom: 20px;
+}
+
+.carta-login input,.carta-login button{
+    width: 100%;
+    padding: 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.carta-login button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    background-color: #f1c40f;
+    color: #fff;
+    cursor: pointer;
+    transition: 0.5s all;
+    margin-top: 20px;
+}
+
+.carta-login button:hover{
+    background-color: #fff;
+    color: #f1c40f;
+}
+
+.carta-login label{
+    margin-bottom: 8px;
+    margin-right: auto;
+}

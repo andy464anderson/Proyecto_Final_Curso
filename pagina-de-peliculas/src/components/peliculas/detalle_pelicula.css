@@ -1,0 +1,168 @@
+.detalle-pelicula {
+  width: 100%;
+  display: flex;
+  padding: 2%;
+  margin: 2% 0;
+  background-color: #f1f1f1;
+}
+
+.detalle-completo-pelicula {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  gap: 1rem;
+  padding: 50px 20px;
+}
+
+.detalle-completo-pelicula .genere {
+  display: flex;
+  flex-direction: row;
+  gap: 0.2rem;
+}
+.detalle-completo-pelicula .genere i {
+  color: #f1c40f;
+  margin-left: 5px;
+}
+
+.detalle-pelicula .descargar {
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  height: 200px;
+  width: 50px;
+  display: flex;
+  gap: 1rem;
+  padding: 35px 18px;
+  margin: auto 0;
+  text-align: center;
+  letter-spacing: 3px;
+  background-color: rgba(255, 0, 0, 0.636);
+  color: #fff;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: 0.4s all ease;
+}
+
+.detalle-pelicula .descargar:hover {
+  background-color: white;
+  color: rgba(255, 0, 0, 0.636);
+}
+
+.cast {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.cast h3 {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 20px;
+}
+
+.cast h3 i {
+  color: #f1c40f;
+}
+
+.cast .cast-list {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding: 0 1rem;
+  flex-wrap: wrap;
+}
+.cast .cast-list button {
+  width: 150px;
+  padding: 15px 10px;
+  cursor: pointer;
+  transition: 0.5s all;
+  border: none;
+  outline: none;
+  background: #f1c40f;
+  border-radius: 5px;
+}
+
+.cast .cast-list button:hover {
+  background-color: white;
+  color: #f1c40f;
+}
+
+.recomendaciones {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.recomendaciones h3 {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 20px;
+}
+
+.recomendaciones h3 i {
+  color: #f1c40f;
+}
+
+.resenas {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.resena-form,
+.resena-list {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.resena-form h4{
+    margin-bottom: 20px;
+}
+
+.resena-form label,
+.resena-list label {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.resena-form input[type="text"],
+.resena-form textarea,
+.resena-form select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.resena-form button {
+  background-color: #f1c40f;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.resena-form button:hover {
+    background-color: white;
+    color: #f1c40f;
+}
+
+.resena-list h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.resena-list p {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.resena-list hr {
+  margin: 20px 0;
+}
