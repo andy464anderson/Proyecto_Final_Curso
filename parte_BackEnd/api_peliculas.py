@@ -13,8 +13,7 @@ from pyspark.sql.types import *
 from fastapi.responses import JSONResponse
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
-import ast
-import json
+
 
 
 # creamos la clase Pelicula
@@ -84,7 +83,7 @@ async def read_main():
 @app.get("/peliculas")
 async def get_peliculas():
     #las peliculas se devuelven en formato json
-    return lista
+    return JSONResponse(content=lista,headers={"Access-Control-Allow-Origin": "*"},status_code=200)
 
 
 #creamos la ruta para acceder a una pelicula en concreto
@@ -96,7 +95,7 @@ async def get_pelicula(id: int):
     df_pelicula = [Pelicula(**row.asDict()) for row in df2.collect()]
     
     #devolvemos la pelicula en formato json
-    return df_pelicula
+    return JSONResponse(content=df_pelicula,headers={"Access-Control-Allow-Origin": "*"},status_code=200)
 
 
 #creamos la ruta para acceder a las peliculas de un genero en concreto
@@ -166,6 +165,28 @@ async def get_usuario(id):
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM usuario WHERE id = %s", (id,))
     usuario = cursor.fetchone()
+    conn.close()
+    cursor.close()
+    lista_usuarios={
+            "id": usuario[0],
+            "correo": usuario[1],
+            "nombre": usuario[2],
+            "clave": usuario[3],
+            "rol": usuario[4]
+        }
+
+    return lista_usuarios
+
+@app.get("/usuario/correo/{correo}/{clave}")
+async def get_usuario(correo:str,clave:str):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM usuario WHERE correo = %s and clave = %s", (correo,clave))
+    usuario = cursor.fetchone()
+
+    if cursor.rowcount == 0:
+        return {"error": "Usuario no encontrado"}
+
     conn.close()
     cursor.close()
     lista_usuarios={
