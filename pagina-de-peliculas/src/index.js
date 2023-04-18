@@ -1,20 +1,22 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import { BrowserRouter,Routes,Route } from 'react-router-dom';
-import Peliculas from './components/peliculas/peliculas';
-import DetallePelicula from './components/peliculas/detalle_pelicula';
-import Login from './components/login/login';
-import Registrar from './components/Registrar/registrar';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Peliculas from "./components/peliculas/peliculas";
+import DetallePelicula from "./components/peliculas/detalle_pelicula";
+import Login from "./components/login/login";
+import Registrar from "./components/Registrar/registrar";
+import { HeaderContextProvider } from "./components/header/headerContext";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-
-<BrowserRouter>
-      <App />
+    <BrowserRouter>
+      <HeaderContextProvider>
+        <App />
+      </HeaderContextProvider>
       <Routes>
         <Route path="/peliculas" element={<Peliculas />} />
         <Route path="/detalle/:id" element={<DetallePelicula />} />
@@ -22,7 +24,6 @@ root.render(
         <Route path="/registrar" element={<Registrar />} />
       </Routes>
     </BrowserRouter>
-
   </React.StrictMode>
 );
 

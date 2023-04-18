@@ -178,6 +178,28 @@ async def get_usuario(id):
 
     return lista_usuarios
 
+@app.get("/usuario/correo/{correo}/{clave}")
+async def get_usuario(correo:str,clave:str):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM usuario WHERE correo = %s and clave = %s", (correo,clave))
+    usuario = cursor.fetchone()
+
+    if cursor.rowcount == 0:
+        return {"error": "Usuario no encontrado"}
+
+    conn.close()
+    cursor.close()
+    lista_usuarios={
+            "id": usuario[0],
+            "correo": usuario[1],
+            "nombre": usuario[2],
+            "clave": usuario[3],
+            "rol": usuario[4]
+        }
+
+    return lista_usuarios
+
 @app.post("/usuario")
 async def post_usuario(usuario: Usuario):
     conn = conectar()

@@ -1,13 +1,14 @@
-
+// App.js
+import React from 'react';
 import './App.css';
 import Header from './components/header/header';
-import React from 'react';
+import { HeaderContextProvider } from './components/header/headerContext'; // Importa el proveedor del contexto
 
 function App() {
   return (
-    <div className="App">
-      <Header />
-    </div>
+      <div className="app">
+        <Header />
+      </div>
   );
 }
 
