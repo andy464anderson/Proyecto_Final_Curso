@@ -215,7 +215,10 @@ async def post_usuario(usuario: Usuario):
     conn.commit()
     conn.close()
     cursor.close()
-    return usuario
+    if cursor.rowcount == 1:
+        return JSONResponse(content={"message": "Usuario creado"})
+    else:
+        return JSONResponse(content={"message": "Error al crear el usuario"})
 
 
 

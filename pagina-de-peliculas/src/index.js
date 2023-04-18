@@ -12,11 +12,10 @@ import { HeaderContextProvider } from "./components/header/headerContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
+  <HeaderContextProvider>
   <React.StrictMode>
     <BrowserRouter>
-      <HeaderContextProvider>
         <App />
-      </HeaderContextProvider>
       <Routes>
         <Route path="/peliculas" element={<Peliculas />} />
         <Route path="/detalle/:id" element={<DetallePelicula />} />
@@ -25,6 +24,7 @@ root.render(
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
+  </HeaderContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

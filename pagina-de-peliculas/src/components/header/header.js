@@ -1,26 +1,38 @@
 import "./header.css";
 import { Link } from "react-router-dom";
-
+import { useContext } from "react";
+import { HeaderContext } from "./headerContext";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const irALogin = () => {
-  window.location.href = "/login";
-};
+
 
 function Header() {
-  return (
+
+  const { isLoggedIn, data, updateHeader }  = useContext(HeaderContext);
+  const navigate = useNavigate();
+
+  const handleLogout = (e) => {
+    e.preventDefault()
+    updateHeader(false, data);
+    navigate('/login');
+  }
+
+  return (  
     <nav>
         <div className="menu-left">
             <img src="logo.png" alt="Logo" />
         </div>
         <div className="menu-middle">
             <ul>
-                <li><a href="/">Inicio</a></li>
-                <li><a href="/peliculas">Peliculas</a></li>
-                <li><a href="/">Contacto</a></li>
-                <li><a href="/login">Iniciar sesión</a></li>
-                <li><a href="/registrar">Registrarse</a></li>
-                <li><a href="/">Perfil</a></li>
+                <li><Link to="/">Inicio</Link></li>
+                <li><Link to="/peliculas">Peliculas</Link></li>
+                <li><Link to="/">Contacto</Link></li>
+                {! isLoggedIn && <li><Link to="/login">Iniciar sesión</Link></li>}
+                {! isLoggedIn && <li><Link to="/registrar">Registrarse</Link></li>}
+                { isLoggedIn && <li><Link  onClick={handleLogout} >Logout</Link></li>}
+                { isLoggedIn && <li><Link to="/perfil">Perfil</Link></li>}
+                
             </ul>
         </div>
         <div className="menu-right">
