@@ -95,7 +95,7 @@ async def get_pelicula(id: int):
     df_pelicula = [Pelicula(**row.asDict()) for row in df2.collect()]
     
     #devolvemos la pelicula en formato json
-    return df_pelicula
+    return JSONResponse(content=df_pelicula,headers={"Access-Control-Allow-Origin": "*"},status_code=200)
 
 
 #creamos la ruta para acceder a las peliculas de un genero en concreto
