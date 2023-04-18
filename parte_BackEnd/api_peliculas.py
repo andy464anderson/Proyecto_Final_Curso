@@ -13,7 +13,8 @@ from pyspark.sql.types import *
 from fastapi.responses import JSONResponse
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
-
+import ast
+import json
 
 
 # creamos la clase Pelicula
@@ -48,9 +49,6 @@ lista = [Pelicula(**row.asDict()) for row in peliculas_df.collect()]
 
 
 
-spark.stop()
-
-
 
 
 
@@ -83,19 +81,25 @@ async def read_main():
 @app.get("/peliculas")
 async def get_peliculas():
     #las peliculas se devuelven en formato json
-    return JSONResponse(content=lista,headers={"Access-Control-Allow-Origin": "*"},status_code=200)
+    return lista
 
 
 #creamos la ruta para acceder a una pelicula en concreto
 @app.get("/peliculas/{id}")
 async def get_pelicula(id: int):
-    #filtramos el dataframe por el id de la pelicula
-    df2 = df.filter(df.id == id)
 
-    df_pelicula = [Pelicula(**row.asDict()) for row in df2.collect()]
-    
+    #filtramos el dataframe por el id de la pelicula
+    df2 = peliculas_df.filter(df['id'] == id)
+
+    df2 = df2.filter(df['overview'].cast('string').isNotNull())
+
+    #convertimos el dataframe a una lista de diccionarios
+    lista = [Pelicula(**row.asDict()) for row in df2.collect()]
+
     #devolvemos la pelicula en formato json
-    return JSONResponse(content=df_pelicula,headers={"Access-Control-Allow-Origin": "*"},status_code=200)
+    return lista
+
+
 
 
 #creamos la ruta para acceder a las peliculas de un genero en concreto
@@ -104,8 +108,12 @@ async def get_peliculas_genero(genero: str):
     #filtramos el dataframe por el genero de la pelicula pero el genero es una lista
     #por lo que tenemos que filtrar por cada elemento de la lista y covertir en mayusculas
     df2 = df.filter(when(col("genres").contains(genero.title()), True).otherwise(False))
+    df2 = df2.filter(df['overview'].cast('string').isNotNull())
+    #convertimos el dataframe a una lista de diccionarios
+    lista = [Pelicula(**row.asDict()) for row in df2.collect()]
+
     #devolvemos las peliculas en formato json
-    return df2.toJSON().collect()
+    return lista
 
 
 #creamos la ruta para acceder a las peliculas de un año en concreto
