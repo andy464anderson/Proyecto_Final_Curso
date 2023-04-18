@@ -9,7 +9,26 @@ const irALogin = () => {
 
 function Header() {
   return (
-    <header>
+    <nav>
+        <div className="menu-left">
+            <img src="logo.png" alt="Logo" />
+        </div>
+        <div className="menu-middle">
+            <ul>
+                <li><a href="/">Inicio</a></li>
+                <li><a href="/peliculas">Peliculas</a></li>
+                <li><a href="/">Contacto</a></li>
+                <li><a href="/login">Iniciar sesión</a></li>
+                <li><a href="/registrar">Registrarse</a></li>
+                <li><a href="/">Perfil</a></li>
+            </ul>
+        </div>
+        <div className="menu-right">
+            <input type="text" placeholder="Buscar" />
+        </div>
+    </nav>
+
+    /*<header>
         <div className="logo">
           <Link to="#">Peliculas.</Link>
         </div>
@@ -28,7 +47,7 @@ function Header() {
           <button>Search</button>
         </div>
      
-    </header>
+    </header>*/
   );
 }
 
