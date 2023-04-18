@@ -13,8 +13,7 @@ from pyspark.sql.types import *
 from fastapi.responses import JSONResponse
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
-import ast
-import json
+
 
 
 # creamos la clase Pelicula
@@ -84,7 +83,7 @@ async def read_main():
 @app.get("/peliculas")
 async def get_peliculas():
     #las peliculas se devuelven en formato json
-    return lista
+    return JSONResponse(content=lista,headers={"Access-Control-Allow-Origin": "*"},status_code=200)
 
 
 #creamos la ruta para acceder a una pelicula en concreto
