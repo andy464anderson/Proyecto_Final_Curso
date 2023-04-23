@@ -8,6 +8,7 @@ import Peliculas from "./components/peliculas/peliculas";
 import DetallePelicula from "./components/peliculas/detalle_pelicula";
 import Login from "./components/login/login";
 import Registrar from "./components/Registrar/registrar";
+import Search from "./components/search/search";
 import { HeaderContextProvider } from "./components/header/headerContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -21,6 +22,7 @@ root.render(
         <Route path="/detalle/:id" element={<DetallePelicula />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registrar" element={<Registrar />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,5 +1,5 @@
 import "./header.css";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useContext } from "react";
 import { HeaderContext } from "./headerContext";
 import React from "react";
@@ -11,14 +11,15 @@ function Header() {
 
   const { isLoggedIn, data, updateHeader }  = useContext(HeaderContext);
   const navigate = useNavigate();
+  const location=useLocation();
 
   const handleLogout = (e) => {
     e.preventDefault()
     updateHeader(false, data);
-    navigate('/login');
+    navigate('/peliculas');
   }
 
-  return (  
+  return (
     <nav>
         <div className="menu-left">
             <img src="logo.png" alt="Logo" />
@@ -32,34 +33,16 @@ function Header() {
                 {! isLoggedIn && <li><Link to="/registrar">Registrarse</Link></li>}
                 { isLoggedIn && <li><Link  onClick={handleLogout} >Logout</Link></li>}
                 { isLoggedIn && <li><Link to="/perfil">Perfil</Link></li>}
-                
+
             </ul>
         </div>
         <div className="menu-right">
-            <input type="text" placeholder="Buscar" />
+        {location.pathname !== '/search' && (
+            <Link to="/search"><input type="text" placeholder="Buscar" /></Link>
+        )}
         </div>
+
     </nav>
-
-    /*<header>
-        <div className="logo">
-          <Link to="#">Peliculas.</Link>
-        </div>
-
-        <div className="nav">
-          <Link to="">HOME</Link>
-          <Link to="/peliculas">PELICULAS</Link>
-          <Link to="">CONTACT</Link>
-          <Link to="">ABOUT</Link>
-          <Link to="/login" >LOGIN</Link>
-          <Link to="/registrar">SIGNUP</Link>
-        </div>
-
-        <div className="search">
-          <input type="text" placeholder="Search" />
-          <button>Search</button>
-        </div>
-     
-    </header>*/
   );
 }
 

@@ -1,0 +1,17 @@
+#div-buscador{
+    display: flex;
+    justify-content: center;
+}
+#buscador{
+    width: 95%;
+    border: none;
+    border-top: 1px solid gray;
+    border-bottom: 1px solid gray;
+    padding: 20px;
+    padding-left: 35px;
+    padding-right: 35px;
+
+}
+#buscador:focus{
+    outline: none;
+}
