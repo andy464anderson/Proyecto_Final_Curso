@@ -1,0 +1,51 @@
+#div-dentro{
+    background-color: #14181C;
+}
+.peliculas-buscador{
+    width: 1000px;
+    margin: auto;
+    margin-top: 20px;
+    background-color: #14181C;
+}
+.imagen-pelicula-buscador{
+    width: 150px;
+    margin: 25px;
+    border: 1px solid #8595A3;
+    border-radius: 3px;
+}
+.info-pelicula-buscador{
+    margin: 10px;
+}
+.carta-pelicula-buscador{
+    display: flex;
+    border-bottom: 1px solid #8595A3;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.titulo-carta-buscador{
+    font-size: 30px;
+    color: #fcfcfc;
+    
+    padding: 7px;
+}
+.year-carta-buscador{
+    font-size: 23px;
+    color: #8595A3;
+    margin-left: 5px;
+    font-weight: lighter;
+}
+.sinopsis-carta-buscador{
+    color: #8595A3;
+    padding: 7px;
+}
+.boton-carta-buscador{
+    padding: 7px;
+    margin-top: 10px;
+    border: 0;
+    background-color: #14181C;
+    color: #8595A3;
+}
+.boton-carta-buscador:hover{
+    background-color: #262d34;
+    cursor: pointer;
+}

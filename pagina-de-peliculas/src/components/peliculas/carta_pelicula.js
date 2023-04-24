@@ -1,13 +1,15 @@
 import React from "react";
 import "./carta_pelicula.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const CartaPelicula = ({ pelicula }) => {
-
+    
+  const navigate = useNavigate()
 
 
     const detallePelicula = (e) => {
-        console.log(e.target.value);
-        window.location.href = `/detalle/${e.target.value}`;
+      console.log(e.target.value);
+       navigate(`/detalle/${e.target.value}`);
     }
     
     

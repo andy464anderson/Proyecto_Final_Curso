@@ -1,3 +1,6 @@
+body{
+    background-color: #14181C;
+}
 #div-buscador{
     display: flex;
     justify-content: center;
@@ -5,13 +8,56 @@
 #buscador{
     width: 95%;
     border: none;
-    border-top: 1px solid gray;
-    border-bottom: 1px solid gray;
+    border: 2px solid #14181C;
+    border-bottom: 2px solid #8595A3;
     padding: 20px;
     padding-left: 35px;
     padding-right: 35px;
-
+    background-color: #14181C;
+    font-size: 20px;
+    color: #8595A3;
+    transition: 0.3s;
+    
 }
 #buscador:focus{
     outline: none;
+    border: 2px solid #8595A3;
+    border-radius: 2px;
+}
+#noPelis{
+    color: #8595A3;
+    text-align: center;
+    margin-top: 100px;
+}
+#lupa{
+    color: #8595A3;
+    font-size: 200px;
+}
+.pagination{
+    width: 1000px;
+    margin: auto;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.botonPaginacion{
+    color: #8595A3;
+    background-color: #14181C;
+    border: 0;
+    padding: 10px;
+}
+.botonPaginacion:hover{
+    background-color: #262d34;
+    cursor: pointer;
+}
+#paginaActual{
+    padding: 10px;
+    color: #8595A3;
+    
+}
+#noPelis p{
+    color: #8595A3;
+    font-style: italic;
+    font-size: 30px;
 }

@@ -1,5 +1,8 @@
 import "./detalle_pelicula.css";
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
+
 import React, { useEffect, useState } from "react";
 
 const DetallePelicula = () => {
@@ -63,8 +66,8 @@ const DetallePelicula = () => {
             {pelicula.runtime} min
           </p>
           <p>{pelicula.overview}</p>
-          <a href={`https://www.imdb.com/title/${pelicula.imdb_id}`}>
-            Enlace a IMBD
+          <a target="_blank" href={`https://www.imdb.com/title/${pelicula.imdb_id}`}>
+            Enlace a IMBD <FontAwesomeIcon icon={faArrowUpRightFromSquare} style={{color: "#1b2d4b",}} />
           </a>
         </div>
         <button className="descargar">
