@@ -1,12 +1,15 @@
-import React from "react";
+import React,{useContext} from "react";
 import './peliculas.css';
 import { useEffect, useState } from "react";
 import CartaPelicula from "./carta_pelicula";
+import { HeaderContext } from "../header/headerContext";
 
 const Peliculas = () => {
 
+    const {updateMovieData} = useContext(HeaderContext)
     // creamos el estado de peliculas
     const [peliculas, setPeliculas] = useState([]);
+    const estado = "Loading..."
     // hacemos fetch a la api de peliculas
     useEffect(() => {
         const obtenerPeliculas = async () => {
@@ -19,6 +22,7 @@ const Peliculas = () => {
             var peliculas = await data.json();
             peliculas = peliculas.sort((a, b) => a.id - b.id);
             setPeliculas(peliculas);
+            updateMovieData(peliculas)
             console.log(peliculas);
           };
           obtenerPeliculas();
@@ -64,6 +68,9 @@ const Peliculas = () => {
             )}
           </React.Fragment>
         ))}
+        {
+          Peliculas.length == 0 && estado
+        }
       </div>
       </div>
       

@@ -7,7 +7,7 @@
 
 @media (min-width: 768px) {
     .peliculas {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(6, 1fr);
         margin: 0 5%;
         justify-items: center;
     }

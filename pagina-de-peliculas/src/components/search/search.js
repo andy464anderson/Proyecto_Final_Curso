@@ -1,31 +1,19 @@
 import './search.css';
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 import React from 'react';
 import CartaPelicula from '../peliculas/carta_pelicula';
-import Peliculas from '../peliculas/peliculas';
+import { HeaderContext } from '../header/headerContext';
+
 
 const Search = () => {
-    const [peliculas, setPeliculas] = useState([]);
+    const {movieData} = useContext(HeaderContext);
+    
     const [pelisFiltradas, setPelisFiltradas] = useState("");
     var listaFiltrada=[];
     const htmlPeliculas=``;
-    useEffect(() => {
-        const obtenerPeliculas = async () => {
-            const data = await fetch('http://localhost:8000/peliculas', {
-                method: 'GET',
-                headers: {
-                  'accept': 'application/json'
-                }
-              })
-            var peliculas = await data.json();
-            setPeliculas(peliculas);
-          };
-          obtenerPeliculas();
-
-    }, []);
     const buscarPeliculas = () => {
         var textoBuscador=document.getElementById("buscador").value.toLowerCase();
-        listaFiltrada=peliculas.filter((peli)=>peli.title.toLowerCase().includes(textoBuscador));
+        listaFiltrada=movieData.filter((peli)=>peli.title.toLowerCase().includes(textoBuscador));
         console.log(listaFiltrada);
         pintarPeliculas(listaFiltrada);
     }

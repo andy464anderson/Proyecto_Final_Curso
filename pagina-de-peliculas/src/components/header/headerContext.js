@@ -7,13 +7,16 @@ export const HeaderContext = createContext(
     {
         isLoggedIn: null,
         userData: null,
-        updateHeader: () => { }
+        updateHeader: () => { },
+        movieData:null,
+        updateMovieData:() => {}
     }
 );
 
 // Crea el proveedor del contexto HeaderContext
 export const HeaderContextProvider = (props) => {
     const [isLoggedIn, setIsLoggedIn] = useState(null);
+    const [movieData, setMoiveData ] = useState(null)
     const [userData, setUserData] = useState({
         id: null,
         nombre: null,
@@ -27,8 +30,12 @@ export const HeaderContextProvider = (props) => {
         setUserData(userData);
     };
 
+    const updateMovieData = (data) =>{
+        setMoiveData(data)
+    }
+
     return (
-        <HeaderContext.Provider value={{ isLoggedIn, userData, updateHeader }}>
+        <HeaderContext.Provider value={{ isLoggedIn, userData, updateHeader, movieData,updateMovieData }}>
             {props.children}
         </HeaderContext.Provider>
     );
