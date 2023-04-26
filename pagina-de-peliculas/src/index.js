@@ -9,7 +9,10 @@ import DetallePelicula from "./components/peliculas/detalle_pelicula";
 import Login from "./components/login/login";
 import Registrar from "./components/Registrar/registrar";
 import Search from "./components/search/search";
+import Perfil from "./components/perfil/perfil";
 import { HeaderContextProvider } from "./components/header/headerContext";
+import 'bootstrap/dist/js/bootstrap.min.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -23,6 +26,7 @@ root.render(
         <Route path="/login" element={<Login />} />
         <Route path="/registrar" element={<Registrar />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/perfil" element={<Perfil />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
