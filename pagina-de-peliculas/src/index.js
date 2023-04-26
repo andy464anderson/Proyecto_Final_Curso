@@ -10,6 +10,7 @@ import Login from "./components/login/login";
 import Registrar from "./components/Registrar/registrar";
 import Search from "./components/search/search";
 import { HeaderContextProvider } from "./components/header/headerContext";
+import Perfil from "./components/perfil/perfil";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -23,6 +24,7 @@ root.render(
         <Route path="/login" element={<Login />} />
         <Route path="/registrar" element={<Registrar />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/perfil" element={<Perfil />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
