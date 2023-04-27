@@ -9,8 +9,14 @@ import DetallePelicula from "./components/peliculas/detalle_pelicula";
 import Login from "./components/login/login";
 import Registrar from "./components/Registrar/registrar";
 import Search from "./components/search/search";
-import { HeaderContextProvider } from "./components/header/headerContext";
 import Perfil from "./components/perfil/perfil";
+import { HeaderContextProvider } from "./components/header/headerContext";
+<<<<<<< HEAD
+import Perfil from "./components/perfil/perfil";
+=======
+import 'bootstrap/dist/js/bootstrap.min.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+>>>>>>> search
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(

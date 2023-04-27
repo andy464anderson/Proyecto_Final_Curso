@@ -57,11 +57,19 @@ nav {
     display: none;
     position: absolute;
     z-index: 1;
+<<<<<<< HEAD
+=======
+    width: 180px;
+>>>>>>> search
   }
   
   .dropdown-content a {
     display: block;
+<<<<<<< HEAD
     padding: 10px;
+=======
+    padding: 20px;
+>>>>>>> search
     background-color: #f9f9f9;
     color: #333;
     text-decoration: none;
@@ -75,6 +83,7 @@ nav {
   .dropdown:hover .dropdown-content {
     display: block;
   }
+<<<<<<< HEAD
 
   .topDropdown{
     border-radius: 5px, 5px, 0px, 0px;
@@ -82,4 +91,13 @@ nav {
 
   .bottomDropdown{
     border-radius: 0px, 0px, 5px, 5px;
+=======
+  
+  .topDropdown{
+    border-radius: 5px 5px 0px 0px;
+  }
+
+  .bottomDropdown{
+    border-radius: 0px 0px 5px 5px;
+>>>>>>> search
   }
