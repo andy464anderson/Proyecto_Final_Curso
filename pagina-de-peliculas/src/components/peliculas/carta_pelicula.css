@@ -1,62 +1,41 @@
 .carta-pelicula {
-    width: 250px;
-    height: 400px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    overflow: hidden;
-    position: relative;
-    transition: all 0.3s ease;
-    padding: 10px 5px;
-  }
+  margin: 10px;
+  border-radius: 3px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #1f252b;
+  box-shadow: #181d22 0px 0px 10px 5px;
+}
+.info-pelicula{
+  padding: 10px;
+  width: 170px;
+  height: 170px;
+  background-color: #14181C;
+  color: #8595A3;
+  border-radius: 0px 0px 5px 5px;
+}
 
-  .carta-pelicula:hover {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  }
-  
-  .imagen-pelicula {
-    width: 100%;
-    height: 75%;
-    object-fit: cover;
-    object-position: center;
-    margin-bottom: 10px;
-    border-radius: 10px;
-  }
-  
-  .info-pelicula {
-    text-align: center;
-    padding: 10px 0;
-    width: 100%;
-    background-color: #f1f1f1;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-  }
+.imagen-pelicula {
+  width: 170px;
+  height: 250px;
+  border-radius: 5px 5px 0px 0px;
+}
 
-  h3 {
-    margin: 0;
-  }
-
-  p {
-    margin: 5px 0;
-  }
-
-  .info-pelicula .detalle-pelicula button{
-    background-color: #f1c40f !important;
-    cursor: pointer;
-    transition: 0.5s all;
-    border: none;
-    outline: none;
-    padding: 10px 10px;
-    background: transparent;
-    border-radius: 5px;
-    transition: .3s all;
-    margin: 0 auto;
-  }
-
-  .info-pelicula .detalle-pelicula button:hover{
-    color: #f1c40f;
-    background-color: white !important;
-  }
+.boton-pelicula button{
+  padding: 7px;
+  margin-top: 10px;
+  border: 0;
+  background-color: #14181C;
+  color: rgb(133, 149, 163);
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgb(133, 149, 163);
+  border-radius: 4px;
+}
+.boton-pelicula button:hover{
+  background-color: #262d34;
+  cursor: pointer;
+}
+.titulo-pelicula, .anno-pelicula{
+  margin: 5px;
+}
