@@ -14,6 +14,7 @@ import { HeaderContextProvider } from "./components/header/headerContext";
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <HeaderContextProvider>

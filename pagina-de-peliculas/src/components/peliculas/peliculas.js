@@ -3,10 +3,17 @@ import './peliculas.css';
 import { useEffect, useState } from "react";
 import CartaPelicula from "./carta_pelicula";
 import { HeaderContext } from "../header/headerContext";
+import { SlSpinner } from 'https://cdn.skypack.dev/@shoelace-style/shoelace@2.4.0/dist/react/';
+import { faL } from "@fortawesome/free-solid-svg-icons";
+
+
+
+
+
 
 const Peliculas = () => {
     const {updateMovieData} = useContext(HeaderContext);
-    const [peliculasFiltradas, setPeliculasFiltradas] = useState([]);
+    const [peliculasFiltradas, setPeliculasFiltradas] = useState(["Filtro"]);
     const [categoryFilter, setCategoryFilter] = useState('');
     const [yearFilter, setYearFilter] = useState('');
     const [durationFilter, setDurationFilter] = useState('');
@@ -14,7 +21,16 @@ const Peliculas = () => {
 
     // creamos el estado de peliculas
     const [peliculas, setPeliculas] = useState([]);
-    const estado = "Loading..."
+    const [mostrarSpinner, setMostrarSpinner] = useState(true);
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        setMostrarSpinner(false);
+      }, 1500)
+    
+      return () => clearTimeout(timer);
+    }, []);
+
+
     // hacemos fetch a la api de peliculas
     useEffect(() => {
         const obtenerPeliculas = async () => {
@@ -25,9 +41,7 @@ const Peliculas = () => {
                 }
               })
             var peliculas = await data.json();
-            peliculas = peliculas.sort((a, b) => a.id - b.id);
             setPeliculas(peliculas);
-            setPeliculasFiltradas(peliculas);
             updateMovieData(peliculas)
           };
           obtenerPeliculas();
@@ -90,7 +104,7 @@ const Peliculas = () => {
     }, [categoryFilter, yearFilter, durationFilter, sortOrder, peliculas]);
     
     return (
-      <div className="container-peliculas">
+      <div className="container-peliculas" >
         <div className="filters peliculas">
           <select id="category" name="category" onChange={(e) => setCategoryFilter(e.target.value)}>
             <option value="">Filtrar por categoría</option>
@@ -129,22 +143,32 @@ const Peliculas = () => {
         </div> 
 
         <div className="peliculas">
-          {peliculasFiltradas.map((pelicula) => (
+          {mostrarSpinner === false &&  peliculasFiltradas.map((pelicula) => (
             <React.Fragment key={pelicula.id}>
               {pelicula.poster && /^http/.test(pelicula.poster) && (
                 <CartaPelicula pelicula={pelicula} />
               )}
             </React.Fragment>
           ))}
-          {
-            peliculasFiltradas.length === 0 && estado
-          }
+          
         </div>
-        {peliculasFiltradas.length === 0 && 
+        {peliculasFiltradas.length === 0 && peliculas.length > 0 && 
           <div id='noPelis'>
               <p>No se encuentran películas con los filtros especficados</p>
           </div>
         }
+
+        <div className="spinner">
+        {
+            peliculas.length === 0 || mostrarSpinner &&  <SlSpinner
+            style={{
+              fontSize: '15rem',
+              '--indicator-color': 'darkblue',
+              '--track-color': 'lightblue'
+            }}
+          />
+          }
+        </div>
       </div>      
     );
 
