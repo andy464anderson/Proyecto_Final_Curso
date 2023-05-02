@@ -189,6 +189,25 @@ async def get_usuario(id):
 
     return lista_usuarios
 
+@app.get("/perfil/{nombre_usuario}")
+async def get_usuario(nombre_usuario):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM usuario WHERE nombre_usuario = %s", (nombre_usuario,))
+    usuario = cursor.fetchone()
+    conn.close()
+    cursor.close()
+    usuarioPerfil={
+            "id": usuario[0],
+            "correo": usuario[1],
+            "clave": usuario[2],
+            "rol": usuario[3],
+            "nombre_usuario": usuario[4],
+            "nombre_completo": usuario[5]
+        }
+
+    return usuarioPerfil
+
 @app.get("/usuario/correo/{correo}/{clave}")
 async def get_usuario(correo:str,clave:str):
     conn = conectar()

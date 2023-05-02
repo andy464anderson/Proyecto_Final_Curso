@@ -19,10 +19,11 @@ export const HeaderContextProvider = (props) => {
     const [movieData, setMoiveData ] = useState(null)
     const [userData, setUserData] = useState({
         id: null,
-        nombre: null,
         correo: null,
         clave: null,
-        rol: null
+        rol: null,
+        nombre_usuario: null,
+        nombre_completo: null
     });
 
     const updateHeader = (isLoggedIn, userData) => {
