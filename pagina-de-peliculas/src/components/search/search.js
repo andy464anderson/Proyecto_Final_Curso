@@ -15,11 +15,7 @@ const Search = () => {
 
     const buscarPeliculas = () => {
         var textoBuscador=document.getElementById("buscador").value.toLowerCase();
-        
-        var listaFiltrada = movieData.filter((peli)=>peli.title.toLowerCase().includes(textoBuscador));
-        if(textoBuscador == ""){
-            listaFiltrada = [];
-        }
+        const listaFiltrada = movieData.filter((peli)=>peli.title.toLowerCase().includes(textoBuscador));
         setPelisFiltradas(listaFiltrada);
         setCurrentPage(1);
     }
@@ -55,7 +51,7 @@ const Search = () => {
     return (
         <div>
             <div id='div-buscador'>
-                <input onKeyUp={buscarPeliculas} id="buscador" placeholder="Busca peliculas..." autoFocus></input>
+                <input onKeyUp={buscarPeliculas} id="buscador" placeholder="Busca peliculas..."></input>
             </div>
             <div id='div-dentro'>
                 {pintarPeliculas()}
