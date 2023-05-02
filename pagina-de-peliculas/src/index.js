@@ -27,7 +27,7 @@ root.render(
         <Route path="/login" element={<Login />} />
         <Route path="/registrar" element={<Registrar />} />
         <Route path="/search" element={<Search />} />
-        <Route path="/perfil" element={<Perfil />} />
+        <Route path="/perfil/:nombre_usuario" element={<Perfil />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

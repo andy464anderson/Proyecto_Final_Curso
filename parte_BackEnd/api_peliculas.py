@@ -420,9 +420,9 @@ class Lista(BaseModel):
     tipo: str
     usuario_id: int
     publica: bool
-    peliculas: List[Pelicula]
+    peliculas: List[int]
 
-#traemos todos los listas
+#traemos todas las listas
 @app.get("/listas")
 async def get_listas():
     conn = conectar()
@@ -443,3 +443,56 @@ async def get_listas():
         })
 
     return lista_listas
+
+#traemos los listas de un usuario
+@app.get("/lista/{id}")
+async def get_lista(id):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM lista WHERE usuario_id = %s", (id,))
+    lista = cursor.fetchone()
+    conn.close()
+    cursor.close()
+    lista_listas={
+            "id": lista[0],
+            "nombre_lista": lista[1],
+            "tipo": lista[2],
+            "usuario_id": lista[3],
+            "publica": lista[4],
+            "peliculas": lista[5]
+        }
+
+    return lista_listas
+
+#creamos un lista
+@app.post("/lista")
+async def post_lista(lista: Lista):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO lista (nombre_lista, tipo, usuario_id, publica, peliculas) VALUES (%s, %s, %s, %s, %s)", (lista.nombre_lista, lista.tipo, lista.usuario_id, lista.publica, lista.peliculas))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return lista
+
+#actualizamos una lista
+@app.put("/lista/{id}")
+async def put_lista(id: int, lista: Lista):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE lista SET nombre_lista = %s, tipo = %s, usuario_id = %s, publica = %s, peliculas = %s WHERE id = %s", (lista.nombre_lista, lista.tipo, lista.usuario_id, lista.publica, lista.peliculas, id))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return lista
+
+#eliminamos una lista
+@app.delete("/lista/{id}")
+async def delete_lista(id: int):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM lista WHERE id = %s", (id,))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return {"message": "Lista eliminada"}

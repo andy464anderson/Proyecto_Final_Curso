@@ -8,10 +8,7 @@ function Perfil() {
     const {userData} = useContext(HeaderContext);
     const user = userData;
     const navigate = useNavigate();
-
-    if (!user.clave) {
-        navigate("/peliculas");
-    }
+    
 
     return (
         <div className="perfil-container">

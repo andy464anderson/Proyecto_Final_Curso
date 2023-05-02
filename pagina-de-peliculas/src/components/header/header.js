@@ -5,10 +5,15 @@ import { HeaderContext } from "./headerContext";
 import { useNavigate } from "react-router-dom";
 
 function Header() {
-  const { isLoggedIn, data, updateHeader } = useContext(HeaderContext);
+  const { isLoggedIn, data, updateHeader, userData } = useContext(HeaderContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  var nombre_usuario = "";
+  if(userData != undefined){
+    nombre_usuario = "/perfil/"+userData.nombre_usuario;
+  }
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -70,7 +75,7 @@ function Header() {
                 className="dropdown-content"
                 style={{ display: showDropdown ? "block" : "none" }}
               >
-                <Link className="topDropdown" to="/perfil">Ver perfil</Link>
+                <Link className="topDropdown" to={nombre_usuario}>Ver perfil</Link>
                 <Link className="bottomDropdown" to="/" onClick={handleLogout}>
                   Cerrar sesión
                 </Link>
