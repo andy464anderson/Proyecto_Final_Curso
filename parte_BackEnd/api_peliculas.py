@@ -395,6 +395,26 @@ async def get_review(id):
 
     return lista_reviews
 
+#traemos los reviews de un usuario
+@app.get("/review/usuario/{id}")
+async def get_review(id):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM review WHERE id_usuario = %s", (id,))
+    review = cursor.fetchone()
+    conn.close()
+    cursor.close()
+    lista_reviews={
+            "id": review[0],
+            "id_usuario": review[1],
+            "id_pelicula": review[2],
+            "contenido": review[3],
+            "valoracion": review[4],
+            "fecha": review[5]
+        }
+
+    return lista_reviews
+
 
 #creamos un review
 @app.post("/review")
