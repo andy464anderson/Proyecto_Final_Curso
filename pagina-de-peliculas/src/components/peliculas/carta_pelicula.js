@@ -14,16 +14,16 @@ const CartaPelicula = ({ pelicula }) => {
     
     
   return (
-    <div className="carta-pelicula" value={pelicula.id} onClick={detallePelicula}>
-      <img src={pelicula.poster} alt={pelicula.title} className="imagen-pelicula" />
-      <div className="info-pelicula">
-        <p className="titulo-pelicula"><strong>{pelicula.title}</strong></p>
-        <p className="anno-pelicula">{pelicula.release_date}</p>
-        <div className="boton-pelicula">
-          <button value={pelicula.id} onClick={detallePelicula}>Ver más detalles</button>
-        </div>
+    <div className="carta-pelicula">
+    <img src={pelicula.poster} alt={pelicula.title} className="imagen-pelicula" />
+    <div className="info-pelicula">
+      <h2 className="titulo-pelicula">{pelicula.title}</h2>
+      <p className="anno-pelicula">{pelicula.release_date}</p>
+      <div className="detalle-pelicula">
+        <button value={pelicula.id} onClick={detallePelicula}>Ver más detalles</button>
       </div>
     </div>
+  </div>
   );
 };
 

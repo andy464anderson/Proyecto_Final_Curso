@@ -3,8 +3,6 @@ import { Link, useLocation } from "react-router-dom";
 import { useContext, useState, useEffect, React } from "react";
 import { HeaderContext } from "./headerContext";
 import { useNavigate } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 
 function Header() {
   const { isLoggedIn, data, updateHeader } = useContext(HeaderContext);
@@ -55,7 +53,7 @@ function Header() {
           </li>
           {!isLoggedIn && (
             <li className="dropdown" onClick={toggleDropdown}>
-              <Link href="#">Sesión <FontAwesomeIcon icon={faCaretDown} /></Link>
+              <Link href="#">Sesión</Link>
               <div
                 className="dropdown-content"
                 style={{ display: showDropdown ? "block" : "none" }}
@@ -67,7 +65,7 @@ function Header() {
           )}
           {isLoggedIn && (
             <li className="dropdown" onClick={toggleDropdown}>
-              <Link href="#">Perfil <FontAwesomeIcon icon={faCaretDown} /></Link>
+              <Link href="#">Perfil</Link>
               <div
                 className="dropdown-content"
                 style={{ display: showDropdown ? "block" : "none" }}
