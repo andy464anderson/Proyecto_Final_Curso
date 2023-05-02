@@ -13,6 +13,7 @@ from pyspark.sql.types import *
 from fastapi.responses import JSONResponse
 from pyspark.sql.types import *
 from pyspark.sql.functions import *
+from typing import List
 import ast
 import json
 
@@ -132,9 +133,10 @@ async def get_peliculas_fecha(fecha: str):
 class Usuario(BaseModel):
     id: int
     correo: str
-    nombre: str
     clave: str
     rol: str
+    nombre_usuario: str
+    nombre_completo: str
 
 
 from connection import conectar
@@ -158,9 +160,10 @@ async def get_usuarios():
         lista_usuarios.append({
             "id": usuario[0],
             "correo": usuario[1],
-            "nombre": usuario[2],
-            "clave": usuario[3],
-            "rol": usuario[4]
+            "clave": usuario[2],
+            "rol": usuario[3],
+            "nombre_usuario": usuario[4],
+            "nombre_completo": usuario[5]
         })
 
     #devolvemos los usuarios en formato json
@@ -178,9 +181,10 @@ async def get_usuario(id):
     lista_usuarios={
             "id": usuario[0],
             "correo": usuario[1],
-            "nombre": usuario[2],
-            "clave": usuario[3],
-            "rol": usuario[4]
+            "clave": usuario[2],
+            "rol": usuario[3],
+            "nombre_usuario": usuario[4],
+            "nombre_completo": usuario[5]
         }
 
     return lista_usuarios
@@ -200,9 +204,10 @@ async def get_usuario(correo:str,clave:str):
     lista_usuarios={
             "id": usuario[0],
             "correo": usuario[1],
-            "nombre": usuario[2],
-            "clave": usuario[3],
-            "rol": usuario[4]
+            "clave": usuario[2],
+            "rol": usuario[3],
+            "nombre_usuario": usuario[4],
+            "nombre_completo": usuario[5]
         }
 
     return lista_usuarios
@@ -211,7 +216,7 @@ async def get_usuario(correo:str,clave:str):
 async def post_usuario(usuario: Usuario):
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO usuario (correo, nombre, clave, rol) VALUES (%s, %s, %s, %s)", (usuario.correo, usuario.nombre, usuario.clave, usuario.rol))
+    cursor.execute("INSERT INTO usuario (correo, nombre_completo, nombre_usuario, clave, rol) VALUES (%s, %s, %s, %s, %s, %s)", (usuario.correo, usuario.nombre_completo, usuario.nombre_usuario, usuario.clave, usuario.rol))
     conn.commit()
     conn.close()
     cursor.close()
@@ -226,7 +231,7 @@ async def post_usuario(usuario: Usuario):
 async def put_usuario(id: int, usuario: Usuario):
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("UPDATE usuario SET correo = %s, nombre = %s, clave = %s, rol = %s WHERE id = %s", (usuario.correo, usuario.nombre, usuario.clave, usuario.rol, id))
+    cursor.execute("UPDATE usuario SET correo = %s, nombre_completo = %s, nombre_usuario = %s, clave = %s, rol = %s WHERE id = %s", (usuario.correo, usuario.nombre_completo, usuario.nombre_usuario, usuario.clave, usuario.rol))
     conn.commit()
     conn.close()
     cursor.close()
@@ -404,3 +409,37 @@ async def delete_review(id: int):
     conn.close()
     cursor.close()
     return {"message": "Review eliminado"}
+
+#--------------------------------------------------------------------------------
+# creamos la api para los listas
+
+# creamos la clase Lista
+class Lista(BaseModel):
+    id: int
+    nombre_lista: str
+    tipo: str
+    usuario_id: int
+    publica: bool
+    peliculas: List[Pelicula]
+
+#traemos todos los listas
+@app.get("/listas")
+async def get_listas():
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM lista")
+    listas = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    lista_listas = []
+    for lista in listas:
+        lista_listas.append({
+            "id": lista[0],
+            "nombre_lista": lista[1],
+            "tipo": lista[2],
+            "usuario_id": lista[3],
+            "publica": lista[4],
+            "peliculas": lista[5]
+        })
+
+    return lista_listas
