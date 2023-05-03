@@ -376,42 +376,46 @@ async def get_reviews():
     return lista_reviews
 
 #traemos los reviews de una pelicula
-@app.get("/review/{id}")
+@app.get("/reviews/{id}")
 async def get_review(id):
     conn = conectar()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM review WHERE id_pelicula = %s", (id,))
-    review = cursor.fetchone()
+    reviews = cursor.fetchall()
     conn.close()
     cursor.close()
-    lista_reviews={
+    lista_reviews = []
+    for review in reviews:
+        lista_reviews.append({
             "id": review[0],
             "id_usuario": review[1],
             "id_pelicula": review[2],
             "contenido": review[3],
             "valoracion": review[4],
             "fecha": review[5]
-        }
+        })
 
     return lista_reviews
 
 #traemos los reviews de un usuario
-@app.get("/review/usuario/{id}")
+@app.get("/reviews/usuario/{id}")
 async def get_review(id):
     conn = conectar()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM review WHERE id_usuario = %s", (id,))
-    review = cursor.fetchone()
+    reviews = cursor.fetchall()
     conn.close()
     cursor.close()
-    lista_reviews={
+    lista_reviews = []
+    for review in reviews:
+        lista_reviews.append({
             "id": review[0],
             "id_usuario": review[1],
             "id_pelicula": review[2],
             "contenido": review[3],
             "valoracion": review[4],
             "fecha": review[5]
-        }
+        })
 
     return lista_reviews
 
@@ -484,22 +488,24 @@ async def get_listas():
     return lista_listas
 
 #traemos los listas de un usuario
-@app.get("/lista/{id}")
+@app.get("/listas/{id}")
 async def get_lista(id):
     conn = conectar()
     cursor = conn.cursor()
     cursor.execute("SELECT * FROM lista WHERE usuario_id = %s", (id,))
-    lista = cursor.fetchone()
+    listas = cursor.fetchall()
     conn.close()
     cursor.close()
-    lista_listas={
+    lista_listas = []
+    for lista in listas:
+        lista_listas.append({
             "id": lista[0],
             "nombre_lista": lista[1],
             "tipo": lista[2],
             "usuario_id": lista[3],
             "publica": lista[4],
             "peliculas": lista[5]
-        }
+        })
 
     return lista_listas
 
