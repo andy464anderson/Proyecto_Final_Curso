@@ -13,6 +13,7 @@ import Perfil from "./components/perfil/perfil";
 import { HeaderContextProvider } from "./components/header/headerContext";
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import Social from "./components/perfil/social";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -28,6 +29,8 @@ root.render(
         <Route path="/registrar" element={<Registrar />} />
         <Route path="/search" element={<Search />} />
         <Route path="/perfil/:nombre_usuario" element={<Perfil />} />
+        <Route path="/perfil/:nombre_usuario/seguidores" element={<Social />} />
+        <Route path="/perfil/:nombre_usuario/seguidos" element={<Social />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

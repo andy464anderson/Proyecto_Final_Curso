@@ -9,6 +9,8 @@ function Perfil() {
     const [usuario, setUsuario] = useState(null);
     const [reviews, setReviews] = useState([]);
     const [listas, setListas] = useState([]);
+    const [seguidores, setSeguidores] = useState([]);
+    const [seguidos, setSeguidos] = useState([]);
     const nombre_usuario = window.location.pathname.split("/")[2];
 
     useEffect(() => {
@@ -31,25 +33,27 @@ function Perfil() {
             const responseListas = await fetch(`http://localhost:8000/listas/${dataUsuario.id}`);
             const dataListas = await responseListas.json();
             setListas(dataListas);
+
+            // obtener las listas del usuario
+            const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${dataUsuario.id}`);
+            const dataSeguidores = await responseSeguidores.json();
+            setSeguidores(dataSeguidores);
+
+            // obtener las listas del usuario
+            const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${dataUsuario.id}`);
+            const dataSeguidos = await responseSeguidos.json();
+            setSeguidos(dataSeguidos);
         };
         obtenerDatosUsuario();
     }, [nombre_usuario]);
-    
-    const pintarReviews = () => {
-        return (
-          <div>
-            <h2>Reseñas:</h2>
-            {reviews.map((review) => (
-              <div className="perfil-review" key={review.id}>
-                <h3>{review.id_pelicula}</h3>
-                <p>{review.fecha}</p>
-                <p>{review.contenido}</p>
-                <p className="perfil-review-rating">{review.valoracion}/10</p>
-              </div>
-            ))}
-          </div>
-        );
-    };
+
+    const pintarSeguidores = () => {
+       navigate(`/perfil/${nombre_usuario}/seguidores`);
+    }
+
+    const pintarSeguidos = () => {
+        navigate(`/perfil/${nombre_usuario}/seguidos`);
+    }
     
     if (!usuario || !reviews || !listas) {
         return <div>Cargando...</div>;
@@ -60,29 +64,52 @@ function Perfil() {
                     <div className="perfil-avatar">
                         <img width={200} height={200} src="sinFoto.png" alt={usuario.nombre_usuario} /> 
                     </div>
-                    <div className="perfil-nombre_usuarioinfo">
-                        <h1>{usuario.nombre_completo}</h1>
-                        <p>{usuario.correo}</p>
-                        <p>{usuario.rol}</p>
+                    <div className="perfil-info">
+                        <h2>{usuario.nombre_usuario}</h2>
+                        <div className="seg">
+                            <div className="seguidores" onClick={pintarSeguidores}>
+                                <div><u>Seguidores</u></div>
+                                <div>{seguidores.length}</div>                                
+                            </div>
+                            |
+                            <div className="seguidos" onClick={pintarSeguidos}>
+                                <div><u>Seguidos</u></div>
+                                <div>{seguidos.length}</div>  
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="perfil-body">
                     <div className="todas_listas">
                         <h2>Listas:</h2>
-                        <div className="lista">
-                            {listas.map((lista) => (
-                            <li key={lista.id}>
-                                <div><strong>{lista.nombre_lista}</strong></div> 
-                                <ul>{lista.fecha}</ul>
-                                <ul>{lista.tipo}</ul>
-                                {lista.peliculas.map(idPeli => {
-                                    return <Pelicula key={idPeli} id={idPeli} />
-                                })}
-                            </li>
-                            ))}
-                        </div>
+                        {listas.map((lista) => (
+                            <div className="lista">
+                                <div>
+                                    <div><strong>{lista.nombre_lista}</strong></div> 
+                                    <div>{lista.fecha}</div>
+                                    <div>{lista.tipo}</div>
+                                    {lista.peliculas.map(idPeli => {
+                                        return <Pelicula key={idPeli} id={idPeli} val={"lista"} />
+                                    })}
+                                </div>
+                            </div>
+                        ))}
+                        
                     </div>
-                    {pintarReviews()}
+                    <div className="bloqueReseñas">
+                        <h2>Reseñas:</h2>
+                        {reviews.map((review) => (
+                        <div className="perfil-review">
+                            <div>
+                                <div className="divPeliReview"><Pelicula key={review.id_pelicula} id={review.id_pelicula} val={"review"} /> </div>                           
+                                <div>{review.fecha}</div>
+                                <div>{review.contenido}</div>
+                                <div className="perfil-review-rating">{review.valoracion}/10</div>
+                            </div>
+                            
+                        </div>
+                        ))}
+                    </div>
                 </div>
             </div>
         );

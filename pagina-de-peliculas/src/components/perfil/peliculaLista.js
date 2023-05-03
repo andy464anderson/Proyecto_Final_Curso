@@ -3,7 +3,7 @@ import "./perfil.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
-function Pelicula({ id }) {
+function Pelicula({ id, val }) {
     const [pelicula, setPelicula] = useState(null);
   
     useEffect(() => {
@@ -17,14 +17,21 @@ function Pelicula({ id }) {
     }, [id]);
     
     if(!pelicula){
-        return <div>Cargando...</div>
+        return <div></div>
     }else{
-        return(
-            <div className="divPeli" id={pelicula[0].id}>
-                <p><strong>{pelicula[0].title}</strong></p>
-                <p>{pelicula[0].release_date}</p>
-            </div>
-        );
+        if(val == "lista"){
+            return(
+                <div className="divPeliLista" id={pelicula[0].id}>
+                    <p><strong>{pelicula[0].title}</strong></p>
+                    <p>{pelicula[0].release_date}</p>
+                </div>
+            );
+        }else{
+            return(
+                <strong>{pelicula[0].title}</strong>
+            );
+        }
+        
     }    
 }
 
