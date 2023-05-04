@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 
 const CartaBucador = ({ pelicula }) => {
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
 
     const detallePelicula = (e) => {

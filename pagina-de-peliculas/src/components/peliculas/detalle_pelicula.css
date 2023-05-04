@@ -166,3 +166,8 @@
 .resena-list hr {
   margin: 20px 0;
 }
+
+.divUsuarioReview:hover{
+  cursor: pointer;
+  text-decoration: underline;
+}

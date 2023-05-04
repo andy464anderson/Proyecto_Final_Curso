@@ -298,11 +298,11 @@ async def get_seguidores():
 
 
 #traemos los seguidores de un usuario
-@app.get("/seguidor/{id}")
+@app.get("/seguidores/{id}")
 async def get_seguidor(id):
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM seguidor WHERE id_usuario_seguido = %s", (id,))
+    cursor.execute('SELECT s.id_seguidor, s.id_usuario_seguidor, s.id_usuario_seguido, u.rol, u.nombre_usuario, u.nombre_completo FROM seguidor s join usuario u on s.id_usuario_seguidor = u.id WHERE id_usuario_seguido = %s', (id,))
     seguidores = cursor.fetchall()
     conn.close()
     cursor.close()
@@ -311,7 +311,32 @@ async def get_seguidor(id):
         lista_seguidores.append({
             "id_seguidor": seguidor[0],
             "id_usuario_seguidor": seguidor[1],
-            "id_usuario_seguido": seguidor[2]
+            "id_usuario_seguido": seguidor[2],
+            "rol": seguidor[3],
+            "nombre_usuario": seguidor[4],
+            "nombre_completo": seguidor[5]
+        })
+
+    return lista_seguidores
+
+#traemos los seguidos de un usuario
+@app.get("/seguidos/{id}")
+async def get_seguidor(id):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute('SELECT s.id_seguidor, s.id_usuario_seguidor, s.id_usuario_seguido, u.rol, u.nombre_usuario, u.nombre_completo FROM seguidor s join usuario u on s.id_usuario_seguido = u.id WHERE id_usuario_seguidor = %s', (id,))
+    seguidores = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    lista_seguidores = []
+    for seguidor in seguidores:
+        lista_seguidores.append({
+            "id_seguidor": seguidor[0],
+            "id_usuario_seguidor": seguidor[1],
+            "id_usuario_seguido": seguidor[2],
+            "rol": seguidor[3],
+            "nombre_usuario": seguidor[4],
+            "nombre_completo": seguidor[5]
         })
 
     return lista_seguidores
@@ -380,7 +405,7 @@ async def get_reviews():
 async def get_review(id):
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM review WHERE id_pelicula = %s", (id,))
+    cursor.execute("SELECT r.id, r.id_usuario, r.id_pelicula, r.contenido, r.valoracion, r.fecha, u.rol, u.nombre_usuario, u.nombre_completo FROM review r join usuario u on r.id_usuario = u.id WHERE r.id_pelicula = %s", (id,))
     reviews = cursor.fetchall()
     conn.close()
     cursor.close()
@@ -392,7 +417,10 @@ async def get_review(id):
             "id_pelicula": review[2],
             "contenido": review[3],
             "valoracion": review[4],
-            "fecha": review[5]
+            "fecha": review[5],
+            "rol": review[6],
+            "nombre_usuario": review[7],
+            "nombre_completo": review[8]
         })
 
     return lista_reviews

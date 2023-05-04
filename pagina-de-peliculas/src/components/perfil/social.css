@@ -1,0 +1,20 @@
+.social{
+    color: white;
+    position: absolute;
+    width: 20%;
+    height: 45%;
+    border: 2px solid white;
+    padding: 10px;
+    border-radius: 2%;
+    overflow-y: scroll;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.social h5{
+    text-align: center;
+}
+.divUsuario:hover{
+    cursor: pointer;
+    background-color: rgb(31, 27, 27);
+}

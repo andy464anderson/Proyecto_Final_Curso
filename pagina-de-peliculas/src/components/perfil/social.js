@@ -1,11 +1,11 @@
 import React from "react";
 import "./perfil.css";
+import "./social.css";
 import { useNavigate } from "react-router-dom";
-import Pelicula from "./peliculaLista";
 import { useEffect, useState } from "react";
-import Usuario from "./usuario";
 
 function Social() {
+    const navigate = useNavigate();
     const nombre_usuario = window.location.pathname.split("/")[2];
     const seg = window.location.pathname.split("/")[3];
     const [usuario, setUsuario] = useState(null);
@@ -35,23 +35,35 @@ function Social() {
         };
         obtenerDatosUsuario();
     }, [nombre_usuario]);
+
+    const verUsuario = (nombreUsuario) => {
+        navigate(`/perfil/${nombreUsuario}`);
+    }
     
     if(!usuario || !seguidores || !seguidos){
         return <div></div>
-    }else{ 
+    }else{
         if(seg == "seguidores"){
             return (
                 <div className="social">
+                    <h5>Seguidores</h5>
+                    <hr></hr>
                     {seguidores.map((user) => (
-                        <Usuario key={user.id_seguidor} id={user.id_usuario_seguidor} />
+                        <div onClick={()=>verUsuario(user.nombre_usuario)} className="divUsuario" id={user.id}>
+                            <div><strong>{user.nombre_usuario}</strong></div>
+                        </div>
                     ))}
                 </div>
             );
         }else {
             return (
                 <div className="social">
+                    <h5>Siguiendo</h5>
+                    <hr></hr>
                     {seguidos.map((user) => (
-                        <Usuario key={user.id_seguidor} id={user.id_usuario_seguido} />
+                        <div onClick={()=>verUsuario(user.nombre_usuario)} className="divUsuario" id={user.id}>
+                            <div><strong>{user.nombre_usuario}</strong></div>
+                        </div>
                     ))}
                 </div>
             );

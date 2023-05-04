@@ -2,14 +2,14 @@ import "./detalle_pelicula.css";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
-
+import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 const DetallePelicula = () => {
+  const navigate = useNavigate();
   //recuperamos el id de la pelicula que viene en la url
   const id = window.location.pathname.split("/")[2];
-  console.log(id);
-
+  
   //buscamos la pelicula por el id
   const [pelicula, setPelicula] = useState({});
 
@@ -20,6 +20,8 @@ const DetallePelicula = () => {
   const [cast, setCast] = useState([{"id":"1"}]);
 
   const parsedGenres = JSON.parse(genres);
+  
+  const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
     const obtenerPelicula = async () => {
@@ -29,6 +31,7 @@ const DetallePelicula = () => {
           accept: "application/json",
         },
       });
+
       var pelicula = await data.json();
       setPelicula(pelicula[0]);
       var genres = pelicula[0].genres;
@@ -41,85 +44,107 @@ const DetallePelicula = () => {
 
       setGenres(genres);
       setCast(cast);
+
+      const responseReviews = await fetch(`http://localhost:8000/reviews/${pelicula[0].id}`);
+      const dataReviews = await responseReviews.json();
+      setReviews(dataReviews);
     };
     obtenerPelicula();
   }, []);
 
-  return (
-    <div className="container">
-      <div className="detalle-pelicula">
-        <div className="poster">
-          <img src={pelicula.poster} alt={pelicula.title} />
+  const verUsuario = (nombreUsuario) => {
+    navigate(`/perfil/${nombreUsuario}`);
+}
+
+  if(!pelicula || !reviews){
+    return <div></div>
+  } 
+  else{
+    return (
+      <div className="container">
+        <div className="detalle-pelicula">
+          <div className="poster">
+            <img src={pelicula.poster} alt={pelicula.title} />
+          </div>
+          <div className="detalle-completo-pelicula">
+            <h2>
+              {pelicula.title}({pelicula.release_date})
+            </h2>
+            <p className="genere">
+              {parsedGenres.map((genre, index) => (
+                <span key={genre.id}>
+                  {genre.name}
+                  {index !== parsedGenres.length - 1 && ","}
+                </span>
+              ))}
+              <i className="bi bi-clock-fill"></i>
+              {pelicula.runtime} min
+            </p>
+            <p>{pelicula.overview}</p>
+            <a target="_blank" href={`https://www.imdb.com/title/${pelicula.imdb_id}`}>
+              Enlace a IMBD <FontAwesomeIcon icon={faArrowUpRightFromSquare} style={{color: "#1b2d4b",}} />
+            </a>
+          </div>
+          <button className="descargar">
+            Descargar <i className="bi bi-download"></i>
+          </button>
         </div>
-        <div className="detalle-completo-pelicula">
-          <h2>
-            {pelicula.title}({pelicula.release_date})
-          </h2>
-          <p className="genere">
-            {parsedGenres.map((genre, index) => (
-              <span key={genre.id}>
-                {genre.name}
-                {index !== parsedGenres.length - 1 && ","}
-              </span>
+
+        <div className="cast detalle-pelicula">
+          <h3>
+            <i className="bi bi-people"></i>
+            Casts
+          </h3>
+          <div className="cast-list">
+            {cast.map((actor) => (
+              <button key={actor.id}>{actor.name}</button>
             ))}
-            <i className="bi bi-clock-fill"></i>
-            {pelicula.runtime} min
-          </p>
-          <p>{pelicula.overview}</p>
-          <a target="_blank" href={`https://www.imdb.com/title/${pelicula.imdb_id}`}>
-            Enlace a IMBD <FontAwesomeIcon icon={faArrowUpRightFromSquare} style={{color: "#1b2d4b",}} />
-          </a>
-        </div>
-        <button className="descargar">
-          Descargar <i className="bi bi-download"></i>
-        </button>
-      </div>
-
-      <div className="cast detalle-pelicula">
-        <h3>
-          <i className="bi bi-people"></i>
-          Casts
-        </h3>
-        <div className="cast-list">
-          {cast.map((actor) => (
-            <button key={actor.id}>{actor.name}</button>
-          ))}
-        </div>
-      </div>
-
-      <div className="recomendaciones detalle-pelicula">
-        <h3>
-          <i className="bi bi-people-fill"></i> Reseñas
-        </h3>
-
-        <div className="resenas">
-          <div className="resena-form">
-            <h4>Deja tu reseña para "{pelicula.title}"</h4>
-
-            <label for="calificacion">Calificación</label>
-            <select id="calificacion" name="calificacion" required>
-              <option value="">Selecciona una opción</option>
-              <option value="5">Excelente</option>
-              <option value="4">Muy buena</option>
-              <option value="3">Buena</option>
-              <option value="2">Regular</option>
-              <option value="1">Mala</option>
-            </select>
-
-            <label for="comentario">Comentario</label>
-            <textarea id="comentario" name="comentario" required></textarea>
-
-            <button type="submit">Enviar reseña</button>
           </div>
+        </div>
 
-          <div className="resena-list">
-            <h4>Reseñas (0)</h4>
-            <hr />
+        <div className="recomendaciones detalle-pelicula">
+          <h3>
+            <i className="bi bi-people-fill"></i> Reseñas
+          </h3>
+
+          <div className="resenas">
+            <div className="resena-form">
+              <h4>Deja tu reseña para "{pelicula.title}"</h4>
+
+              <label for="calificacion">Calificación</label>
+              <select id="calificacion" name="calificacion" required>
+                <option value="">Selecciona una opción</option>
+                <option value="5">Excelente</option>
+                <option value="4">Muy buena</option>
+                <option value="3">Buena</option>
+                <option value="2">Regular</option>
+                <option value="1">Mala</option>
+              </select>
+
+              <label for="comentario">Comentario</label>
+              <textarea id="comentario" name="comentario" required></textarea>
+
+              <button type="submit">Enviar reseña</button>
+            </div>
+
+            <div className="resena-list">
+              <h4>Reseñas ({reviews.length})</h4>
+              <hr />
+              {reviews.map((review) => (
+                <div className="divReview" id={review.id}>
+                    <div className="divUsuarioReview" onClick={()=>verUsuario(review.nombre_usuario)}><strong>{review.nombre_usuario}</strong></div>
+                    <div>{review.fecha}</div>
+                    <div>{review.contenido}</div>
+                    <div>Valoracion: {review.valoracion}/10</div>
+                    <hr />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );  
+  }
 };
 
 export default DetallePelicula;
