@@ -1,8 +1,8 @@
 import React from "react";
 import "./perfil.css";
 import { useNavigate } from "react-router-dom";
-import Pelicula from "./peliculaLista";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { HeaderContext } from "../header/headerContext";
 
 function Perfil() {
     const navigate = useNavigate();
@@ -11,6 +11,7 @@ function Perfil() {
     const [listas, setListas] = useState([]);
     const [seguidores, setSeguidores] = useState([]);
     const [seguidos, setSeguidos] = useState([]);
+    const { movieData } = useContext(HeaderContext);
     const nombre_usuario = window.location.pathname.split("/")[2];
 
     useEffect(() => {
@@ -54,10 +55,42 @@ function Perfil() {
     const pintarSeguidos = () => {
         navigate(`/perfil/${nombre_usuario}/seguidos`);
     }
+
+    function obtenerReviewsUsuarioConPeliculas(listaPeliculas, listaReviews, idUsuario) {
+        const reviewsUsuario = listaReviews.filter(review => review.id_usuario === idUsuario);
+        if (reviewsUsuario.length === 0) return [];
+
+        const reviewsUsuarioConPeliculas = reviewsUsuario.map(review => {
+          const peliculaEncontrada = listaPeliculas.find(pelicula => pelicula.id === review.id_pelicula);
+          return {
+            ...review,
+            pelicula: peliculaEncontrada,
+          };
+        });
+        return reviewsUsuarioConPeliculas;
+    }
+
+    function obtenerTodasLasListasDeUsuario(listaPeliculas, listaLista, idUsuario) {
+        const listasUsuario = listaLista.filter(lista => lista.usuario_id === idUsuario);
+        if (listasUsuario.length === 0) return [];
+      
+        const listasConPeliculas = listasUsuario.map(lista => {
+          const peliculasLista = lista.peliculas.map(idPelicula => {
+            return listaPeliculas.find(pelicula => pelicula.id === idPelicula);
+          });
+          return {...lista, peliculas: peliculasLista};
+        });
+      
+        return listasConPeliculas;
+    }   
+      
     
-    if (!usuario || !reviews || !listas) {
-        return <div>Cargando...</div>;
+    if (!usuario || !reviews || !listas || !seguidores || !seguidos) {
+        return <div></div>;
     }else{    
+        const listaReviews = obtenerReviewsUsuarioConPeliculas(movieData, reviews, usuario.id);
+        const listaListas = obtenerTodasLasListasDeUsuario(movieData, listas, usuario.id);
+        
         return (
             <div className="perfil-container">
                 <div className="perfil-header">
@@ -82,32 +115,33 @@ function Perfil() {
                 <div className="perfil-body">
                     <div className="todas_listas">
                         <h2>Listas:</h2>
-                        {listas.map((lista) => (
-                            <div className="lista">
-                                <div>
-                                    <div><strong>{lista.nombre_lista}</strong></div> 
-                                    <div>{lista.fecha}</div>
-                                    <div>{lista.tipo}</div>
-                                    {lista.peliculas.map(idPeli => {
-                                        return <Pelicula key={idPeli} id={idPeli} val={"lista"} />
-                                    })}
-                                </div>
+                        {listaListas.map((lista) => (
+                            <div className="lista" id={lista.id} key={lista.id}>
+                                <div><strong><u>{lista.nombre_lista}</u></strong></div>
+                                <div>{lista.tipo}</div>
+                                {lista.peliculas.map(peli => {
+                                    return(
+                                        <div className="divPeliLista" key={peli.id} id={peli.id}>
+                                            <div><strong>{peli.title}</strong></div>
+                                            <div>{peli.release_date}</div>
+                                        </div>
+                                    )
+                                })}
                             </div>
                         ))}
                         
                     </div>
                     <div className="bloqueReseñas">
                         <h2>Reseñas:</h2>
-                        {reviews.map((review) => (
-                        <div className="perfil-review">
-                            <div>
-                                <div className="divPeliReview"><Pelicula key={review.id_pelicula} id={review.id_pelicula} val={"review"} /> </div>                           
-                                <div>{review.fecha}</div>
-                                <div>{review.contenido}</div>
-                                <div className="perfil-review-rating">{review.valoracion}/10</div>
+                        {listaReviews.map((review) => (
+                            <div className="perfil-review" key={review.id} id={review.id}>
+                                <div>
+                                    <div className="divPeliReview"><strong><u>{review.pelicula.title}</u></strong></div>                           
+                                    <div>{review.fecha}</div>
+                                    <div>{review.contenido}</div>
+                                    <div className="perfil-review-rating">{review.valoracion}/10</div>
+                                </div>
                             </div>
-                            
-                        </div>
                         ))}
                     </div>
                 </div>
