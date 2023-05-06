@@ -378,6 +378,13 @@ class Review(BaseModel):
     valoracion: int
     fecha: date
 
+class NewReview(BaseModel):
+    id_usuario: int
+    id_pelicula: int
+    contenido: str
+    valoracion: int
+    fecha: date
+
 #traemos todos los reviews
 @app.get("/reviews")
 async def get_reviews():
@@ -450,14 +457,21 @@ async def get_review(id):
 
 #creamos un review
 @app.post("/review")
-async def post_review(review: Review):
-    conn = conectar()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO review (id_usuario, id_pelicula, contenido, valoracion, fecha) VALUES (%s, %s, %s, %s, %s)", (review.id_usuario, review.id_pelicula, review.contenido, review.valoracion, review.fecha))
-    conn.commit()
-    conn.close()
-    cursor.close()
+async def post_review(review: NewReview):
+    try:
+        conn = conectar()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO review (id_usuario, id_pelicula, contenido, valoracion, fecha) VALUES (%s, %s, %s, %s, %s)", (review.id_usuario, review.id_pelicula, review.contenido, review.valoracion, review.fecha))
+        conn.commit()
+        print("Datos de la review insertados correctamente")
+    except Exception as e:
+        print("Error al insertar datos de la review:", e)
+        conn.rollback()
+    finally:
+        conn.close()
+        cursor.close()
     return review
+
 
 #actualizamos un review
 @app.put("/review/{id}")
