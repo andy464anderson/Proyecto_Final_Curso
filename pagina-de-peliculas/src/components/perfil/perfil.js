@@ -7,12 +7,13 @@ import $ from 'jquery';
 
 function Perfil() {
     const navigate = useNavigate();
+    const [siguiendo, setSiguiendo] = useState(null);
     const [usuario, setUsuario] = useState(null);
     const [reviews, setReviews] = useState([]);
     const [listas, setListas] = useState([]);
     const [seguidores, setSeguidores] = useState([]);
     const [seguidos, setSeguidos] = useState([]);
-    const { movieData } = useContext(HeaderContext);
+    const { movieData, userData } = useContext(HeaderContext);
     const nombre_usuario = window.location.pathname.split("/")[2];
 
     useEffect(() => {
@@ -26,25 +27,29 @@ function Perfil() {
             var dataUsuario = await responseUsuario.json();
             setUsuario(dataUsuario);
 
-            // obtener las reseñas del usuario
             const responseReviews = await fetch(`http://localhost:8000/reviews/usuario/${dataUsuario.id}`);
             const dataReviews = await responseReviews.json();
             setReviews(dataReviews);
 
-            // obtener las listas del usuario
             const responseListas = await fetch(`http://localhost:8000/listas/${dataUsuario.id}`);
             const dataListas = await responseListas.json();
             setListas(dataListas);
 
-            // obtener las listas del usuario
             const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${dataUsuario.id}`);
             const dataSeguidores = await responseSeguidores.json();
             setSeguidores(dataSeguidores);
 
-            // obtener las listas del usuario
             const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${dataUsuario.id}`);
             const dataSeguidos = await responseSeguidos.json();
             setSeguidos(dataSeguidos);
+
+            const responseSiguiendo = await fetch(`http://localhost:8000/seguidos/${userData.id}`);
+            const dataSiguiendo = await responseSiguiendo.json();
+            if(dataSiguiendo.find(user => user.id_usuario_seguido == dataUsuario.id)){
+                setSiguiendo(true);
+            }else{
+                setSiguiendo(false);
+            }
         };
         obtenerDatosUsuario();
     }, [nombre_usuario]);
@@ -155,7 +160,49 @@ function Perfil() {
         "border-bottom": "2px solid #14181C",
         "color": "#8595A3"}); 
     }
-    if (!usuario || !reviews || !listas || !seguidores || !seguidos) {
+
+    const dejarDeSeguir = async (id_usuario_seguidor, id_usuario_seguido) => {
+        const dejarSeguir = await fetch(`http://localhost:8000/seguidor/${id_usuario_seguidor}/${id_usuario_seguido}`, {
+            method: "DELETE"
+        });
+    
+        const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${usuario.id}`);
+        const dataSeguidores = await responseSeguidores.json();
+        setSeguidores(dataSeguidores);
+    
+        const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${usuario.id}`);
+        const dataSeguidos = await responseSeguidos.json();
+        setSeguidos(dataSeguidos);
+        setSiguiendo(false);
+    }
+    
+
+    const seguir = async (id_usuario_seguidor, id_usuario_seguido) => {
+        const userSeguido = {
+            id_usuario_seguidor,
+            id_usuario_seguido
+        };
+
+        const response = await fetch("http://localhost:8000/seguidor", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(userSeguido),
+        });
+        
+
+        const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${usuario.id}`);
+        const dataSeguidores = await responseSeguidores.json();
+        setSeguidores(dataSeguidores);
+
+        const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${usuario.id}`);
+        const dataSeguidos = await responseSeguidos.json();
+        setSeguidos(dataSeguidos);
+        setSiguiendo(true);
+    }
+
+    if (!usuario || !reviews || !listas || !seguidores || siguiendo == null) {
         return <div></div>;
     }else{
         const listaReviews = obtenerReviewsUsuarioConPeliculas(movieData, reviews, usuario.id);
@@ -169,42 +216,52 @@ function Perfil() {
                         <img width={200} height={200} src="sinFoto.png" alt={usuario.nombre_usuario} /> 
                         <h2>{usuario.nombre_completo}</h2>
                         <h5>{usuario.nombre_usuario}</h5>
-                        <button>Editar perfil</button>
+                        {usuario.id === userData.id &&
+                            <button>Editar perfil</button>
+                        }
+                        {usuario.id !== userData.id && siguiendo === true &&
+                            <button onClick={() => dejarDeSeguir(userData.id, usuario.id)}>Dejar de seguir</button>
+                        }
+                        {usuario.id !== userData.id && siguiendo === false &&
+                            <button onClick={() => seguir(userData.id, usuario.id)}>Seguir</button>
+                        }
                     </div>
                     <div className="perfil-info">
                         <table className="seg">
-                            <tr className="seguidores" onClick={pintarSeguidores}>
-                                <td>
-                                    Seguidores
-                                </td>
-                                <td>
-                                    {seguidores.length}
-                                </td>
-                            </tr>
-                            <tr className="seguidos" onClick={pintarSeguidos}>
-                                <td>
-                                    Seguidos
-                                </td>
-                                <td>
-                                    {seguidos.length}
-                                </td>
-                            </tr>
-                            <tr className="seguidos">
-                                <td>
-                                    Listas
-                                </td>
-                                <td>
-                                    {listaNormal.length}
-                                </td>
-                            </tr>
-                            <tr className="seguidos">
-                                <td>
-                                    Reseñas
-                                </td>
-                                <td>
-                                    {reviews.length}
-                                </td>
-                            </tr>
+                            <tbody>
+                                <tr className="seguidores" onClick={pintarSeguidores}>
+                                    <td>
+                                        Seguidores
+                                    </td>
+                                    <td>
+                                        {seguidores.length}
+                                    </td>
+                                </tr>
+                                <tr className="seguidos" onClick={pintarSeguidos}>
+                                    <td>
+                                        Seguidos
+                                    </td>
+                                    <td>
+                                        {seguidos.length}
+                                    </td>
+                                </tr>
+                                <tr className="seguidos">
+                                    <td>
+                                        Listas
+                                    </td>
+                                    <td>
+                                        {listaNormal.length}
+                                    </td>
+                                </tr>
+                                <tr className="seguidos">
+                                    <td>
+                                        Reseñas
+                                    </td>
+                                    <td>
+                                        {reviews.length}
+                                    </td>
+                                </tr>
+                            </tbody>
                         </table>
                     </div>
                 </div>

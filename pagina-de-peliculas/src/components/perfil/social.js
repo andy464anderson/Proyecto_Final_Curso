@@ -49,7 +49,7 @@ function Social() {
                     <h5>Seguidores</h5>
                     <hr></hr>
                     {seguidores.map((user) => (
-                        <div onClick={()=>verUsuario(user.nombre_usuario)} className="divUsuario" id={user.id}>
+                        <div onClick={()=>verUsuario(user.nombre_usuario)} className="divUsuario" id={user.id_usuario_seguidor} key={user.id_usuario_seguidor}>
                             <div><strong>{user.nombre_usuario}</strong></div>
                         </div>
                     ))}
@@ -61,7 +61,7 @@ function Social() {
                     <h5>Siguiendo</h5>
                     <hr></hr>
                     {seguidos.map((user) => (
-                        <div onClick={()=>verUsuario(user.nombre_usuario)} className="divUsuario" id={user.id}>
+                        <div onClick={()=>verUsuario(user.nombre_usuario)} className="divUsuario" id={user.id_usuario_seguido} key={user.id_usuario_seguido}>
                             <div><strong>{user.nombre_usuario}</strong></div>
                         </div>
                     ))}

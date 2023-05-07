@@ -277,6 +277,10 @@ class Seguidor(BaseModel):
     id_usuario_seguidor: int
     id_usuario_seguido: int
 
+class newSeguidor(BaseModel):
+    id_usuario_seguidor: int
+    id_usuario_seguido: int
+
 # creamos la api para los seguidores
 @app.get("/seguidores")
 async def get_seguidores():
@@ -343,22 +347,28 @@ async def get_seguidor(id):
 
 #insertamos un seguidor
 @app.post("/seguidor")
-async def post_seguidor(seguidor: Seguidor):
-    conn = conectar()
-    cursor = conn.cursor()
-    cursor.execute("INSERT INTO seguidor (id_usuario_seguidor, id_usuario_seguido) VALUES (%s, %s)", (seguidor.id_usuario_seguidor, seguidor.id_usuario_seguido))
-    conn.commit()
-    conn.close()
-    cursor.close()
+async def post_seguidor(seguidor: newSeguidor):
+    try:
+        conn = conectar()
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO seguidor (id_usuario_seguidor, id_usuario_seguido) VALUES (%s, %s)", (seguidor.id_usuario_seguidor, seguidor.id_usuario_seguido))
+        conn.commit()
+        print("Datos del seguidor insertados correctamente")
+    except Exception as e:
+        print("Error al insertar datos del seguidor:", e)
+        conn.rollback()
+    finally:
+        conn.close()
+        cursor.close()
     return seguidor
 
 
 #eliminamos un seguidor
-@app.delete("/seguidor/{id_usuario_seguido}/{id_usuario_seguidor}}")
+@app.delete("/seguidor/{id_usuario_seguidor}/{id_usuario_seguido}")
 async def delete_seguidor(id_usuario_seguidor: int, id_usuario_seguido: int):
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("DELETE FROM seguidor WHERE id_usuario_seguidor = %s and id_usuario_seguido = %s", (id_usuario_seguidor,id_usuario_seguido))
+    cursor.execute("DELETE FROM seguidor WHERE id_usuario_seguidor = %s and id_usuario_seguido = %s", (id_usuario_seguidor, id_usuario_seguido))
     conn.commit()
     conn.close()
     cursor.close()
