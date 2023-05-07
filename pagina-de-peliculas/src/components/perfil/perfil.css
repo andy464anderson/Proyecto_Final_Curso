@@ -1,122 +1,226 @@
 .perfil-container{
+    width: 1000px;
+    margin: auto;
+}
+.perfil-header{
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 50px;
-    color: white;
+    justify-content: space-between;
+    
+    background-color: #14181C;
 }
-
-.seg{
-    display: flex;
-    text-align: center;
-}
-
-.seguidores{
-    margin-right: 5px;
-    cursor: pointer;
-}
-
-.seguidos{
-    margin-left: 5px;
-    cursor: pointer;
-}
-
-.divSeg{
-    position: absolute;
-    width: 20%;
-    height: 40%;
-}
-
-.perfil-info h2{
-    text-align: center;
-}
-
-.perfil-header {
-    margin-bottom: 20px;    
-}
-
 .perfil-avatar{
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: #ccc;
+    width: 70%;
 }
-
-.perfil-avatar img {
+.perfil-avatar h2{
+    font-weight: 900;
+    color: #fff6f6;
+}
+.perfil-avatar h5{
+    font-style: italic;
+    color: #8595A3;
+}
+.perfil-avatar button{
+    background-color: #14181C;
+    border: 1px solid #8595A3;
+    border-radius: 3px;
+    color: #8595A3;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 20px;
+    margin-left: 0;
+}
+.perfil-avatar button:hover{
+    background-color: #262d34;
+    border: 1px solid #40BCF4;
+    color: #40BCF4;
+}
+.perfil-info{
+    width: 30%;
+}
+.seg{
+    margin-top: 10px;
     width: 100%;
-    height: 100%;
-    object-fit: cover;
 }
-
-.profile-name {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
+.seg tr{
+    border: 3px solid #14181C;
+    display: flex;
+    justify-content: space-between;
+    color: #8595A3;
+    background-color: #14181C;
+    border: 0;
+    border-bottom: 1px solid #14181C;
 }
-
-.perfil-userinfo {
-    font-size: 16px;
-    margin-bottom: 20px;
+.seg tr td{
+    padding: 4px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
-
-.perfil-body{
+.seg tr:hover{
+    background-color: #262d34;
+    color: white;
+    cursor: pointer;
+    border-bottom: 1px solid #40BCF4;
+}
+.opciones-perfil{
+    width: 100%;
+    padding: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    background-color: #14181C;
+    border: 1px solid #8595A3;
+    border-radius: 3px;
     display: flex;
     justify-content: center;
-    margin-bottom: 20px;
 }
-
-.profile-stat {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-right: 40px;
-}
-
-.profile-stat:last-child {
-    margin-right: 0;
-}
-
-.stat-label {
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.stat-value {
-    font-size: 20px;
-    font-weight: bold;  
-}
-
-.edit-profile {
-    margin-top: 20px;
-    background-color: #f5f5f5;
+.opciones-perfil button{
     padding: 10px;
-    border-radius: 5px;
+    border: 0;
+    color: #8595A3;
+    background-color: #14181C;
+    border-top: 2px solid #14181C;
+    border-bottom: 2px solid #14181C;
+}
+.opciones-perfil button:hover{
+    color: #40BCF4;
+}
+#botonLikes{
+    background-color: #262d34;
+    border-top: 2px solid #262d34;
+    border-bottom: 2px solid #40BCF4;
+    color: #40BCF4;
+}
+.listas-normales{
+    display: none;
+}
+.bloqueReseñas{
+    display: none;
+}
+.lista-likes-hijo{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    padding: 10px;
+
+}
+.divPeliListaLike{
+    width: 140px;    
+    height: 190px;
+    margin: 15px;
+    border: 1px solid #8595A3;
+    border-radius: 4px;
+    transition: 10ms;
+}
+.divPeliListaLike:hover{
+    border: 3px solid #40BCF4;
     cursor: pointer;
 }
-
-.edit-profile:hover {
-    background-color: #eee;
+.divPeliListaLike img{
+  width: 100%;
+  height: 100%;
 }
-
-.edit-profile a {
-    text-decoration: none;
-    color: #333;
+.perfil-review{
+    display: flex;
+    border-bottom: 1px solid #8595A3;
+    padding: 20px;
+    background-color: #14181C;
+}
+.perfil-review img{
+    border: 1px solid #8595A3;
+    width: 150px;
+    height: 200px;
+    border-radius: 4px;
+}
+.review-info{
+    margin-left: 20px;
+}
+.review-info h3{
+    color: #fff6f6;
     font-weight: bold;
-    font-size: 16px;
+}
+.perfil-review-contenido{
+    color: #8595A3;
+}
+.perfil-review-fecha{
+    color: #8595A3;
+    font-style: italic;
+}
+.review-info h3:hover{
+    color: #40BCF4;
+    cursor: pointer;
+}
+.perfil-review-rating{
+    background-color: #262d34;
+    width: 50px;
+    text-align: center;
+    border-radius: 5px;
+    font-weight: bold;
+    color: #40BCF4;
+    border: 1px solid #40BCF4;
+}
+.lista-normal{
+    display: flex;
+    padding: 20px;
+    border-bottom: 1px solid #8595A3;
 }
 
-@media only screen and (max-width: 600px) {
-    .profile-stats {
-        flex-wrap: wrap;
-    }
-
-    .profile-stat {
-        margin-bottom: 20px;
-    }
-
-    .profile-stat:last-child {
-        margin-right: 40px;
-    }
+.divPeliListaNormal img{
+    width: 150px;
+    height: 200px;
+    border: 1px solid #8595A3;
+    border-radius: 4px;
 }
-  
+
+.nombreListaNormal{
+    color: #fff6f6;
+    margin: 20px;
+}
+.nombreListaNormal h5:hover{
+    color: #40BCF4;
+    cursor: pointer;
+}
+.nombreListaNormal p{
+    color: #8595A3;
+    font-style: italic;
+}
+#infoListasNormales{
+    position: fixed;
+    background-color: rgba(34, 34, 34, 0.774);
+    width: 100%;
+    height: 100%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    display: none;
+}
+#infoListasNormalesHijo{
+    width: 800px;
+    height: 500px;
+    background-color: #262d34;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 101;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #40BCF4;
+    border-radius: 5px;
+    color: #fff6f6;
+}
+#infoListasNormalesHeader{
+    height: 10%;
+    background-color: #262d34;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #40BCF4;
+    
+}
+#tituloDivListasNormales{
+    font-weight: bold;
+}
+#infoListasNormalesCuerpo{
+    margin: 10px;
+}

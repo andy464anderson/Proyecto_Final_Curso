@@ -3,6 +3,7 @@ import "./perfil.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { HeaderContext } from "../header/headerContext";
+import $ from 'jquery';
 
 function Perfil() {
     const navigate = useNavigate();
@@ -83,71 +84,198 @@ function Perfil() {
       
         return listasConPeliculas;
     }   
-      
+
+    function verLista(lista){
+        $("#infoListasNormales").show();
+        $("#tituloDivListasNormales").html(`${lista.nombre_lista}`);
+    } 
+
+    function esconderLista(){
+        $("#infoListasNormales").hide();
+    }
     
+    function mostrarLikes(){
+        $(".listas-likes").show();
+        $(".listas-normales").hide();
+        $(".bloqueReseñas").hide();
+        $("#botonLikes").css({
+        "background-color": "#262d34",
+        "border-top": "2px solid #262d34",
+        "border-bottom": "2px solid #40BCF4",
+        "color": "#40BCF4"});
+        $("#botonListas").css({
+        "background-color": "#14181C",
+        "border-top": "2px solid #14181C",
+        "border-bottom": "2px solid #14181C",
+        "color": "#8595A3"});
+        $("#botonReviews").css({
+        "background-color": "#14181C",
+        "border-top": "2px solid #14181C",
+        "border-bottom": "2px solid #14181C",
+        "color": "#8595A3"});
+
+    }
+    function mostrarListas(){
+        $(".listas-likes").hide();
+        $(".listas-normales").show();
+        $(".bloqueReseñas").hide();
+        $("#botonListas").css({
+        "background-color": "#262d34",
+        "border-top": "2px solid #262d34",
+        "border-bottom": "2px solid #40BCF4",
+        "color": "#40BCF4"});
+        $("#botonLikes").css({
+        "background-color": "#14181C",
+        "border-top": "2px solid #14181C",
+        "border-bottom": "2px solid #14181C",
+        "color": "#8595A3"});
+        $("#botonReviews").css({
+        "background-color": "#14181C",
+        "border-top": "2px solid #14181C",
+        "border-bottom": "2px solid #14181C",
+        "color": "#8595A3"});
+    }
+    function mostrarReviews(){
+        $(".listas-likes").hide();
+        $(".listas-normales").hide();
+        $(".bloqueReseñas").show(); 
+        $("#botonReviews").css({
+        "background-color": "#262d34",
+        "border-top": "2px solid #262d34",
+        "border-bottom": "2px solid #40BCF4",
+        "color": "#40BCF4"});     
+        $("#botonListas").css({
+        "background-color": "#14181C",
+        "border-top": "2px solid #14181C",
+        "border-bottom": "2px solid #14181C",
+        "color": "#8595A3"});
+        $("#botonLikes").css({
+        "background-color": "#14181C",
+        "border-top": "2px solid #14181C",
+        "border-bottom": "2px solid #14181C",
+        "color": "#8595A3"}); 
+    }
     if (!usuario || !reviews || !listas || !seguidores || !seguidos) {
         return <div></div>;
-    }else{    
+    }else{
         const listaReviews = obtenerReviewsUsuarioConPeliculas(movieData, reviews, usuario.id);
         const listaListas = obtenerTodasLasListasDeUsuario(movieData, listas, usuario.id);
-        
+        const listaNormal = listaListas.filter((lista) => lista.tipo === "normal");
+        const listaLikes = listaListas.filter((lista) => lista.tipo === "likes");
         return (
             <div className="perfil-container">
                 <div className="perfil-header">
                     <div className="perfil-avatar">
                         <img width={200} height={200} src="sinFoto.png" alt={usuario.nombre_usuario} /> 
+                        <h2>{usuario.nombre_completo}</h2>
+                        <h5>{usuario.nombre_usuario}</h5>
+                        <button>Editar perfil</button>
                     </div>
                     <div className="perfil-info">
-                        <h2>{usuario.nombre_usuario}</h2>
-                        <div className="seg">
-                            <div className="seguidores" onClick={pintarSeguidores}>
-                                <div><u>Seguidores</u></div>
-                                <div>{seguidores.length}</div>                                
-                            </div>
-                            |
-                            <div className="seguidos" onClick={pintarSeguidos}>
-                                <div><u>Seguidos</u></div>
-                                <div>{seguidos.length}</div>  
-                            </div>
-                        </div>
+                        <table className="seg">
+                            <tr className="seguidores" onClick={pintarSeguidores}>
+                                <td>
+                                    Seguidores
+                                </td>
+                                <td>
+                                    {seguidores.length}
+                                </td>
+                            </tr>
+                            <tr className="seguidos" onClick={pintarSeguidos}>
+                                <td>
+                                    Seguidos
+                                </td>
+                                <td>
+                                    {seguidos.length}
+                                </td>
+                            </tr>
+                            <tr className="seguidos">
+                                <td>
+                                    Listas
+                                </td>
+                                <td>
+                                    {listaNormal.length}
+                                </td>
+                            </tr>
+                            <tr className="seguidos">
+                                <td>
+                                    Reseñas
+                                </td>
+                                <td>
+                                    {reviews.length}
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
                 <div className="perfil-body">
-                    <div className="todas_listas">
-                        <h2>Listas:</h2>
-                        {listaListas.map((lista) => (
-                            <div className="lista" id={lista.id} key={lista.id}>
-                                <div><strong><u>{lista.nombre_lista}</u></strong></div>
-                                <div>{lista.tipo}</div>
+                    <div className="opciones-perfil">
+                        <button id="botonLikes" onClick={mostrarLikes}>Likes</button>
+                        <button id="botonListas" onClick={mostrarListas}>Listas</button>
+                        <button id="botonReviews" onClick={mostrarReviews}>Reseñas</button>
+                    </div>
+                    <div className="listas-likes">
+                        {listaLikes.map((lista) => (
+                            <div className="lista-likes-hijo" id={lista.id} key={lista.id}>
                                 {lista.peliculas.map(peli => {
                                     return(
-                                        <div className="divPeliLista" key={peli.id} id={peli.id}>
-                                            <div><strong>{peli.title}</strong></div>
-                                            <div>{peli.release_date}</div>
+                                        <div className="divPeliListaLike" key={peli.id} id={peli.id}>
+                                            <img src={peli.poster} alt="poster"></img>
                                         </div>
                                     )
                                 })}
                             </div>
                         ))}
-                        
+                    </div>
+                    <div className="listas-normales">
+                        {listaNormal.map((lista) => (
+                            <div className="lista-normal" id={lista.id} key={lista.id}>
+{/*                                 {lista.peliculas.map(peli => {
+                                    
+
+                                })} */}
+                                <div className="divPeliListaNormal" key={lista.peliculas[0].id} id={lista.peliculas[0].id}>
+                                    <img src={lista.peliculas[0].poster} alt="poster"></img>
+                                </div>
+                                <div className="nombreListaNormal">
+                                    <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
+                                    <p>{lista.peliculas.length} películas</p>
+                                </div>
+                                
+
+                            </div>
+                        ))}
                     </div>
                     <div className="bloqueReseñas">
-                        <h2>Reseñas:</h2>
                         {listaReviews.map((review) => (
                             <div className="perfil-review" key={review.id} id={review.id}>
-                                <div>
-                                    <div className="divPeliReview"><strong><u>{review.pelicula.title}</u></strong></div>                           
-                                    <div>{review.fecha}</div>
-                                    <div>{review.contenido}</div>
-                                    <div className="perfil-review-rating">{review.valoracion}/10</div>
+                                <img src={review.pelicula.poster} alt="poster"></img>
+                                <div className="review-info">
+                                    <h3>{review.pelicula.title}</h3>
+                                    <p className="perfil-review-contenido">{review.contenido}</p>
+                                    <p className="perfil-review-fecha">Vista en {review.fecha}</p>
+                                    <p className="perfil-review-rating">{review.valoracion}/10</p>
                                 </div>
                             </div>
                         ))}
                     </div>
+                    <div id="infoListasNormales">
+                        <div id="infoListasNormalesHijo">
+                            <div id="infoListasNormalesHeader">
+                                <div id="tituloDivListasNormales">titulo</div>
+                                <div id="cruzDivListasNormales" onClick={esconderLista}> x </div>
+                            </div>
+                            <div id="infoListasNormalesCuerpo">
+                                pinta tú las pelis son las 2 de la mañana estoy cansado
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        );
-    }
-}
 
+        );
+        
+    }
+
+}
 export default Perfil;
