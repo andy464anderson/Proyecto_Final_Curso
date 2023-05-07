@@ -103,7 +103,7 @@
     padding: 10px;
 
 }
-.divPeliListaLike{
+.divPeliListaLike, .imagenLista{
     width: 140px;    
     height: 190px;
     margin: 15px;
@@ -111,7 +111,7 @@
     border-radius: 4px;
     transition: 10ms;
 }
-.divPeliListaLike:hover{
+.divPeliListaLike:hover, .imagenLista:hover{
     border: 3px solid #40BCF4;
     cursor: pointer;
 }
@@ -205,8 +205,7 @@
     z-index: 101;
     display: flex;
     flex-direction: column;
-    border: 1px solid #40BCF4;
-    border-radius: 5px;
+    border: 1px solid #8595A3;
     color: #fff6f6;
 }
 #infoListasNormalesHeader{
@@ -215,7 +214,7 @@
     padding: 10px;
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #40BCF4;
+    border-bottom: 1px solid #8595A3;
     
 }
 #tituloDivListasNormales{
@@ -223,4 +222,23 @@
 }
 #infoListasNormalesCuerpo{
     margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    overflow-y: scroll;
+}
+.imagenLista img{
+    width: 100%;
+    height: 100%;
+}
+body::-webkit-scrollbar, #infoListasNormalesCuerpo::-webkit-scrollbar{
+    width: 1em;
+  }
+   
+body::-webkit-scrollbar-track, #infoListasNormalesCuerpo::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+   
+body::-webkit-scrollbar-thumb, #infoListasNormalesCuerpo::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
 }

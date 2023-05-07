@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { HeaderContext } from "../header/headerContext";
 import $ from 'jquery';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 function Perfil() {
     const navigate = useNavigate();
@@ -93,6 +95,17 @@ function Perfil() {
     function verLista(lista){
         $("#infoListasNormales").show();
         $("#tituloDivListasNormales").html(`${lista.nombre_lista}`);
+        $("#infoListasNormalesCuerpo").html(`        
+        ${lista.peliculas.map(peli => {
+            return `
+                <div class="imagenLista">
+                    <img src=${peli.poster}></img>
+                </div>
+            `
+        })}
+        `);
+
+        
     } 
 
     function esconderLista(){
@@ -287,12 +300,14 @@ function Perfil() {
                     <div className="listas-normales">
                         {listaNormal.map((lista) => (
                             <div className="lista-normal" id={lista.id} key={lista.id}>
-{/*                                 {lista.peliculas.map(peli => {
+                                {lista.peliculas.map(peli => {
                                     
 
-                                })} */}
+                                })}
                                 <div className="divPeliListaNormal" key={lista.peliculas[0].id} id={lista.peliculas[0].id}>
                                     <img src={lista.peliculas[0].poster} alt="poster"></img>
+                                    
+                                    
                                 </div>
                                 <div className="nombreListaNormal">
                                     <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
@@ -320,7 +335,8 @@ function Perfil() {
                         <div id="infoListasNormalesHijo">
                             <div id="infoListasNormalesHeader">
                                 <div id="tituloDivListasNormales">titulo</div>
-                                <div id="cruzDivListasNormales" onClick={esconderLista}> x </div>
+                                <div id="cruzDivListasNormales" onClick={esconderLista}> 
+                                <FontAwesomeIcon icon={faXmark} /> </div>
                             </div>
                             <div id="infoListasNormalesCuerpo">
                                 pinta tú las pelis son las 2 de la mañana estoy cansado
