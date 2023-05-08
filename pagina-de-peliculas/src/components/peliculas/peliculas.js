@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import CartaPelicula from "./carta_pelicula";
 import { HeaderContext } from "../header/headerContext";
 import { SlSpinner } from 'https://cdn.skypack.dev/@shoelace-style/shoelace@2.4.0/dist/react/';
-import { faL } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import $ from 'jquery';
 
 
 
@@ -102,6 +104,26 @@ const Peliculas = () => {
     
     filtrarPeliculas();
     }, [categoryFilter, yearFilter, durationFilter, sortOrder, peliculas]);
+    $(document).ready(function() {
+      // Agregar un "escucha de evento" al objeto window para detectar el desplazamiento
+      $(window).scroll(function() {
+        // Obtener el valor actual del desplazamiento vertical de la página
+        var scrollTop = $(this).scrollTop();
+        
+        // Verificar si la página está scrolleada hasta arriba
+        if (scrollTop === 0) {
+          // Si está scrolleada hasta arriba, ocultar el botón
+          $("#ultimo-boton").css("opacity", "0");
+        } else {
+          // Si no está scrolleada hasta arriba, mostrar el botón
+          $("#ultimo-boton").css("opacity", "1");
+        }
+      });
+      $("#ultimo-boton").click(function() {
+        // Desplazar la página hasta la parte superior sin animación
+        $("html, body").scrollTop(0);
+      });
+    });
     
     return (
       <div>
@@ -133,6 +155,9 @@ const Peliculas = () => {
             </div>
           }
           <div className="filters">
+          </div> 
+        </div> 
+        <div className="filtros-fixed">
             <div className="select-filtro">
               <select id="category" name="category" onChange={(e) => setCategoryFilter(e.target.value)}>
                 <option value="">Filtrar por categoría</option>
@@ -175,8 +200,10 @@ const Peliculas = () => {
                 <option value="desc">Descendente</option>
               </select>
             </div>
-          </div> 
-        </div> 
+            <div className="select-filtro" id="ultimo-boton">
+              <button><FontAwesomeIcon icon={faArrowUp} /></button>
+            </div>
+        </div>
       </div>     
     );
 

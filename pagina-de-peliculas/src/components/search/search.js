@@ -8,6 +8,36 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 
 const Search = () => {
+
+
+    useEffect(() => {
+        const obtenerDatosUsuario = async () => {
+            const responseUsuario = await fetch(`http://localhost:8000/usuarios`, {
+                method: "GET",
+                headers: {
+                accept: "application/json",
+                },
+            });
+            var dataUsuario = await responseUsuario.json();
+            
+            return dataUsuario
+        };
+        var promesaUsuarios = obtenerDatosUsuario();
+        promesaUsuarios.then((data) => {
+            console.log(data);
+        }).catch((error) => {
+            console.error(error);
+        });
+    }
+    ,[])
+/*     promesaUsuarios.then(function(usuarios) {
+        
+        var arregloUsuarios = usuarios;
+        
+        for (var i = 0; i < arregloUsuarios.length; i++) {
+          console.log(arregloUsuarios[i].nombre_usuario);
+        }
+    }); */
     const {movieData} = useContext(HeaderContext);
 
     const [pelisFiltradas, setPelisFiltradas] = useState([]);
@@ -16,6 +46,7 @@ const Search = () => {
     const buscarPeliculas = () => {
         var textoBuscador=document.getElementById("buscador").value.toLowerCase();
         var listaFiltrada = movieData.filter((peli)=>peli.title.toLowerCase().includes(textoBuscador));
+        var listaFiltradaUsuarios;
         if(textoBuscador == ""){
             listaFiltrada=[];
         }

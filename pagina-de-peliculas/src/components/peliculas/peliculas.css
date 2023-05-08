@@ -22,12 +22,13 @@ body{
   width: 30%;
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 0;
 }
 .select-filtro{
   width: 100%;
-  padding-top: 12px;
-  padding-bottom: 13px;
-  border-bottom: 1px solid #8595A3;
+  padding-top: 8px;
+  padding-bottom: 8px;
 }
 #ultimo-select{
   border: 0;
@@ -39,7 +40,13 @@ select{
   color: #8595A3;
   border: 0;
 }
-
+.select-filtro button{
+  width: 100%;
+  padding: 5px;
+  background-color: #40BCF4;
+  color: white;
+  border: 0;
+}
 select:focus{
   outline: 0;
 }
@@ -52,8 +59,24 @@ select:focus{
 
 .spinner{
   position: absolute;
-  left: 50%;
+  left: 25%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
+.filtros-fixed{
+  position: fixed;
+  left: 75%;
+  top: 40%;
+  transform: translate(-50%, -50%);
+  padding: 10px;
+  width: 400px;
+}
+#ultimo-boton{
+  opacity: 0;
+  transition: 0.5s;
   
+}
+#ultimo-boton button{
+  background-image: radial-gradient(closest-side at center, #92ddff71, #92ddff71, #76ccf471, #3fc2ff70,#40bbf470);
+  border-radius: 4px;
+}

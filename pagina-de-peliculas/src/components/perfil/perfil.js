@@ -339,7 +339,7 @@ function Perfil() {
                                 <FontAwesomeIcon icon={faXmark} /> </div>
                             </div>
                             <div id="infoListasNormalesCuerpo">
-                                pinta tú las pelis son las 2 de la mañana estoy cansado
+                                
                             </div>
                         </div>
                     </div>
