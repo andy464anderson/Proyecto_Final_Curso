@@ -517,6 +517,10 @@ class Lista(BaseModel):
     publica: bool
     peliculas: List[int]
 
+class updateLista(BaseModel):
+    id: int
+    peliculas: List[int]
+
 #traemos todas las listas
 @app.get("/listas")
 async def get_listas():
@@ -578,6 +582,17 @@ async def put_lista(id: int, lista: Lista):
     conn = conectar()
     cursor = conn.cursor()
     cursor.execute("UPDATE lista SET nombre_lista = %s, tipo = %s, usuario_id = %s, publica = %s, peliculas = %s WHERE id = %s", (lista.nombre_lista, lista.tipo, lista.usuario_id, lista.publica, lista.peliculas, id))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return lista
+
+#actualizamos las peliculas de una lista
+@app.put("/peliculasLista/{id}")
+async def put_lista(lista: updateLista):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("UPDATE lista SET peliculas = %s WHERE id = %s", (lista.peliculas, lista.id))
     conn.commit()
     conn.close()
     cursor.close()

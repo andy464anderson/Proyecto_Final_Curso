@@ -6,17 +6,21 @@ import { HeaderContext } from "../header/headerContext";
 import $ from 'jquery';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import BuscadorPelisLista from "./buscadorPelisLista";
 
 function Perfil() {
     const navigate = useNavigate();
     const [siguiendo, setSiguiendo] = useState(null);
+    const [idLista, setIdLista] = useState(null);
     const [usuario, setUsuario] = useState(null);
     const [reviews, setReviews] = useState([]);
     const [listas, setListas] = useState([]);
     const [seguidores, setSeguidores] = useState([]);
     const [seguidos, setSeguidos] = useState([]);
+    const [listaPeliculas, setListaPeliculas] = useState([]);
     const { movieData, userData } = useContext(HeaderContext);
     const nombre_usuario = window.location.pathname.split("/")[2];
+    const [showSearch, setShowSearch] = useState(false);
 
     useEffect(() => {
         const obtenerDatosUsuario = async () => {
@@ -86,7 +90,7 @@ function Perfil() {
           const peliculasLista = lista.peliculas.map(idPelicula => {
             return listaPeliculas.find(pelicula => pelicula.id === idPelicula);
           });
-          return {...lista, peliculas: peliculasLista};
+          return {...lista, peliculasLista: peliculasLista};
         });
       
         return listasConPeliculas;
@@ -96,7 +100,7 @@ function Perfil() {
         $("#infoListasNormales").show();
         $("#tituloDivListasNormales").html(`${lista.nombre_lista}`);
         $("#infoListasNormalesCuerpo").html(`        
-        ${lista.peliculas.map(peli => {
+        ${lista.peliculasLista.map(peli => {
             return `
                 <div class="imagenLista">
                     <img src=${peli.poster}></img>
@@ -104,8 +108,13 @@ function Perfil() {
             `
         })}
         `);
-
-        
+        var pelisEnLista = [];
+        lista.peliculas.map(idPeli => {
+            pelisEnLista.push(idPeli);
+        });
+        console.log(pelisEnLista);
+        setListaPeliculas(pelisEnLista);
+        setIdLista(lista.id);
     } 
 
     function esconderLista(){
@@ -215,6 +224,32 @@ function Perfil() {
         setSiguiendo(true);
     }
 
+    const anadirPeliculasSeleccionadas = async (pelisSeleccionadas) => {
+        const peliculas = pelisSeleccionadas;
+        const id = idLista;
+        const lista = {
+            id,
+            peliculas
+        };
+        const response = await fetch(`http://localhost:8000/peliculasLista/${idLista}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(lista),
+        });
+        const dataResponse = await response.json();
+        console.log(dataResponse);
+
+        const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
+        const dataListas = await responseListas.json();
+        setListas(dataListas);
+    };
+
+    const cerrarSearch = (cerrar) => {
+        setShowSearch(cerrar);
+    }
+
     if (!usuario || !reviews || !listas || !seguidores || siguiendo == null) {
         return <div></div>;
     }else{
@@ -287,7 +322,7 @@ function Perfil() {
                     <div className="listas-likes">
                         {listaLikes.map((lista) => (
                             <div className="lista-likes-hijo" id={lista.id} key={lista.id}>
-                                {lista.peliculas.map(peli => {
+                                {lista.peliculasLista.map(peli => {
                                     return(
                                         <div className="divPeliListaLike" key={peli.id} id={peli.id}>
                                             <img src={peli.poster} alt="poster"></img>
@@ -300,18 +335,19 @@ function Perfil() {
                     <div className="listas-normales">
                         {listaNormal.map((lista) => (
                             <div className="lista-normal" id={lista.id} key={lista.id}>
-                                {lista.peliculas.map(peli => {
+                                {lista.peliculasLista.map(peli => {
                                     
 
                                 })}
-                                <div className="divPeliListaNormal" key={lista.peliculas[0].id} id={lista.peliculas[0].id}>
-                                    <img src={lista.peliculas[0].poster} alt="poster"></img>
-                                    
-                                    
-                                </div>
+                                {lista.peliculasLista.length > 0 && (
+                                    <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
+                                        <img src={lista.peliculasLista[0].poster} alt="poster"></img>
+                                    </div>
+                                )}
+                                
                                 <div className="nombreListaNormal">
                                     <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
-                                    <p>{lista.peliculas.length} películas</p>
+                                    <p>{lista.peliculasLista.length} películas</p>
                                 </div>
                                 
 
@@ -337,6 +373,17 @@ function Perfil() {
                                 <div id="tituloDivListasNormales">titulo</div>
                                 <div id="cruzDivListasNormales" onClick={esconderLista}> 
                                 <FontAwesomeIcon icon={faXmark} /> </div>
+                                <button onClick={() => setShowSearch(true)}>Agregar películas a la lista</button>
+                                {showSearch && (
+                                    <div className="modal">
+                                        <div id="cruzDivListasNormales" onClick={() => setShowSearch(false)}> 
+                                            <FontAwesomeIcon icon={faXmark} /> 
+                                        </div>
+                                        <div className="modal-content">
+                                            <BuscadorPelisLista searchAbierto={cerrarSearch} idLista={idLista} anadirPeliculas={anadirPeliculasSeleccionadas} peliculasEnLista={listaPeliculas} className="buscador-pelis" />
+                                        </div>
+                                    </div>                                    
+                                )}
                             </div>
                             <div id="infoListasNormalesCuerpo">
                                 

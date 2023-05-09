@@ -1,0 +1,149 @@
+#buscador-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2f2;
+    padding: 20px;
+    border-radius: 10px 10px 0 0;
+}
+
+.peliculas-resultado {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.peliculas-resultado .imagenLista {
+    position: relative;
+    margin: 10px;
+    width: 150px;
+    height: 225px;
+}
+
+.buscador-pelis-lista{
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.peliculas-resultado .imagenLista img {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.peliculas-resultado .imagenLista:hover{
+    transform: scale(1.05);
+}
+
+.peliculas-resultado .peliSeleccionada::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.6);
+    z-index: 1;
+    border-radius: 5px;
+}
+
+.peliSeleccionada{
+    border: 3px solid #40BCF4;
+}
+
+.peliculas-resultado .paginacion {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.peliculas-resultado .botonPag {
+    background-color: #ff7b00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 16px;
+    margin: 0 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+  
+.peliculas-resultado .botonPag:hover {
+    background-color: #e66500;
+}
+  
+.peliculas-resultado #pagActual {
+    margin: 0 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+  
+#buscador-div input {
+    border: none;
+    outline: none;
+    background-color: #f2f2f2;
+    font-size: 1.2rem;
+    width: 80%;
+    max-width: 500px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#buscador-div {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 20px;
+    border-radius: 0 0 10px 10px;
+    background-color: #fff;
+}
+
+#sinPelis {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    font-size: 1.2rem;
+    color: #aaa;
+}
+
+#sinPelis #lupa {
+    font-size: 4rem;
+    color: #aaa;
+    margin-bottom: 10px;
+}
+
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.botonPag {
+    background-color: #2b2d42;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.botonPag:hover {
+    background-color: #3d405b;
+}
+
+#pagActual {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #2b2d42;
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    font-size: 1rem;
+}
+  
