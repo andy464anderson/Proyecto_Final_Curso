@@ -18,6 +18,7 @@ function Perfil() {
     const [seguidores, setSeguidores] = useState([]);
     const [seguidos, setSeguidos] = useState([]);
     const [listaPeliculas, setListaPeliculas] = useState([]);
+    const [listaActual, setListaActual] = useState([]);
     const { movieData, userData } = useContext(HeaderContext);
     const nombre_usuario = window.location.pathname.split("/")[2];
     const [showSearch, setShowSearch] = useState(false);
@@ -112,10 +113,10 @@ function Perfil() {
         lista.peliculas.map(idPeli => {
             pelisEnLista.push(idPeli);
         });
-        console.log(pelisEnLista);
         setListaPeliculas(pelisEnLista);
         setIdLista(lista.id);
-    } 
+        setListaActual(lista);
+    }     
 
     function esconderLista(){
         $("#infoListasNormales").hide();
@@ -244,7 +245,25 @@ function Perfil() {
         const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
         const dataListas = await responseListas.json();
         setListas(dataListas);
+        setListaPeliculas(peliculas);
+
+        const listaListas = obtenerTodasLasListasDeUsuario(movieData, dataListas, usuario.id);
+        const listaActualizada = listaListas.find((lista) => lista.id === id);
+        setListaActual(listaActualizada);
     };
+
+    useEffect(() => {
+        if(listaPeliculas.length > 0){
+            const nuevaListaHTML = listaActual.peliculasLista.map(peli => {
+                return `
+                  <div class="imagenLista">
+                    <img src=${peli.poster}></img>
+                  </div>
+                `;
+              }).join('');
+              $("#infoListasNormalesCuerpo").html(nuevaListaHTML);
+        }        
+    }, [listaPeliculas]);
 
     const cerrarSearch = (cerrar) => {
         setShowSearch(cerrar);

@@ -8,14 +8,17 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 
 const BuscadorPelisLista = ({ peliculasEnLista, anadirPeliculas, idLista, searchAbierto }) => {
     const {movieData} = useContext(HeaderContext);
-    const [pelisFiltradas, setPelisFiltradas] = useState([]);
+    const peliculasFiltradas = movieData.filter(pelicula => !peliculasEnLista.includes(pelicula.id));
+    const [pelisFiltradas, setPelisFiltradas] = useState(peliculasFiltradas);
+
     const [pelisSeleccionadas, setPelisSeleccionadas] = useState([]);
+    
 
     const buscarPeliculas = () => {
         var textoBuscador=document.getElementById("buscador").value.toLowerCase();
-        var listaFiltrada = movieData.filter((peli)=>peli.title.toLowerCase().includes(textoBuscador));
+        var listaFiltrada = peliculasFiltradas.filter((peli)=>peli.title.toLowerCase().includes(textoBuscador));
         if(textoBuscador == ""){
-            listaFiltrada = movieData;
+            listaFiltrada = peliculasFiltradas;
         }
         listaFiltrada = listaFiltrada.sort((a, b)=>{
             if(a.title < b.title) return -1;
@@ -32,6 +35,8 @@ const BuscadorPelisLista = ({ peliculasEnLista, anadirPeliculas, idLista, search
         } else {
           pelisSeleccionadas.push(idPelicula);
         }
+
+        setPelisSeleccionadas(pelisSeleccionadas);
         
         sessionStorage.setItem(idLista+'pelisSeleccionadas', JSON.stringify(pelisSeleccionadas));
         
@@ -45,14 +50,9 @@ const BuscadorPelisLista = ({ peliculasEnLista, anadirPeliculas, idLista, search
       
       
     useEffect(() => {
-        setPelisFiltradas(movieData);
         let pelisSeleccionadas = [];
         peliculasEnLista.forEach(idPelicula => {
-            if(document.getElementById(idPelicula)){
-                const divPeli = document.getElementById(idPelicula);
-                divPeli.classList.add('peliSeleccionada');
-                pelisSeleccionadas.push(idPelicula);
-            }            
+            pelisSeleccionadas.push(idPelicula);
         });
         setPelisSeleccionadas(peliculasEnLista);
         sessionStorage.setItem(idLista+'pelisSeleccionadas', JSON.stringify(pelisSeleccionadas));
@@ -60,11 +60,13 @@ const BuscadorPelisLista = ({ peliculasEnLista, anadirPeliculas, idLista, search
       
 
     const anadirPeliculasSeleccionadas = () => {
-        let pelisSeleccionadas = JSON.parse(sessionStorage.getItem(idLista+'pelisSeleccionadas')) || [];
-    
-        console.log('Películas seleccionadas:', pelisSeleccionadas);
+        if(pelisSeleccionadas.length > 0){
+            let pelisSeleccionadas = JSON.parse(sessionStorage.getItem(idLista+'pelisSeleccionadas')) || [];
 
-        anadirPeliculas(pelisSeleccionadas);
+            anadirPeliculas(pelisSeleccionadas);
+        }else{
+            alert("No se ha actualizado la lista");
+        }        
         searchAbierto(false);
     }
     
