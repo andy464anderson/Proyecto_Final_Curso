@@ -318,6 +318,7 @@ function Perfil() {
             if(a.nombre_lista > b.nombre_lista) return 1;
             else return -1;
         })
+        console.log(listaNormal);
         const listaLikes = listaListas.filter((lista) => lista.tipo === "likes");
         return (
             <div className="perfil-container">
@@ -396,27 +397,33 @@ function Perfil() {
                     </div>
                     <div className="listas-normales">
                         {listaNormal.map((lista) => (
-                            <div className="lista-normal" id={lista.id} key={lista.id}>
-                                {lista.peliculasLista.map(peli => {
-                                    
-
-                                })}
+                            (usuario.id === userData.id) ? (
+                                <div className="lista-normal" id={lista.id} key={lista.id}>
                                 {lista.peliculasLista.length > 0 && (
                                     <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
-                                        <img src={lista.peliculasLista[0].poster} alt="poster"></img>
+                                    <img src={lista.peliculasLista[0].poster} alt="poster" />
                                     </div>
                                 )}
-                                
                                 <div className="nombreListaNormal">
                                     <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
                                     <p>{lista.peliculasLista.length} películas</p>
-                                    {usuario.id === userData.id &&
-                                        <button type="button" onClick={() => eliminarLista(lista.id)}>Eliminar lista</button>
-                                    }
+                                    <button type="button" onClick={() => eliminarLista(lista.id)}>Eliminar lista</button>
                                 </div>
-                                
-
-                            </div>
+                                </div>
+                            ) :
+                            lista.publica && (
+                                <div className="lista-normal" id={lista.id} key={lista.id}>
+                                {lista.peliculasLista.length > 0 && (
+                                    <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
+                                    <img src={lista.peliculasLista[0].poster} alt="poster" />
+                                    </div>
+                                )}
+                                <div className="nombreListaNormal">
+                                    <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
+                                    <p>{lista.peliculasLista.length} películas</p>
+                                </div>
+                                </div>
+                            )
                         ))}
                     </div>
                     <div className="bloqueReseñas">
