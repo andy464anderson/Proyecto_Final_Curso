@@ -18,10 +18,11 @@ function Perfil() {
     const [seguidores, setSeguidores] = useState([]);
     const [seguidos, setSeguidos] = useState([]);
     const [listaPeliculas, setListaPeliculas] = useState([]);
-    const [listaActual, setListaActual] = useState([]);
+    const [listaActual, setListaActual] = useState({});
     const { movieData, userData } = useContext(HeaderContext);
     const nombre_usuario = window.location.pathname.split("/")[2];
     const [showSearch, setShowSearch] = useState(false);
+    const [pelisSeleccionadas, setPelisSeleccionadas] = useState([]);
 
     useEffect(() => {
         const obtenerDatosUsuario = async () => {
@@ -97,30 +98,64 @@ function Perfil() {
         return listasConPeliculas;
     }   
 
+    const seleccionarPeli = (idPelicula) => {
+        const [idLista, peliculaId] = idPelicula.split('-');
+        const divPeli = document.getElementById(idPelicula);
+        if (divPeli.classList.contains('peliSeleccionada')) {
+          divPeli.classList.remove('peliSeleccionada');
+          setPelisSeleccionadas(prevState => prevState.filter(id => id !== peliculaId));
+        } else {
+          divPeli.classList.add('peliSeleccionada');
+          setPelisSeleccionadas(prevState => [...prevState, peliculaId]);
+        }
+        
+    }
+      
+
+    const eliminarPeliculasLista = async () => {
+        if(pelisSeleccionadas.length > 0){
+            const pelisSeleccionadasNumeros = pelisSeleccionadas.map((id) => Number(id));
+            const filtroPelis = listaActual.peliculas.filter((id) => !pelisSeleccionadasNumeros.includes(id));
+            accionPeliculasSeleccionadas(filtroPelis);
+        }else{
+            alert("No ha seleccionado ninguna película para eliminar");
+        }
+    }
+
     function verLista(lista){
         $("#infoListasNormales").show();
         $("#tituloDivListasNormales").html(`${lista.nombre_lista}`);
         $("#infoListasNormalesCuerpo").html(`        
-        ${lista.peliculasLista.map(peli => {
-            return `
-                <div class="imagenLista">
-                    <img src=${peli.poster}></img>
-                </div>
-            `
-        })}
+            ${lista.peliculasLista.map(peli => {
+                return `
+                    <div class="imagenLista ${pelisSeleccionadas.includes(peli.id) ? 'peliSeleccionada' : ''}" id="${lista.id}-${peli.id}">
+                        <img src=${peli.poster}></img>
+                    </div>
+                `
+            }).join('')}
         `);
+        
+        if(usuario.id == userData.id){
+            $(".imagenLista").on("click", function() {
+                const id = $(this).attr('id');
+                seleccionarPeli(id);
+            });
+        }
+
         var pelisEnLista = [];
         lista.peliculas.map(idPeli => {
             pelisEnLista.push(idPeli);
         });
+        setPelisSeleccionadas([]);
         setListaPeliculas(pelisEnLista);
         setIdLista(lista.id);
         setListaActual(lista);
     }     
 
     function esconderLista(){
+        $(".peliSeleccionada").removeClass("peliSeleccionada");
         $("#infoListasNormales").hide();
-    }
+    }      
     
     function mostrarLikes(){
         $(".listas-likes").show();
@@ -225,7 +260,7 @@ function Perfil() {
         setSiguiendo(true);
     }
 
-    const anadirPeliculasSeleccionadas = async (pelisSeleccionadas) => {
+    const accionPeliculasSeleccionadas = async (pelisSeleccionadas) => {
         const peliculas = pelisSeleccionadas;
         const id = idLista;
         const lista = {
@@ -253,20 +288,24 @@ function Perfil() {
     };
 
     useEffect(() => {
-        if(listaPeliculas.length > 0){
-            const nuevaListaHTML = listaActual.peliculasLista.map(peli => {
-                return `
-                  <div class="imagenLista">
-                    <img src=${peli.poster}></img>
-                  </div>
-                `;
-              }).join('');
-              $("#infoListasNormalesCuerpo").html(nuevaListaHTML);
-        }        
-    }, [listaPeliculas]);
+        console.log(listaActual);
+        if(Object.keys(listaActual).length > 0){
+            verLista(listaActual);
+        }
+    }, [listaActual]);
 
     const cerrarSearch = (cerrar) => {
         setShowSearch(cerrar);
+    }
+
+    const eliminarLista = async (id) => {
+        const eliminar = await fetch(`http://localhost:8000/lista/${id}`, {
+            method: "DELETE"
+        });
+
+        const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
+        const dataListas = await responseListas.json();
+        setListas(dataListas);
     }
 
     if (!usuario || !reviews || !listas || !seguidores || siguiendo == null) {
@@ -274,7 +313,11 @@ function Perfil() {
     }else{
         const listaReviews = obtenerReviewsUsuarioConPeliculas(movieData, reviews, usuario.id);
         const listaListas = obtenerTodasLasListasDeUsuario(movieData, listas, usuario.id);
-        const listaNormal = listaListas.filter((lista) => lista.tipo === "normal");
+        const listaNormalSinOrdenar = listaListas.filter((lista) => lista.tipo === "normal");
+        const listaNormal = listaNormalSinOrdenar.sort((a, b) => {
+            if(a.nombre_lista > b.nombre_lista) return 1;
+            else return -1;
+        })
         const listaLikes = listaListas.filter((lista) => lista.tipo === "likes");
         return (
             <div className="perfil-container">
@@ -367,6 +410,9 @@ function Perfil() {
                                 <div className="nombreListaNormal">
                                     <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
                                     <p>{lista.peliculasLista.length} películas</p>
+                                    {usuario.id === userData.id &&
+                                        <button type="button" onClick={() => eliminarLista(lista.id)}>Eliminar lista</button>
+                                    }
                                 </div>
                                 
 
@@ -392,14 +438,19 @@ function Perfil() {
                                 <div id="tituloDivListasNormales">titulo</div>
                                 <div id="cruzDivListasNormales" onClick={esconderLista}> 
                                 <FontAwesomeIcon icon={faXmark} /> </div>
-                                <button onClick={() => setShowSearch(true)}>Agregar películas a la lista</button>
+                                {usuario.id === userData.id &&
+                                    <div id="divBotonesLista">
+                                        <button onClick={() => setShowSearch(true)}>Agregar películas a la lista</button>
+                                        <button onClick={eliminarPeliculasLista}>Eliminar las películas seleccionadas</button>
+                                    </div>
+                                }
                                 {showSearch && (
                                     <div className="modal">
                                         <div id="cruzDivListasNormales" onClick={() => setShowSearch(false)}> 
                                             <FontAwesomeIcon icon={faXmark} /> 
                                         </div>
                                         <div className="modal-content">
-                                            <BuscadorPelisLista searchAbierto={cerrarSearch} idLista={idLista} anadirPeliculas={anadirPeliculasSeleccionadas} peliculasEnLista={listaPeliculas} className="buscador-pelis" />
+                                            <BuscadorPelisLista searchAbierto={cerrarSearch} idLista={idLista} anadirPeliculas={accionPeliculasSeleccionadas} peliculasEnLista={listaPeliculas} className="buscador-pelis" />
                                         </div>
                                     </div>                                    
                                 )}

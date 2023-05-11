@@ -56,16 +56,22 @@ const DetallePelicula = () => {
 
   const enviarReview = async () => {
     if (isLoggedIn) {
-      if (calificacion === "-1" && contenido === "") {
+      
+      if ((calificacion == "-1" || calificacion == "") && contenido == "") {
         alert("Tienes que rellenar al menos un campo de la reseña");
 
       } else {
+        console.log(calificacion);
+      console.log(contenido);
         const fechaActual = new Date();
         const anio = fechaActual.getFullYear();
         const mes = (fechaActual.getMonth() + 1).toString().padStart(2, "0");
         const dia = fechaActual.getDate().toString().padStart(2, "0");
         const fecha = `${anio}-${mes}-${dia}`;
-        const valoracion = parseInt(calificacion);
+        var valoracion = parseInt(calificacion);
+        if(calificacion == ""){
+          valoracion = -1;
+        }
   
         const id_usuario = userData.id;
         const id_pelicula = pelicula.id;
@@ -84,6 +90,8 @@ const DetallePelicula = () => {
           },
           body: JSON.stringify(reviewPeli),
         });
+        const dataResponse = await response.json();
+        console.log(dataResponse)
 
         setCalificacion("");
         setContenido("");

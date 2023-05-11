@@ -95,6 +95,10 @@
     align-items: center;
 }
 
+#divBotonesLista{
+    display: flex;
+}
+
 .modal-content {
     background-color: white;
     padding: 20px;
