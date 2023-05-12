@@ -48,13 +48,13 @@ function Header() {
       <div className="menu-middle">
         <ul>
           <li>
-            <Link to="/">Inicio</Link>
+            <Link to="#">Inicio</Link>
           </li>
           <li>
             <Link to="/peliculas">Peliculas</Link>
           </li>
           <li>
-            <Link to="/">Contacto</Link>
+            <Link to="#">Contacto</Link>
           </li>
           {!isLoggedIn && (
             <li className="dropdown" onClick={toggleDropdown}>
@@ -76,7 +76,7 @@ function Header() {
                 style={{ display: showDropdown ? "block" : "none" }}
               >
                 <Link className="topDropdown" to={nombre_usuario}>Ver perfil</Link>
-                <Link className="bottomDropdown" to="/" onClick={handleLogout}>
+                <Link className="bottomDropdown" to="#" onClick={handleLogout}>
                   Cerrar sesión
                 </Link>
               </div>

@@ -23,6 +23,9 @@ function Perfil() {
     const nombre_usuario = window.location.pathname.split("/")[2];
     const [showSearch, setShowSearch] = useState(false);
     const [pelisSeleccionadas, setPelisSeleccionadas] = useState([]);
+    const [verEditarLista, setVerEditarLista] = useState(false);
+    const [nombreEditarLista, setNombreEditarLista] = useState("");
+    const [publica, setPublica] = useState(false);
 
     useEffect(() => {
         const obtenerDatosUsuario = async () => {
@@ -288,9 +291,10 @@ function Perfil() {
     };
 
     useEffect(() => {
-        console.log(listaActual);
-        if(Object.keys(listaActual).length > 0){
-            verLista(listaActual);
+        if($('#infoListaNormales').is(':visible')){
+            if(Object.keys(listaActual).length > 0){
+                verLista(listaActual);
+            }
         }
     }, [listaActual]);
 
@@ -308,6 +312,33 @@ function Perfil() {
         setListas(dataListas);
     }
 
+    const editarLista = async (lista) => {
+        if(lista.nombre_lista != nombreEditarLista || lista.publica != publica){
+            const editarLista ={
+                nombre_lista: nombreEditarLista,
+                publica: publica
+            }
+
+            const response = await fetch(`http://localhost:8000/lista/${lista.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(editarLista),
+            });
+            const dataResponse = await response.json();
+            console.log(dataResponse);
+
+            const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
+            const dataListas = await responseListas.json();
+            setListas(dataListas);
+            setVerEditarLista(false);
+        }else{
+            alert("No ha modificado nada");
+            setVerEditarLista(false);
+        }
+    }
+
     if (!usuario || !reviews || !listas || !seguidores || siguiendo == null) {
         return <div></div>;
     }else{
@@ -317,8 +348,7 @@ function Perfil() {
         const listaNormal = listaNormalSinOrdenar.sort((a, b) => {
             if(a.nombre_lista > b.nombre_lista) return 1;
             else return -1;
-        })
-        console.log(listaNormal);
+        });
         const listaLikes = listaListas.filter((lista) => lista.tipo === "likes");
         return (
             <div className="perfil-container">
@@ -337,6 +367,7 @@ function Perfil() {
                             <button onClick={() => seguir(userData.id, usuario.id)}>Seguir</button>
                         }
                     </div>
+                    
                     <div className="perfil-info">
                         <table className="seg">
                             <tbody>
@@ -408,20 +439,21 @@ function Perfil() {
                                     <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
                                     <p>{lista.peliculasLista.length} películas</p>
                                     <button type="button" onClick={() => eliminarLista(lista.id)}>Eliminar lista</button>
+                                    <button type="button" onClick={() => {setListaActual(lista); setVerEditarLista(true); setNombreEditarLista(lista.nombre_lista)}}>Editar lista</button>
                                 </div>
                                 </div>
                             ) :
                             lista.publica && (
                                 <div className="lista-normal" id={lista.id} key={lista.id}>
-                                {lista.peliculasLista.length > 0 && (
-                                    <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
-                                    <img src={lista.peliculasLista[0].poster} alt="poster" />
+                                    {lista.peliculasLista.length > 0 && (
+                                        <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
+                                        <img src={lista.peliculasLista[0].poster} alt="poster" />
+                                        </div>
+                                    )}
+                                    <div className="nombreListaNormal">
+                                        <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
+                                        <p>{lista.peliculasLista.length} películas</p>
                                     </div>
-                                )}
-                                <div className="nombreListaNormal">
-                                    <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
-                                    <p>{lista.peliculasLista.length} películas</p>
-                                </div>
                                 </div>
                             )
                         ))}
@@ -439,6 +471,7 @@ function Perfil() {
                             </div>
                         ))}
                     </div>
+                    
                     <div id="infoListasNormales">
                         <div id="infoListasNormalesHijo">
                             <div id="infoListasNormalesHeader">
@@ -467,6 +500,24 @@ function Perfil() {
                             </div>
                         </div>
                     </div>
+                    {verEditarLista && (
+                        <div className="modal">
+                            <div id="cruzDivListasNormales" onClick={() => setVerEditarLista(false)}> 
+                                <FontAwesomeIcon icon={faXmark} /> 
+                            </div>
+                            <div className="modal-content">
+                                <label htmlFor="nombreLista">Nombre de la lista: </label>
+                                <input type="text" value={nombreEditarLista} onChange={(e) => setNombreEditarLista(e.target.value)} />
+                                <br /><br />
+                                <label htmlFor="privacidad">Privacidad de la lista</label>
+                                <select id="privacidad" name="privacidad" onChange={(e) => setPublica(e.target.value === 'publica')}>
+                                    <option value="publica" selected={listaActual.publica}>Pública</option>
+                                    <option value="privada" selected={!listaActual.publica}>Privada</option>
+                                </select>
+                                <button type="submit" onClick={() => editarLista(listaActual)}>Actualizar lista</button>
+                            </div>
+                        </div>                                    
+                    )}
                 </div>
             </div>
 
