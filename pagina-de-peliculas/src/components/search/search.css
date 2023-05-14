@@ -76,6 +76,10 @@ body{
     margin: 0 !important;
     padding: 0 !important;
 }
+.nombre-carta-buscador:hover{
+    color: #40BCF4;
+    cursor: pointer;
+}
 .info-usuario-buscador{
     display: flex;
     flex-direction: column;
@@ -110,7 +114,6 @@ body{
 #divBotonesSearch button:hover{
     color: #40BCF4;
 }
-#boton-todo-search{
-    color: #40BCF4 !important;
-    border: 1px solid #40BCF4 !important;    
+#select-tipo-buscador{
+    display: none;
 }

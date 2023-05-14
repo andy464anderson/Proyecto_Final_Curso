@@ -5,10 +5,12 @@ import { HeaderContext } from '../header/headerContext';
 import CartaBucador from './carta_buscador';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import $ from 'jquery';
+import { useNavigate } from "react-router-dom";
 
 
 const Search = () => {
-
+    const navigate = useNavigate();
 
     
 /*     promesaUsuarios.then(function(usuarios) {
@@ -24,14 +26,26 @@ const Search = () => {
     const [pelisFiltradas, setPelisFiltradas] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [listaUsuarios, setUsuarios] = useState([]);
-    function mostrarTodo(){
-        alert("todo3");
+
+    function cambiarResultados(tipo){
+        $("#select-tipo-buscador").val(tipo);
+        var botones = ["todo", "pelis", "users"];
+        botones.forEach(boton => {
+            $("#boton-"+boton+"-search").css({
+                "background": "#14181C",
+                "color": "#8595A3",
+                "border": "1px solid #14181C"
+            })
+        });
+        $("#boton-"+tipo+"-search").css({
+            "color": "#40BCF4",
+            "border": "1px solid #40BCF4"
+        })
+        buscarPeliculas();
     }
-    function mostrarPelis(){
-        alert("pelis2");
-    }
-    function mostrarUsers(){
-        alert("users1");
+    function navegarPerfil(usuario){
+        alert(usuario);
+        navigate(`/perfil/${usuario}`);
     }
     const buscarPeliculas = () => {
         
@@ -44,16 +58,21 @@ const Search = () => {
 /*         console.log(pelisFiltradas1);
         console.log(usuariosFiltrados); */
         var listaFiltrada = [...usuariosFiltrados, ...pelisFiltradas1];
-        if(textoBuscador == ""){
-            listaFiltrada=[];
-        }
+
         listaFiltrada.sort((a, b) => {
             if ('title' in a && 'title' in b) {
               return a.title.localeCompare(b.title);
             } else if ('nombre_usuario' in a && 'nombre_usuario' in b) {
               return a.nombre_usuario.localeCompare(b.nombre_usuario);
             }
-          });
+        });
+        var valorSelect = $("#select-tipo-buscador").val();
+        if(valorSelect === "pelis"){
+            listaFiltrada = listaFiltrada.filter(lista => 'title' in lista);
+        }
+        if(valorSelect === "users"){
+            listaFiltrada = listaFiltrada.filter(lista => 'nombre_usuario' in lista);
+        }
         /* listaFiltrada = listaFiltrada.sort((a, b)=>{
             if(a.title < b.title) return -1;
             else return 1;
@@ -103,7 +122,7 @@ const Search = () => {
                                 <div className="carta-usuario-buscador">
                                     <div><img src="sinFoto.png" alt="fotousuario" className="imagen-pelicula-buscador imagen-usuario-buscador" /></div>
                                     <div className="info-usuario-buscador">
-                                        <p><strong className="titulo-carta-buscador nombre-carta-buscador">{pelicula.nombre_usuario}</strong></p>
+                                        <p><strong className="titulo-carta-buscador nombre-carta-buscador" onClick={() => navegarPerfil(pelicula.nombre_usuario)}>{pelicula.nombre_usuario}</strong></p>
                                         <p className="sinopsis-carta-buscador">{pelicula.nombre_completo}</p>
                                     </div>
                                 </div>
@@ -112,9 +131,14 @@ const Search = () => {
                     })}
                 </div>
                 <div id="divBotonesSearch">
-                    <button onClick={mostrarTodo} id='boton-todo-search'>Todo</button>
-                    <button onClick={mostrarPelis} id='boton-pelis-search'>Películas</button>
-                    <button onClick={mostrarUsers} id='boton-users-search'>Usuarios</button>
+                    <button onClick={() => cambiarResultados("todo")} id='boton-todo-search'>Todo</button>
+                    <button onClick={() => cambiarResultados("pelis")} id='boton-pelis-search'>Películas</button>
+                    <button onClick={() => cambiarResultados("users")} id='boton-users-search'>Usuarios</button>
+                    <select id='select-tipo-buscador' onChange={buscarPeliculas}>
+                        <option value={"value"}>todo</option>
+                        <option value={"pelis"}>pelis</option>
+                        <option value={"users"}>users</option>
+                    </select>
                 </div>
             </div>
         );
