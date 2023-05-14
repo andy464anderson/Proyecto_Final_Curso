@@ -61,3 +61,56 @@ body{
     font-style: italic;
     font-size: 31px;
 }
+.carta-usuario-buscador{
+    display: flex;
+    border-bottom: 1px solid #8595A3;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+}
+.imagen-usuario-buscador{
+    width: 100px !important; 
+    border-radius: 50% !important;
+}
+.nombre-carta-buscador{
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.info-usuario-buscador{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.info-usuario-buscador{
+    margin: 0;
+}
+#divCentralSearch{
+    width: 1000px;
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+#divBotonesSearch{
+    width: 40%;
+    display: flex;
+    flex-direction: column;    
+    padding: 10px;
+}
+#divBotonesSearch button{
+    width: 100%;
+    margin: 3px;
+    text-align: left;
+    padding: 5px;
+    background: #14181C;
+    color: #8595A3;
+    border: 1px solid #14181C;
+    border-radius: 2px;
+    transition: 0.2s;
+}
+#divBotonesSearch button:hover{
+    color: #40BCF4;
+}
+#boton-todo-search{
+    color: #40BCF4 !important;
+    border: 1px solid #40BCF4 !important;    
+}

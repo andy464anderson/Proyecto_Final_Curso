@@ -10,6 +10,58 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 const Search = () => {
 
 
+    
+/*     promesaUsuarios.then(function(usuarios) {
+        
+        var arregloUsuarios = usuarios;
+        
+        for (var i = 0; i < arregloUsuarios.length; i++) {
+          console.log(arregloUsuarios[i].nombre_usuario);
+        }
+    }); */
+    const {movieData} = useContext(HeaderContext);
+
+    const [pelisFiltradas, setPelisFiltradas] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [listaUsuarios, setUsuarios] = useState([]);
+    function mostrarTodo(){
+        alert("todo3");
+    }
+    function mostrarPelis(){
+        alert("pelis2");
+    }
+    function mostrarUsers(){
+        alert("users1");
+    }
+    const buscarPeliculas = () => {
+        
+
+        
+     
+        var textoBuscador=document.getElementById("buscador").value.toLowerCase();
+        var pelisFiltradas1 = movieData.filter((peli)=>peli.title.toLowerCase().includes(textoBuscador));
+        var usuariosFiltrados = listaUsuarios.filter((user)=>user.nombre_usuario.toLowerCase().includes(textoBuscador));
+/*         console.log(pelisFiltradas1);
+        console.log(usuariosFiltrados); */
+        var listaFiltrada = [...usuariosFiltrados, ...pelisFiltradas1];
+        if(textoBuscador == ""){
+            listaFiltrada=[];
+        }
+        listaFiltrada.sort((a, b) => {
+            if ('title' in a && 'title' in b) {
+              return a.title.localeCompare(b.title);
+            } else if ('nombre_usuario' in a && 'nombre_usuario' in b) {
+              return a.nombre_usuario.localeCompare(b.nombre_usuario);
+            }
+          });
+        /* listaFiltrada = listaFiltrada.sort((a, b)=>{
+            if(a.title < b.title) return -1;
+            else return 1;
+        }); */
+        console.log(listaFiltrada);
+        setPelisFiltradas(listaFiltrada);
+        setCurrentPage(1);
+    }
     useEffect(() => {
         const obtenerDatosUsuario = async () => {
             const responseUsuario = await fetch(`http://localhost:8000/usuarios`, {
@@ -24,54 +76,46 @@ const Search = () => {
         };
         var promesaUsuarios = obtenerDatosUsuario();
         promesaUsuarios.then((data) => {
-            console.log(data);
+            setUsuarios(data);
+            
         }).catch((error) => {
             console.error(error);
         });
     }
-    ,[])
-/*     promesaUsuarios.then(function(usuarios) {
-        
-        var arregloUsuarios = usuarios;
-        
-        for (var i = 0; i < arregloUsuarios.length; i++) {
-          console.log(arregloUsuarios[i].nombre_usuario);
-        }
-    }); */
-    const {movieData} = useContext(HeaderContext);
-
-    const [pelisFiltradas, setPelisFiltradas] = useState([]);
-    const [currentPage, setCurrentPage] = useState(1);
-
-    const buscarPeliculas = () => {
-        var textoBuscador=document.getElementById("buscador").value.toLowerCase();
-        var listaFiltrada = movieData.filter((peli)=>peli.title.toLowerCase().includes(textoBuscador));
-        var listaFiltradaUsuarios;
-        if(textoBuscador == ""){
-            listaFiltrada=[];
-        }
-        listaFiltrada = listaFiltrada.sort((a, b)=>{
-            if(a.title < b.title) return -1;
-            else return 1;
-        });
-        setPelisFiltradas(listaFiltrada);
-        setCurrentPage(1);
-    }
-
+    ,[]);
     const pintarPeliculas = () => {
-        const startIndex = (currentPage - 1) * 10;
-        const endIndex = startIndex + 10;
-        const pagePelis = pelisFiltradas.slice(startIndex, endIndex);
-
+        const startIndex = (currentPage - 1) * 6;
+        const endIndex = startIndex + 6;
+        const pagePelis = pelisFiltradas.slice(startIndex, endIndex);   
+        console.log(pagePelis);
         return (
-            <div className="peliculas-buscador">
-                {pagePelis.map((pelicula) => (
-                    <React.Fragment key={pelicula.id}>
-                        {pelicula.poster && /^http/.test(pelicula.poster) && (
-                            <CartaBucador pelicula={pelicula} />
-                        )}
-                    </React.Fragment>
-                ))}
+            <div id="divCentralSearch">
+                <div className="peliculas-buscador">
+                    {pagePelis.map((pelicula) => {
+                        if ('title' in pelicula && pelicula.poster && /^http/.test(pelicula.poster)) {
+                            return (
+                            <React.Fragment key={pelicula.id}>
+                                <CartaBucador pelicula={pelicula} />
+                            </React.Fragment>
+                            );
+                        } if ('nombre_usuario' in pelicula) {
+                            return (
+                                <div className="carta-usuario-buscador">
+                                    <div><img src="sinFoto.png" alt="fotousuario" className="imagen-pelicula-buscador imagen-usuario-buscador" /></div>
+                                    <div className="info-usuario-buscador">
+                                        <p><strong className="titulo-carta-buscador nombre-carta-buscador">{pelicula.nombre_usuario}</strong></p>
+                                        <p className="sinopsis-carta-buscador">{pelicula.nombre_completo}</p>
+                                    </div>
+                                </div>
+                            )
+                        }
+                    })}
+                </div>
+                <div id="divBotonesSearch">
+                    <button onClick={mostrarTodo} id='boton-todo-search'>Todo</button>
+                    <button onClick={mostrarPelis} id='boton-pelis-search'>Películas</button>
+                    <button onClick={mostrarUsers} id='boton-users-search'>Usuarios</button>
+                </div>
             </div>
         );
     }
