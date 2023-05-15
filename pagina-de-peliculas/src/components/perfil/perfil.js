@@ -24,7 +24,9 @@ function Perfil() {
     const [showSearch, setShowSearch] = useState(false);
     const [pelisSeleccionadas, setPelisSeleccionadas] = useState([]);
     const [verEditarLista, setVerEditarLista] = useState(false);
+    const [verCrearLista, setVerCrearLista] = useState(false);
     const [nombreEditarLista, setNombreEditarLista] = useState("");
+    const [nombreCrearLista, setNombreCrearLista] = useState("");
     const [publica, setPublica] = useState(false);
 
     useEffect(() => {
@@ -291,10 +293,8 @@ function Perfil() {
     };
 
     useEffect(() => {
-        if($('#infoListaNormales').is(':visible')){
-            if(Object.keys(listaActual).length > 0){
-                verLista(listaActual);
-            }
+        if(Object.keys(listaActual).length > 0 && $("#infoListasNormales").is(":visible")){
+            verLista(listaActual);
         }
     }, [listaActual]);
 
@@ -336,6 +336,36 @@ function Perfil() {
         }else{
             alert("No ha modificado nada");
             setVerEditarLista(false);
+        }
+    }
+
+    const crearLista = async () => {
+        if(nombreCrearLista != ""){
+            const lista ={
+                id: 0,
+                tipo: "normal",
+                nombre_lista: nombreCrearLista,
+                usuario_id: userData.id,
+                publica: publica,
+                peliculas: []
+            }
+
+            const response = await fetch(`http://localhost:8000/lista`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(lista),
+            });
+            const dataResponse = await response.json();
+            console.log(dataResponse);
+
+            const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
+            const dataListas = await responseListas.json();
+            setListas(dataListas);
+            setVerCrearLista(false);
+        }else{
+            alert("El nombre no puede estar vacío");
         }
     }
 
@@ -427,6 +457,7 @@ function Perfil() {
                         ))}
                     </div>
                     <div className="listas-normales">
+                        <button type="button" onClick={() => {setVerCrearLista(true)}}>Crear nueva lista</button>
                         {listaNormal.map((lista) => (
                             (usuario.id === userData.id) ? (
                                 <div className="lista-normal" id={lista.id} key={lista.id}>
@@ -510,11 +541,29 @@ function Perfil() {
                                 <input type="text" value={nombreEditarLista} onChange={(e) => setNombreEditarLista(e.target.value)} />
                                 <br /><br />
                                 <label htmlFor="privacidad">Privacidad de la lista</label>
-                                <select id="privacidad" name="privacidad" onChange={(e) => setPublica(e.target.value === 'publica')}>
-                                    <option value="publica" selected={listaActual.publica}>Pública</option>
-                                    <option value="privada" selected={!listaActual.publica}>Privada</option>
+                                <select id="privacidad" name="privacidad" onChange={(e) => setPublica(e.target.value === 'publica')} defaultValue={listaActual.publica ? "publica" : "privada"}>
+                                    <option value="publica">Pública</option>
+                                    <option value="privada">Privada</option>
                                 </select>
                                 <button type="submit" onClick={() => editarLista(listaActual)}>Actualizar lista</button>
+                            </div>
+                        </div>                                    
+                    )}
+                    {verCrearLista && (
+                        <div className="modal">
+                            <div id="cruzDivListasNormales" onClick={() => setVerCrearLista(false)}> 
+                                <FontAwesomeIcon icon={faXmark} /> 
+                            </div>
+                            <div className="modal-content">
+                                <label htmlFor="nombreLista">Nombre de la lista: </label>
+                                <input type="text" value={nombreCrearLista} onChange={(e) => setNombreCrearLista(e.target.value)} />
+                                <br /><br />
+                                <label htmlFor="privacidad">Privacidad de la lista</label>
+                                <select id="privacidad" name="privacidad" onChange={(e) => setPublica(e.target.value === 'publica')}>
+                                    <option value="publica">Pública</option>
+                                    <option value="privada">Privada</option>
+                                </select>
+                                <button type="submit" onClick={() => crearLista()}>Crear lista</button>
                             </div>
                         </div>                                    
                     )}
