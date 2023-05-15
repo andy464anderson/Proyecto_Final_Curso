@@ -5,6 +5,8 @@ import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useContext } from "react";
 import { HeaderContext } from "../header/headerContext";
+import { faCircleXmark, faStar } from '@fortawesome/free-solid-svg-icons';
+import $ from 'jquery';
 
 const DetallePelicula = () => {
   const navigate = useNavigate();
@@ -54,6 +56,46 @@ const DetallePelicula = () => {
     navigate(`/perfil/${nombreUsuario}`);
   }
 
+  const calificar = (nota) => {
+    $("#calificacion").val(nota);
+    var notas = [1,2,3,4,5];
+    var color = [];
+    var noColor = [];
+    notas.forEach(numero => {
+      if (numero > nota) {
+        noColor.push(numero);
+      }else{
+        color.push(numero);
+      }
+    });
+    color.forEach(estrella => {
+      $("#"+estrella+"estrella").css({
+        "color": "blue"
+      })
+    });
+    noColor.forEach(estrella => {
+      $("#"+estrella+"estrella").css({
+        "color": "black"
+      })
+    });
+  }
+  const toggleCastYReviews = (tipo) => {
+    if(tipo === "cast"){
+      $("#castDetalle").css({
+        "display": "block"
+      });
+      $("#reviewsDetalle").css({
+        "display": "none"
+      });
+    }else{
+      $("#castDetalle").css({
+        "display": "none"
+      });
+      $("#reviewsDetalle").css({
+        "display": "block"
+      });
+    }
+  }
   const enviarReview = async () => {
     if (isLoggedIn) {
       
@@ -107,6 +149,12 @@ const DetallePelicula = () => {
     }
   };
 
+  const [visibleReviews, setVisibleReviews] = useState(5); // Estado para realizar un seguimiento de las reseñas visibles
+
+  const mostrarMasResenas = () => {
+    setVisibleReviews((prevVisibleReviews) => prevVisibleReviews + 5);
+  };
+
   const eliminarReview = async (reviewId) => {
     const eliminar = await fetch(`http://localhost:8000/review/${reviewId}`, {
       method: "DELETE"
@@ -150,30 +198,8 @@ const DetallePelicula = () => {
               Enlace a IMBD <FontAwesomeIcon icon={faArrowUpRightFromSquare} style={{color: "#1b2d4b",}} />
             </a>
           </div>
-          <button className="descargar">
-            Descargar <i className="bi bi-download"></i>
-          </button>
         </div>
-
-        <div className="cast detalle-pelicula">
-          <h3>
-            <i className="bi bi-people"></i>
-            Casts
-          </h3>
-          <div className="cast-list">
-            {cast.map((actor) => (
-              <button key={actor.id}>{actor.name}</button>
-            ))}
-          </div>
-        </div>
-
-        <div className="recomendaciones detalle-pelicula">
-          <h3>
-            <i className="bi bi-people-fill"></i> Reseñas
-          </h3>
-
-          <div className="resenas">
-            <div className="resena-form">
+        <div className="resena-form">
               <h4>Deja tu reseña para "{pelicula.title}"</h4>
 
               <label htmlFor="calificacion">Calificación</label>
@@ -185,33 +211,90 @@ const DetallePelicula = () => {
                 <option value="2">Regular</option>
                 <option value="1">Mala</option>
               </select>
-
+              <div id="estrellas">
+                <FontAwesomeIcon onClick={() => calificar(1)} className="iconoCalificacion" id="1estrella" icon={faStar} />
+                <FontAwesomeIcon onClick={() => calificar(2)} className="iconoCalificacion" id="2estrella" icon={faStar} />
+                <FontAwesomeIcon onClick={() => calificar(3)} className="iconoCalificacion" id="3estrella" icon={faStar} />
+                <FontAwesomeIcon onClick={() => calificar(4)} className="iconoCalificacion" id="4estrella" icon={faStar} />
+                <FontAwesomeIcon onClick={() => calificar(5)} className="iconoCalificacion" id="5estrella" icon={faStar} />
+                <FontAwesomeIcon onClick={() => calificar(-1)} className="iconoCalificacion" id="-1estrella" icon={faCircleXmark} />
+              </div>
               <label htmlFor="comentario">Comentario</label>
               <textarea id="comentario" name="comentario" value={contenido} onChange={(e) => setContenido(e.target.value)} required></textarea>
 
               <button type="submit" id="enviarReview" onClick={enviarReview}>Enviar reseña</button>
-            </div>
+            </div>     
+        <div id="castYReviews">
+          <div id="botonesCastYReviews">
+            <button onClick={() => toggleCastYReviews("cast")}>Reparto</button>
+            <button onClick={() => toggleCastYReviews("reviews")}>Reseñas</button>
+          </div>
+          <div id="castDetalle">
+            <div className="cast-list">
+              <table>
+                <tr>
+                  <th>
+                    Actor
+                  </th>
+                  <th>
+                    Personaje
+                  </th>
+                </tr>
+                {cast.map((actor) => (
+                  <tr>
+                    <td key={actor.id}>{actor.name}</td>
+                    <td>{actor.character}</td>
+                  </tr>
+                  
+                ))}
+              </table>
 
-            <div className="resena-list">
-              <h4>Reseñas ({reviews.length})</h4>
-              <hr />
-              {reviews.map((review) => (
-                <div className="divReview" key={review.id} id={review.id}>
-                    <div className="divUsuarioReview" onClick={()=>verUsuario(review.nombre_usuario)}><strong>{review.nombre_usuario}</strong></div>
-                    <div>{review.fecha}</div>
-                    <div>{review.contenido}</div>
-                    {review.valoracion !== -1 ? (
-                      <div>Valoración: {review.valoracion}/10</div>
-                    ) : null}
-                    {review.id_usuario === userData.id && (
-                      <button onClick={() => eliminarReview(review.id)}>Eliminar reseña</button>
-                    )}                  
-                    <hr />
-                </div>
-              ))}
             </div>
           </div>
-        </div>
+
+          <div id="reviewsDetalle">
+            <div id="subReviewsDetalle">
+              <div id="opcionesReviews">
+                <p>¿De quién quieres ver las reseñas?</p>
+                <button>General</button>
+                <button>Amigos</button>
+                <button>Tú</button>
+              </div>
+              <div id="resenas">
+                <div className="resena-list">
+                  <h4>Reseñas ({reviews.length})</h4>
+                  <hr />
+                  {reviews.slice(0, visibleReviews).map((review) => (
+                    <div className="divReview" key={review.id} id={review.id}>
+                      <div
+                        className="divUsuarioReview"
+                        onClick={() => verUsuario(review.nombre_usuario)}
+                      >
+                        <strong>{review.nombre_usuario}</strong>
+                      </div>
+                      <div>{review.fecha}</div>
+                      <div>{review.contenido}</div>
+                      {review.valoracion !== -1 ? (
+                        <div>Valoración: {review.valoracion}/10</div>
+                      ) : null}
+                      {review.id_usuario === userData.id && (
+                        <button onClick={() => eliminarReview(review.id)}>
+                          Eliminar reseña
+                        </button>
+                      )}
+                      <hr />
+                    </div>
+                  ))}
+                </div>
+                {visibleReviews < reviews.length && (
+                  <button onClick={mostrarMasResenas}>Ver más reseñas</button>
+                )}
+              </div>
+            </div>
+
+          </div>
+        </div>   
+
       </div>
     );  
   }
