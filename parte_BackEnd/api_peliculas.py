@@ -16,6 +16,7 @@ from pyspark.sql.functions import *
 from typing import List
 import ast
 import json
+import imdb
 
 
 # creamos la clase Pelicula
@@ -64,7 +65,7 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -125,6 +126,35 @@ async def get_peliculas_fecha(fecha: str):
     #devolvemos las peliculas en formato json
     return df2.toJSON().collect()
 
+#-----------------------------------------------------------------------------
+# creamos una conexion con la api de actores para sacar las imágenes de IMDB
+
+class ActorRequest(BaseModel):
+    nombre: str
+
+class ActorResponse(BaseModel):
+    imageUrl: str
+
+@app.post('/api/buscarImagenActor', response_model=ActorResponse)
+def buscar_imagen_actor(request: ActorRequest):
+    nombre_actor = request.nombre
+    
+    try:
+        ia = imdb.IMDb()
+        personas = ia.search_person(nombre_actor)
+        
+        if personas:
+            primera_persona = personas[0]
+            ia.update(primera_persona, info=['main'])
+            if 'headshot' in primera_persona.keys():
+                imagen = primera_persona['headshot']
+                return ActorResponse(imageUrl=imagen)
+        
+        return ActorResponse(imageUrl=None)
+    
+    except Exception as e:
+        print("Error al buscar la imagen del actor:", str(e))
+        return ActorResponse(imageUrl=None)
 
 #-------------------------------------------------------------------------------
 # creamos al api para los usuarios

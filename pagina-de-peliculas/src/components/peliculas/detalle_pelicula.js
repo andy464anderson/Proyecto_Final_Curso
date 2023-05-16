@@ -2,7 +2,7 @@ import "./detalle_pelicula.css";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUpRightFromSquare } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from "react-router-dom";
+import { useAsyncError, useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useContext } from "react";
 import { HeaderContext } from "../header/headerContext";
 import { faCircleXmark, faStar } from '@fortawesome/free-solid-svg-icons';
@@ -10,14 +10,15 @@ import $ from 'jquery';
 
 const DetallePelicula = () => {
   const navigate = useNavigate();
-  const id = window.location.pathname.split("/")[2];  
+  const id = window.location.pathname.split("/")[2];
   const [pelicula, setPelicula] = useState({});
   const [genres, setGenres] = useState(
     '[{"id": 28, "name": "Action"}, {"id": 12, "name": "Adventure"}, {"id": 35, "name": "Comedy"}, {"id": 53, "name": "Thriller"}]'
   );
-  const [cast, setCast] = useState([{"id":"1"}]);
-  const parsedGenres = JSON.parse(genres);  
+  const [cast, setCast] = useState([{ "id": "1" }]);
+  const parsedGenres = JSON.parse(genres);
   const [reviews, setReviews] = useState([]);
+  const [listaReviewsFiltrada, setListaReviewsFiltrada] = useState([]);
   const [calificacion, setCalificacion] = useState("");
   const [contenido, setContenido] = useState("");
   const { isLoggedIn, userData } = useContext(HeaderContext);
@@ -37,17 +38,25 @@ const DetallePelicula = () => {
       genres = genres.replace(/'/g, '"');
 
       var cast = pelicula[0].cast;
-      
+
       cast = cast.replace(/'/g, '"');
       cast = cast.replace(/None/g, '""');
       cast = JSON.parse(cast);
 
+      const castConImagenes = await Promise.all(
+        cast.map(async (actor) => {
+          const imageUrl = await buscarImagenActor(actor.name);
+          return { ...actor, imageUrl };
+        })
+      );
+
       setGenres(genres);
-      setCast(cast);
+      setCast(castConImagenes);
 
       const responseReviews = await fetch(`http://localhost:8000/reviews/${id}`);
       const dataReviews = await responseReviews.json();
       setReviews(dataReviews);
+      setListaReviewsFiltrada(reviews);
     };
     obtenerPelicula();
   }, []);
@@ -57,37 +66,38 @@ const DetallePelicula = () => {
   }
 
   const calificar = (nota) => {
+    setCalificacion(nota.toString());
     $("#calificacion").val(nota);
-    var notas = [1,2,3,4,5];
+    var notas = [1, 2, 3, 4, 5];
     var color = [];
     var noColor = [];
     notas.forEach(numero => {
       if (numero > nota) {
         noColor.push(numero);
-      }else{
+      } else {
         color.push(numero);
       }
     });
     color.forEach(estrella => {
-      $("#"+estrella+"estrella").css({
+      $("#" + estrella + "estrella").css({
         "color": "blue"
       })
     });
     noColor.forEach(estrella => {
-      $("#"+estrella+"estrella").css({
+      $("#" + estrella + "estrella").css({
         "color": "black"
       })
     });
   }
   const toggleCastYReviews = (tipo) => {
-    if(tipo === "cast"){
+    if (tipo === "cast") {
       $("#castDetalle").css({
         "display": "block"
       });
       $("#reviewsDetalle").css({
         "display": "none"
       });
-    }else{
+    } else {
       $("#castDetalle").css({
         "display": "none"
       });
@@ -98,23 +108,21 @@ const DetallePelicula = () => {
   }
   const enviarReview = async () => {
     if (isLoggedIn) {
-      
+
       if ((calificacion == "-1" || calificacion == "") && contenido == "") {
         alert("Tienes que rellenar al menos un campo de la reseña");
 
       } else {
-        console.log(calificacion);
-      console.log(contenido);
         const fechaActual = new Date();
         const anio = fechaActual.getFullYear();
         const mes = (fechaActual.getMonth() + 1).toString().padStart(2, "0");
         const dia = fechaActual.getDate().toString().padStart(2, "0");
         const fecha = `${anio}-${mes}-${dia}`;
         var valoracion = parseInt(calificacion);
-        if(calificacion == ""){
+        if (calificacion == "") {
           valoracion = -1;
         }
-  
+
         const id_usuario = userData.id;
         const id_pelicula = pelicula.id;
         const reviewPeli = {
@@ -133,7 +141,7 @@ const DetallePelicula = () => {
           body: JSON.stringify(reviewPeli),
         });
         const dataResponse = await response.json();
-        console.log(dataResponse)
+        console.log(dataResponse);
 
         setCalificacion("");
         setContenido("");
@@ -148,6 +156,32 @@ const DetallePelicula = () => {
       alert("No puedes realizar esta acción si no has iniciado sesión");
     }
   };
+
+  const buscarImagenActor = async (nombreActor) => {
+    try {
+      const response = await fetch('http://localhost:8000/api/buscarImagenActor', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ nombre: nombreActor }),
+      });
+
+      const data = await response.json();
+      const imageUrl = data.imageUrl;
+      return imageUrl;
+    } catch (error) {
+      console.error('Error al buscar la imagen del actor:', error);
+      return null;
+    }
+  };
+
+
+
+
+
+
+
 
   const [visibleReviews, setVisibleReviews] = useState(5); // Estado para realizar un seguimiento de las reseñas visibles
 
@@ -166,13 +200,25 @@ const DetallePelicula = () => {
     const dataReviews = await responseReviews.json();
     setReviews(dataReviews);
   };
-  
-  
 
-  if(!pelicula || !reviews){
+  const seleccionarOpcionReview = async (opcion) => {
+    var listaFiltrada = [];
+    if (opcion == "general") {
+      setListaReviewsFiltrada(reviews);
+    } else if (opcion == "amigos") {
+
+    } else {
+      listaFiltrada = reviews.filter(review => review.id_usuario == userData.id);
+      setListaReviewsFiltrada(listaFiltrada);
+    }
+  }
+
+
+
+  if (!pelicula || !reviews || !listaReviewsFiltrada) {
     return <div></div>
-  } 
-  else{
+  }
+  else {
     return (
       <div className="container">
         <div className="detalle-pelicula">
@@ -195,35 +241,27 @@ const DetallePelicula = () => {
             </p>
             <p>{pelicula.overview}</p>
             <a target="_blank" href={`https://www.imdb.com/title/${pelicula.imdb_id}`}>
-              Enlace a IMBD <FontAwesomeIcon icon={faArrowUpRightFromSquare} style={{color: "#1b2d4b",}} />
+              Enlace a IMBD <FontAwesomeIcon icon={faArrowUpRightFromSquare} style={{ color: "#1b2d4b", }} />
             </a>
           </div>
         </div>
         <div className="resena-form">
-              <h4>Deja tu reseña para "{pelicula.title}"</h4>
+          <h4>Deja tu reseña para "{pelicula.title}"</h4>
 
-              <label htmlFor="calificacion">Calificación</label>
-              <select id="calificacion" name="calificacion" value={calificacion} onChange={(e) => setCalificacion(e.target.value)} required>
-                <option value="-1">Selecciona una opción</option>
-                <option value="5">Excelente</option>
-                <option value="4">Muy buena</option>
-                <option value="3">Buena</option>
-                <option value="2">Regular</option>
-                <option value="1">Mala</option>
-              </select>
-              <div id="estrellas">
-                <FontAwesomeIcon onClick={() => calificar(1)} className="iconoCalificacion" id="1estrella" icon={faStar} />
-                <FontAwesomeIcon onClick={() => calificar(2)} className="iconoCalificacion" id="2estrella" icon={faStar} />
-                <FontAwesomeIcon onClick={() => calificar(3)} className="iconoCalificacion" id="3estrella" icon={faStar} />
-                <FontAwesomeIcon onClick={() => calificar(4)} className="iconoCalificacion" id="4estrella" icon={faStar} />
-                <FontAwesomeIcon onClick={() => calificar(5)} className="iconoCalificacion" id="5estrella" icon={faStar} />
-                <FontAwesomeIcon onClick={() => calificar(-1)} className="iconoCalificacion" id="-1estrella" icon={faCircleXmark} />
-              </div>
-              <label htmlFor="comentario">Comentario</label>
-              <textarea id="comentario" name="comentario" value={contenido} onChange={(e) => setContenido(e.target.value)} required></textarea>
+          <label>Calificación</label>
+          <div id="estrellas">
+            <FontAwesomeIcon onClick={() => calificar(1)} className="iconoCalificacion" id="1estrella" icon={faStar} />
+            <FontAwesomeIcon onClick={() => calificar(2)} className="iconoCalificacion" id="2estrella" icon={faStar} />
+            <FontAwesomeIcon onClick={() => calificar(3)} className="iconoCalificacion" id="3estrella" icon={faStar} />
+            <FontAwesomeIcon onClick={() => calificar(4)} className="iconoCalificacion" id="4estrella" icon={faStar} />
+            <FontAwesomeIcon onClick={() => calificar(5)} className="iconoCalificacion" id="5estrella" icon={faStar} />
+            <FontAwesomeIcon onClick={() => calificar(-1)} className="iconoCalificacion" id="-1estrella" icon={faCircleXmark} />
+          </div>
+          <label htmlFor="comentario">Comentario</label>
+          <textarea id="comentario" name="comentario" value={contenido} onChange={(e) => setContenido(e.target.value)} required></textarea>
 
-              <button type="submit" id="enviarReview" onClick={enviarReview}>Enviar reseña</button>
-            </div>     
+          <button type="submit" id="enviarReview" onClick={enviarReview}>Enviar reseña</button>
+        </div>
         <div id="castYReviews">
           <div id="botonesCastYReviews">
             <button onClick={() => toggleCastYReviews("cast")}>Reparto</button>
@@ -232,21 +270,25 @@ const DetallePelicula = () => {
           <div id="castDetalle">
             <div className="cast-list">
               <table>
-                <tr>
-                  <th>
-                    Actor
-                  </th>
-                  <th>
-                    Personaje
-                  </th>
-                </tr>
-                {cast.map((actor) => (
+                <tbody>
                   <tr>
-                    <td key={actor.id}>{actor.name}</td>
-                    <td>{actor.character}</td>
+                    <th>
+                      Actor
+                    </th>
+                    <th>
+                      Personaje
+                    </th>
                   </tr>
-                  
-                ))}
+                  {cast.map((actor) => (
+                    <tr key={actor.id}>
+                      <td>
+                        {actor.imageUrl && <img width={100} height={100} src={actor.imageUrl} alt={actor.name} />}
+                      </td>
+                      <td>{actor.name}</td>
+                      <td>{actor.character}</td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
 
             </div>
@@ -256,15 +298,15 @@ const DetallePelicula = () => {
             <div id="subReviewsDetalle">
               <div id="opcionesReviews">
                 <p>¿De quién quieres ver las reseñas?</p>
-                <button>General</button>
-                <button>Amigos</button>
-                <button>Tú</button>
+                <button onClick={() => seleccionarOpcionReview("general")}>General</button>
+                <button onClick={() => seleccionarOpcionReview("amigos")}>Amigos</button>
+                <button onClick={() => seleccionarOpcionReview("tu")}>Tú</button>
               </div>
               <div id="resenas">
                 <div className="resena-list">
-                  <h4>Reseñas ({reviews.length})</h4>
+                  <h4>Reseñas ({listaReviewsFiltrada.length})</h4>
                   <hr />
-                  {reviews.slice(0, visibleReviews).map((review) => (
+                  {listaReviewsFiltrada.slice(0, visibleReviews).map((review) => (
                     <div className="divReview" key={review.id} id={review.id}>
                       <div
                         className="divUsuarioReview"
@@ -293,10 +335,10 @@ const DetallePelicula = () => {
             </div>
 
           </div>
-        </div>   
+        </div>
 
       </div>
-    );  
+    );
   }
 };
 
