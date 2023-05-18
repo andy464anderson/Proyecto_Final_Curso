@@ -56,7 +56,7 @@ const DetallePelicula = () => {
       const responseReviews = await fetch(`http://localhost:8000/reviews/${id}`);
       const dataReviews = await responseReviews.json();
       setReviews(dataReviews);
-      setListaReviewsFiltrada(reviews);
+      setListaReviewsFiltrada(dataReviews);
     };
     obtenerPelicula();
   }, []);
@@ -205,7 +205,14 @@ const DetallePelicula = () => {
     var listaFiltrada = [];
     if (opcion == "general") {
       setListaReviewsFiltrada(reviews);
+
     } else if (opcion == "amigos") {
+      const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${userData.id}`);
+      const dataSeguidos = await responseSeguidos.json();
+      listaFiltrada = reviews.filter(review => {
+        return dataSeguidos.some(seguido => seguido.id_usuario_seguido === review.id_usuario);
+      });
+      setListaReviewsFiltrada(listaFiltrada);
 
     } else {
       listaFiltrada = reviews.filter(review => review.id_usuario == userData.id);
