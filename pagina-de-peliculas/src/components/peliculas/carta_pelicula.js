@@ -3,16 +3,16 @@ import "./carta_pelicula.css";
 import { Link, useNavigate } from "react-router-dom";
 
 const CartaPelicula = ({ pelicula }) => {
-    
+
   const navigate = useNavigate()
 
 
-    const detallePelicula = (e) => {
-      console.log(e.target.value);
-       navigate(`/detalle/${e.target.value}`);
-    }
-    
-    
+  const detallePelicula = (e) => {
+    console.log(e.target.value);
+    navigate(`/detalle/${e.target.value}`);
+  }
+
+
   return (
     <div className="carta-pelicula" value={pelicula.id} onClick={detallePelicula}>
       <img src={pelicula.poster} alt={pelicula.title} className="imagen-pelicula" />

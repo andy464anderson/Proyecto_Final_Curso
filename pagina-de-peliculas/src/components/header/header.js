@@ -10,8 +10,8 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation();
   var nombre_usuario = "";
-  if(userData != undefined){
-    nombre_usuario = "/perfil/"+userData.nombre_usuario;
+  if (userData != undefined) {
+    nombre_usuario = "/perfil/" + userData.nombre_usuario;
   }
 
 
@@ -21,9 +21,9 @@ function Header() {
         setShowDropdown(false);
       }
     };
-  
+
     document.addEventListener("click", handleClickOutside);
-  
+
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
@@ -35,7 +35,7 @@ function Header() {
     updateHeader(false, data);
     navigate("/peliculas");
   };
-  
+
   const toggleDropdown = () => {
     setShowDropdown(!showDropdown);
   };
@@ -63,9 +63,9 @@ function Header() {
                 className="dropdown-content"
                 style={{ display: showDropdown ? "block" : "none" }}
               >
-                  <Link className="topDropdown" to="/login">Iniciar sesión</Link>
-                  <Link className="bottomDropdown" to="/registrar">Registrarse</Link>
-              </div> 
+                <Link className="topDropdown" to="/login">Iniciar sesión</Link>
+                <Link className="bottomDropdown" to="/registrar">Registrarse</Link>
+              </div>
             </li>
           )}
           {isLoggedIn && (

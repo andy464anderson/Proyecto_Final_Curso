@@ -19,21 +19,21 @@ import Social from "./components/perfil/social";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <HeaderContextProvider>
-  <React.StrictMode>
-    <BrowserRouter>
+    <React.StrictMode>
+      <BrowserRouter>
         <App />
-      <Routes>
-        <Route path="/peliculas" element={<Peliculas />} />
-        <Route path="/detalle/:id" element={<DetallePelicula />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registrar" element={<Registrar />} />
-        <Route path="/search" element={<Search />} />
-        <Route path="/perfil/:nombre_usuario" element={<Perfil />} />
-        <Route path="/perfil/:nombre_usuario/seguidores" element={<Social />} />
-        <Route path="/perfil/:nombre_usuario/seguidos" element={<Social />} />
-      </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
+        <Routes>
+          <Route path="/peliculas" element={<Peliculas />} />
+          <Route path="/detalle/:id" element={<DetallePelicula />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/registrar" element={<Registrar />} />
+          <Route path="/search" element={<Search />} />
+          <Route path="/perfil/:nombre_usuario" element={<Perfil />} />
+          <Route path="/perfil/:nombre_usuario/seguidores" element={<Social />} />
+          <Route path="/perfil/:nombre_usuario/seguidos" element={<Social />} />
+        </Routes>
+      </BrowserRouter>
+    </React.StrictMode>
   </HeaderContextProvider>
 );
 

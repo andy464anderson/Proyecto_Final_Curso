@@ -150,6 +150,7 @@
     background-color: #14181C;
 }
 .perfil-review img{
+    cursor: pointer;
     border: 1px solid #8595A3;
     width: 150px;
     height: 200px;

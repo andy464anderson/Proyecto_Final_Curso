@@ -8,6 +8,7 @@
     background-color: #14181C;
 }
 .imagen-pelicula-buscador{
+    cursor: pointer;
     width: 150px;
     margin: 25px;
     border: 1px solid #8595A3;
@@ -25,7 +26,7 @@
 .titulo-carta-buscador{
     font-size: 30px;
     color: #fcfcfc;
-    
+    cursor: pointer;
     padding: 7px;
 }
 .year-carta-buscador{

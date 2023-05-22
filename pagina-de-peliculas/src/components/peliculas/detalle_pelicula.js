@@ -43,15 +43,8 @@ const DetallePelicula = () => {
       cast = cast.replace(/None/g, '""');
       cast = JSON.parse(cast);
 
-      const castConImagenes = await Promise.all(
-        cast.map(async (actor) => {
-          const imageUrl = await buscarImagenActor(actor.name);
-          return { ...actor, imageUrl };
-        })
-      );
-
       setGenres(genres);
-      setCast(castConImagenes);
+      setCast(cast);
 
       const responseReviews = await fetch(`http://localhost:8000/reviews/${id}`);
       const dataReviews = await responseReviews.json();
@@ -156,32 +149,6 @@ const DetallePelicula = () => {
       alert("No puedes realizar esta acción si no has iniciado sesión");
     }
   };
-
-  const buscarImagenActor = async (nombreActor) => {
-    try {
-      const response = await fetch('http://localhost:8000/api/buscarImagenActor', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ nombre: nombreActor }),
-      });
-
-      const data = await response.json();
-      const imageUrl = data.imageUrl;
-      return imageUrl;
-    } catch (error) {
-      console.error('Error al buscar la imagen del actor:', error);
-      return null;
-    }
-  };
-
-
-
-
-
-
-
 
   const [visibleReviews, setVisibleReviews] = useState(5); // Estado para realizar un seguimiento de las reseñas visibles
 
@@ -288,9 +255,6 @@ const DetallePelicula = () => {
                   </tr>
                   {cast.map((actor) => (
                     <tr key={actor.id}>
-                      <td>
-                        {actor.imageUrl && <img width={100} height={100} src={actor.imageUrl} alt={actor.name} />}
-                      </td>
                       <td>{actor.name}</td>
                       <td>{actor.character}</td>
                     </tr>

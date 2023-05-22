@@ -34,7 +34,7 @@ function Perfil() {
             const responseUsuario = await fetch(`http://localhost:8000/perfil/${nombre_usuario}`, {
                 method: "GET",
                 headers: {
-                accept: "application/json",
+                    accept: "application/json",
                 },
             });
             var dataUsuario = await responseUsuario.json();
@@ -58,9 +58,9 @@ function Perfil() {
 
             const responseSiguiendo = await fetch(`http://localhost:8000/seguidos/${userData.id}`);
             const dataSiguiendo = await responseSiguiendo.json();
-            if(dataSiguiendo.find(user => user.id_usuario_seguido == dataUsuario.id)){
+            if (dataSiguiendo.find(user => user.id_usuario_seguido == dataUsuario.id)) {
                 setSiguiendo(true);
-            }else{
+            } else {
                 setSiguiendo(false);
             }
         };
@@ -68,7 +68,7 @@ function Perfil() {
     }, [nombre_usuario]);
 
     const pintarSeguidores = () => {
-       navigate(`/perfil/${nombre_usuario}/seguidores`);
+        navigate(`/perfil/${nombre_usuario}/seguidores`);
     }
 
     const pintarSeguidos = () => {
@@ -80,11 +80,11 @@ function Perfil() {
         if (reviewsUsuario.length === 0) return [];
 
         const reviewsUsuarioConPeliculas = reviewsUsuario.map(review => {
-          const peliculaEncontrada = listaPeliculas.find(pelicula => pelicula.id === review.id_pelicula);
-          return {
-            ...review,
-            pelicula: peliculaEncontrada,
-          };
+            const peliculaEncontrada = listaPeliculas.find(pelicula => pelicula.id === review.id_pelicula);
+            return {
+                ...review,
+                pelicula: peliculaEncontrada,
+            };
         });
         return reviewsUsuarioConPeliculas;
     }
@@ -92,56 +92,56 @@ function Perfil() {
     function obtenerTodasLasListasDeUsuario(listaPeliculas, listaLista, idUsuario) {
         const listasUsuario = listaLista.filter(lista => lista.usuario_id === idUsuario);
         if (listasUsuario.length === 0) return [];
-      
+
         const listasConPeliculas = listasUsuario.map(lista => {
-          const peliculasLista = lista.peliculas.map(idPelicula => {
-            return listaPeliculas.find(pelicula => pelicula.id === idPelicula);
-          });
-          return {...lista, peliculasLista: peliculasLista};
+            const peliculasLista = lista.peliculas.map(idPelicula => {
+                return listaPeliculas.find(pelicula => pelicula.id === idPelicula);
+            });
+            return { ...lista, peliculasLista: peliculasLista };
         });
-      
+
         return listasConPeliculas;
-    }   
+    }
 
     const seleccionarPeli = (idPelicula) => {
         const [idLista, peliculaId] = idPelicula.split('-');
         const divPeli = document.getElementById(idPelicula);
         if (divPeli.classList.contains('peliSeleccionada')) {
-          divPeli.classList.remove('peliSeleccionada');
-          setPelisSeleccionadas(prevState => prevState.filter(id => id !== peliculaId));
+            divPeli.classList.remove('peliSeleccionada');
+            setPelisSeleccionadas(prevState => prevState.filter(id => id !== peliculaId));
         } else {
-          divPeli.classList.add('peliSeleccionada');
-          setPelisSeleccionadas(prevState => [...prevState, peliculaId]);
+            divPeli.classList.add('peliSeleccionada');
+            setPelisSeleccionadas(prevState => [...prevState, peliculaId]);
         }
-        
+
     }
-      
+
 
     const eliminarPeliculasLista = async () => {
-        if(pelisSeleccionadas.length > 0){
+        if (pelisSeleccionadas.length > 0) {
             const pelisSeleccionadasNumeros = pelisSeleccionadas.map((id) => Number(id));
             const filtroPelis = listaActual.peliculas.filter((id) => !pelisSeleccionadasNumeros.includes(id));
             accionPeliculasSeleccionadas(filtroPelis);
-        }else{
+        } else {
             alert("No ha seleccionado ninguna película para eliminar");
         }
     }
 
-    function verLista(lista){
+    function verLista(lista) {
         $("#infoListasNormales").show();
         $("#tituloDivListasNormales").html(`${lista.nombre_lista}`);
         $("#infoListasNormalesCuerpo").html(`        
             ${lista.peliculasLista.map(peli => {
-                return `
+            return `
                     <div class="imagenLista ${pelisSeleccionadas.includes(peli.id) ? 'peliSeleccionada' : ''}" id="${lista.id}-${peli.id}">
                         <img src=${peli.poster}></img>
                     </div>
                 `
-            }).join('')}
+        }).join('')}
         `);
-        
-        if(usuario.id == userData.id){
-            $(".imagenLista").on("click", function() {
+
+        if (usuario.id == userData.id) {
+            $(".imagenLista").on("click", function () {
                 const id = $(this).attr('id');
                 seleccionarPeli(id);
             });
@@ -155,90 +155,99 @@ function Perfil() {
         setListaPeliculas(pelisEnLista);
         setIdLista(lista.id);
         setListaActual(lista);
-    }     
+    }
 
-    function esconderLista(){
+    function esconderLista() {
         $(".peliSeleccionada").removeClass("peliSeleccionada");
         $("#infoListasNormales").hide();
-    }      
-    
-    function mostrarLikes(){
+    }
+
+    function mostrarLikes() {
         $(".listas-likes").show();
         $(".listas-normales").hide();
         $(".bloqueReseñas").hide();
         $("#botonLikes").css({
-        "background-color": "#262d34",
-        "border-top": "2px solid #262d34",
-        "border-bottom": "2px solid #40BCF4",
-        "color": "#40BCF4"});
+            "background-color": "#262d34",
+            "border-top": "2px solid #262d34",
+            "border-bottom": "2px solid #40BCF4",
+            "color": "#40BCF4"
+        });
         $("#botonListas").css({
-        "background-color": "#14181C",
-        "border-top": "2px solid #14181C",
-        "border-bottom": "2px solid #14181C",
-        "color": "#8595A3"});
+            "background-color": "#14181C",
+            "border-top": "2px solid #14181C",
+            "border-bottom": "2px solid #14181C",
+            "color": "#8595A3"
+        });
         $("#botonReviews").css({
-        "background-color": "#14181C",
-        "border-top": "2px solid #14181C",
-        "border-bottom": "2px solid #14181C",
-        "color": "#8595A3"});
+            "background-color": "#14181C",
+            "border-top": "2px solid #14181C",
+            "border-bottom": "2px solid #14181C",
+            "color": "#8595A3"
+        });
 
     }
-    function mostrarListas(){
+    function mostrarListas() {
         $(".listas-likes").hide();
         $(".listas-normales").show();
         $(".bloqueReseñas").hide();
         $("#botonListas").css({
-        "background-color": "#262d34",
-        "border-top": "2px solid #262d34",
-        "border-bottom": "2px solid #40BCF4",
-        "color": "#40BCF4"});
+            "background-color": "#262d34",
+            "border-top": "2px solid #262d34",
+            "border-bottom": "2px solid #40BCF4",
+            "color": "#40BCF4"
+        });
         $("#botonLikes").css({
-        "background-color": "#14181C",
-        "border-top": "2px solid #14181C",
-        "border-bottom": "2px solid #14181C",
-        "color": "#8595A3"});
+            "background-color": "#14181C",
+            "border-top": "2px solid #14181C",
+            "border-bottom": "2px solid #14181C",
+            "color": "#8595A3"
+        });
         $("#botonReviews").css({
-        "background-color": "#14181C",
-        "border-top": "2px solid #14181C",
-        "border-bottom": "2px solid #14181C",
-        "color": "#8595A3"});
+            "background-color": "#14181C",
+            "border-top": "2px solid #14181C",
+            "border-bottom": "2px solid #14181C",
+            "color": "#8595A3"
+        });
     }
-    function mostrarReviews(){
+    function mostrarReviews() {
         $(".listas-likes").hide();
         $(".listas-normales").hide();
-        $(".bloqueReseñas").show(); 
+        $(".bloqueReseñas").show();
         $("#botonReviews").css({
-        "background-color": "#262d34",
-        "border-top": "2px solid #262d34",
-        "border-bottom": "2px solid #40BCF4",
-        "color": "#40BCF4"});     
+            "background-color": "#262d34",
+            "border-top": "2px solid #262d34",
+            "border-bottom": "2px solid #40BCF4",
+            "color": "#40BCF4"
+        });
         $("#botonListas").css({
-        "background-color": "#14181C",
-        "border-top": "2px solid #14181C",
-        "border-bottom": "2px solid #14181C",
-        "color": "#8595A3"});
+            "background-color": "#14181C",
+            "border-top": "2px solid #14181C",
+            "border-bottom": "2px solid #14181C",
+            "color": "#8595A3"
+        });
         $("#botonLikes").css({
-        "background-color": "#14181C",
-        "border-top": "2px solid #14181C",
-        "border-bottom": "2px solid #14181C",
-        "color": "#8595A3"}); 
+            "background-color": "#14181C",
+            "border-top": "2px solid #14181C",
+            "border-bottom": "2px solid #14181C",
+            "color": "#8595A3"
+        });
     }
 
     const dejarDeSeguir = async (id_usuario_seguidor, id_usuario_seguido) => {
         const dejarSeguir = await fetch(`http://localhost:8000/seguidor/${id_usuario_seguidor}/${id_usuario_seguido}`, {
             method: "DELETE"
         });
-    
+
         const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${usuario.id}`);
         const dataSeguidores = await responseSeguidores.json();
         setSeguidores(dataSeguidores);
-    
+
         const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${usuario.id}`);
         const dataSeguidos = await responseSeguidos.json();
         setSeguidos(dataSeguidos);
         setSiguiendo(false);
     }
-    
+
 
     const seguir = async (id_usuario_seguidor, id_usuario_seguido) => {
         const userSeguido = {
@@ -253,7 +262,7 @@ function Perfil() {
             },
             body: JSON.stringify(userSeguido),
         });
-        
+
 
         const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${usuario.id}`);
         const dataSeguidores = await responseSeguidores.json();
@@ -293,7 +302,7 @@ function Perfil() {
     };
 
     useEffect(() => {
-        if(Object.keys(listaActual).length > 0 && $("#infoListasNormales").is(":visible")){
+        if (Object.keys(listaActual).length > 0 && $("#infoListasNormales").is(":visible")) {
             verLista(listaActual);
         }
     }, [listaActual]);
@@ -313,8 +322,8 @@ function Perfil() {
     }
 
     const editarLista = async (lista) => {
-        if(lista.nombre_lista != nombreEditarLista || lista.publica != publica){
-            const editarLista ={
+        if (lista.nombre_lista != nombreEditarLista || lista.publica != publica) {
+            const editarLista = {
                 nombre_lista: nombreEditarLista,
                 publica: publica
             }
@@ -333,15 +342,19 @@ function Perfil() {
             const dataListas = await responseListas.json();
             setListas(dataListas);
             setVerEditarLista(false);
-        }else{
+        } else {
             alert("No ha modificado nada");
             setVerEditarLista(false);
         }
     }
 
+    const redireccionarPeli = (idPeli) => {
+        navigate(`/detalle/${idPeli}`);
+    }
+
     const crearLista = async () => {
-        if(nombreCrearLista != ""){
-            const lista ={
+        if (nombreCrearLista != "") {
+            const lista = {
                 id: 0,
                 tipo: "normal",
                 nombre_lista: nombreCrearLista,
@@ -364,19 +377,19 @@ function Perfil() {
             const dataListas = await responseListas.json();
             setListas(dataListas);
             setVerCrearLista(false);
-        }else{
+        } else {
             alert("El nombre no puede estar vacío");
         }
     }
 
     if (!usuario || !reviews || !listas || !seguidores || siguiendo == null) {
         return <div></div>;
-    }else{
+    } else {
         const listaReviews = obtenerReviewsUsuarioConPeliculas(movieData, reviews, usuario.id);
         const listaListas = obtenerTodasLasListasDeUsuario(movieData, listas, usuario.id);
         const listaNormalSinOrdenar = listaListas.filter((lista) => lista.tipo === "normal");
         const listaNormal = listaNormalSinOrdenar.sort((a, b) => {
-            if(a.nombre_lista > b.nombre_lista) return 1;
+            if (a.nombre_lista > b.nombre_lista) return 1;
             else return -1;
         });
         const listaLikes = listaListas.filter((lista) => lista.tipo === "likes");
@@ -384,7 +397,7 @@ function Perfil() {
             <div className="perfil-container">
                 <div className="perfil-header">
                     <div className="perfil-avatar">
-                        <img width={200} height={200} src="sinFoto.png" alt={usuario.nombre_usuario} /> 
+                        <img width={200} height={200} src="sinFoto.png" alt={usuario.nombre_usuario} />
                         <h2>{usuario.nombre_completo}</h2>
                         <h5>{usuario.nombre_usuario}</h5>
                         {usuario.id === userData.id &&
@@ -397,7 +410,7 @@ function Perfil() {
                             <button onClick={() => seguir(userData.id, usuario.id)}>Seguir</button>
                         }
                     </div>
-                    
+
                     <div className="perfil-info">
                         <table className="seg">
                             <tbody>
@@ -447,9 +460,9 @@ function Perfil() {
                         {listaLikes.map((lista) => (
                             <div className="lista-likes-hijo" id={lista.id} key={lista.id}>
                                 {lista.peliculasLista.map(peli => {
-                                    return(
+                                    return (
                                         <div className="divPeliListaLike" key={peli.id} id={peli.id}>
-                                            <img src={peli.poster} alt="poster"></img>
+                                            <img onClick={() => redireccionarPeli(peli.id)} src={peli.poster} alt="poster"></img>
                                         </div>
                                     )
                                 })}
@@ -457,44 +470,46 @@ function Perfil() {
                         ))}
                     </div>
                     <div className="listas-normales">
-                        <button type="button" onClick={() => {setVerCrearLista(true)}}>Crear nueva lista</button>
+                        {usuario.id === userData.id && (
+                            <button type="button" onClick={() => { setVerCrearLista(true) }}>Crear nueva lista</button>
+                        )}
                         {listaNormal.map((lista) => (
                             (usuario.id === userData.id) ? (
                                 <div className="lista-normal" id={lista.id} key={lista.id}>
-                                {lista.peliculasLista.length > 0 && (
-                                    <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
-                                    <img src={lista.peliculasLista[0].poster} alt="poster" />
-                                    </div>
-                                )}
-                                <div className="nombreListaNormal">
-                                    <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
-                                    <p>{lista.peliculasLista.length} películas</p>
-                                    <button type="button" onClick={() => eliminarLista(lista.id)}>Eliminar lista</button>
-                                    <button type="button" onClick={() => {setListaActual(lista); setVerEditarLista(true); setNombreEditarLista(lista.nombre_lista)}}>Editar lista</button>
-                                </div>
-                                </div>
-                            ) :
-                            lista.publica && (
-                                <div className="lista-normal" id={lista.id} key={lista.id}>
                                     {lista.peliculasLista.length > 0 && (
                                         <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
-                                        <img src={lista.peliculasLista[0].poster} alt="poster" />
+                                            <img src={lista.peliculasLista[0].poster} alt="poster" />
                                         </div>
                                     )}
                                     <div className="nombreListaNormal">
                                         <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
                                         <p>{lista.peliculasLista.length} películas</p>
+                                        <button type="button" onClick={() => eliminarLista(lista.id)}>Eliminar lista</button>
+                                        <button type="button" onClick={() => { setListaActual(lista); setVerEditarLista(true); setNombreEditarLista(lista.nombre_lista) }}>Editar lista</button>
                                     </div>
                                 </div>
-                            )
+                            ) :
+                                lista.publica && (
+                                    <div className="lista-normal" id={lista.id} key={lista.id}>
+                                        {lista.peliculasLista.length > 0 && (
+                                            <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
+                                                <img src={lista.peliculasLista[0].poster} alt="poster" />
+                                            </div>
+                                        )}
+                                        <div className="nombreListaNormal">
+                                            <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
+                                            <p>{lista.peliculasLista.length} películas</p>
+                                        </div>
+                                    </div>
+                                )
                         ))}
                     </div>
                     <div className="bloqueReseñas">
                         {listaReviews.map((review) => (
                             <div className="perfil-review" key={review.id} id={review.id}>
-                                <img src={review.pelicula.poster} alt="poster"></img>
+                                <img onClick={() => redireccionarPeli(review.id_pelicula)} src={review.pelicula.poster} alt="poster"></img>
                                 <div className="review-info">
-                                    <h3>{review.pelicula.title}</h3>
+                                    <h3 onClick={() => redireccionarPeli(review.id_pelicula)}>{review.pelicula.title}</h3>
                                     <p className="perfil-review-contenido">{review.contenido}</p>
                                     <p className="perfil-review-fecha">Vista en {review.fecha}</p>
                                     <p className="perfil-review-rating">{review.valoracion}/10</p>
@@ -502,13 +517,13 @@ function Perfil() {
                             </div>
                         ))}
                     </div>
-                    
+
                     <div id="infoListasNormales">
                         <div id="infoListasNormalesHijo">
                             <div id="infoListasNormalesHeader">
                                 <div id="tituloDivListasNormales">titulo</div>
-                                <div id="cruzDivListasNormales" onClick={esconderLista}> 
-                                <FontAwesomeIcon icon={faXmark} /> </div>
+                                <div id="cruzDivListasNormales" onClick={esconderLista}>
+                                    <FontAwesomeIcon icon={faXmark} /> </div>
                                 {usuario.id === userData.id &&
                                     <div id="divBotonesLista">
                                         <button onClick={() => setShowSearch(true)}>Agregar películas a la lista</button>
@@ -517,24 +532,24 @@ function Perfil() {
                                 }
                                 {showSearch && (
                                     <div className="modal">
-                                        <div id="cruzDivListasNormales" onClick={() => setShowSearch(false)}> 
-                                            <FontAwesomeIcon icon={faXmark} /> 
+                                        <div id="cruzDivListasNormales" onClick={() => setShowSearch(false)}>
+                                            <FontAwesomeIcon icon={faXmark} />
                                         </div>
                                         <div className="modal-content">
                                             <BuscadorPelisLista searchAbierto={cerrarSearch} idLista={idLista} anadirPeliculas={accionPeliculasSeleccionadas} peliculasEnLista={listaPeliculas} className="buscador-pelis" />
                                         </div>
-                                    </div>                                    
+                                    </div>
                                 )}
                             </div>
                             <div id="infoListasNormalesCuerpo">
-                                
+
                             </div>
                         </div>
                     </div>
                     {verEditarLista && (
                         <div className="modal">
-                            <div id="cruzDivListasNormales" onClick={() => setVerEditarLista(false)}> 
-                                <FontAwesomeIcon icon={faXmark} /> 
+                            <div id="cruzDivListasNormales" onClick={() => setVerEditarLista(false)}>
+                                <FontAwesomeIcon icon={faXmark} />
                             </div>
                             <div className="modal-content">
                                 <label htmlFor="nombreLista">Nombre de la lista: </label>
@@ -547,12 +562,12 @@ function Perfil() {
                                 </select>
                                 <button type="submit" onClick={() => editarLista(listaActual)}>Actualizar lista</button>
                             </div>
-                        </div>                                    
+                        </div>
                     )}
                     {verCrearLista && (
                         <div className="modal">
-                            <div id="cruzDivListasNormales" onClick={() => setVerCrearLista(false)}> 
-                                <FontAwesomeIcon icon={faXmark} /> 
+                            <div id="cruzDivListasNormales" onClick={() => setVerCrearLista(false)}>
+                                <FontAwesomeIcon icon={faXmark} />
                             </div>
                             <div className="modal-content">
                                 <label htmlFor="nombreLista">Nombre de la lista: </label>
@@ -565,13 +580,13 @@ function Perfil() {
                                 </select>
                                 <button type="submit" onClick={() => crearLista()}>Crear lista</button>
                             </div>
-                        </div>                                    
+                        </div>
                     )}
                 </div>
             </div>
 
         );
-        
+
     }
 
 }
