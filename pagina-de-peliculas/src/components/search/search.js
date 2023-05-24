@@ -26,6 +26,21 @@ const Search = () => {
     const [pelisFiltradas, setPelisFiltradas] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [listaUsuarios, setUsuarios] = useState([]);
+    const {updateMovieData} = useContext(HeaderContext);
+
+    useEffect(() => {
+        const obtenerPeliculas = async () => {
+            const data = await fetch('http://localhost:8000/peliculas', {
+                method: 'GET',
+                headers: {
+                  'accept': 'application/json'
+                }
+              })
+            var peliculas = await data.json();
+            updateMovieData(peliculas)
+          };
+          obtenerPeliculas();
+    }, []);
 
     function cambiarResultados(tipo) {
         $("#select-tipo-buscador").val(tipo);

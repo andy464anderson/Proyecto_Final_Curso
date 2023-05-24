@@ -220,7 +220,7 @@ const DetallePelicula = () => {
             </a>
             {isLoggedIn && (
               <BotonLike idPeli={pelicula.id} />
-            )}            
+            )}
           </div>
         </div>
         <div className="resena-form">
@@ -294,11 +294,12 @@ const DetallePelicula = () => {
                       {review.valoracion !== -1 ? (
                         <div>Valoración: {review.valoracion}/10</div>
                       ) : null}
-                      {review.id_usuario === userData.id && (
+                      {isLoggedIn && review.id_usuario === userData.id && (
                         <button onClick={() => eliminarReview(review.id)}>
                           Eliminar reseña
                         </button>
                       )}
+
                       <hr />
                     </div>
                   ))}
