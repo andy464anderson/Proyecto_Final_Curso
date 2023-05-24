@@ -6,6 +6,7 @@ import { useAsyncError, useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useContext } from "react";
 import { HeaderContext } from "../header/headerContext";
 import { faCircleXmark, faStar } from '@fortawesome/free-solid-svg-icons';
+import BotonLike from "../botonLike/botonLike";
 import $ from 'jquery';
 
 const DetallePelicula = () => {
@@ -217,6 +218,9 @@ const DetallePelicula = () => {
             <a target="_blank" href={`https://www.imdb.com/title/${pelicula.imdb_id}`}>
               Enlace a IMBD <FontAwesomeIcon icon={faArrowUpRightFromSquare} style={{ color: "#1b2d4b", }} />
             </a>
+            {isLoggedIn && (
+              <BotonLike idPeli={pelicula.id} />
+            )}
           </div>
         </div>
         <div className="resena-form">
@@ -290,11 +294,12 @@ const DetallePelicula = () => {
                       {review.valoracion !== -1 ? (
                         <div>Valoración: {review.valoracion}/10</div>
                       ) : null}
-                      {review.id_usuario === userData.id && (
+                      {isLoggedIn && review.id_usuario === userData.id && (
                         <button onClick={() => eliminarReview(review.id)}>
                           Eliminar reseña
                         </button>
                       )}
+
                       <hr />
                     </div>
                   ))}
