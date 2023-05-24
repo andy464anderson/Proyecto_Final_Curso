@@ -1,7 +1,6 @@
 import React from "react";
 import "./carta_pelicula.css";
 import { Link, useNavigate } from "react-router-dom";
-import BotonLike from "../botonLike/botonLike";
 
 const CartaPelicula = ({ pelicula }) => {
 
@@ -21,7 +20,6 @@ const CartaPelicula = ({ pelicula }) => {
         <p className="anno-pelicula">{pelicula.release_date}</p>
         <div className="boton-pelicula">
           <button value={pelicula.id} onClick={() => detallePelicula(pelicula.id)}>Ver más detalles</button>
-          <BotonLike idPeli={pelicula.id} />
         </div>
       </div>
     </div>
