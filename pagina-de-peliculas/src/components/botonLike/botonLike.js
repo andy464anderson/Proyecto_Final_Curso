@@ -8,18 +8,17 @@ const BotonLike = ({ idPeli }) => {
 
     useEffect(() => {
         const verificarLike = async () => {
-            if (isLoggedIn) {
-                const verListas = await fetch(`http://localhost:8000/listas/${userData.id}`);
-                const dataVerListas = await verListas.json();
-                const listaFiltrada = dataVerListas.find((lista) => lista.tipo.toLowerCase() === "likes");
-                if (listaFiltrada && listaFiltrada.peliculas.includes(idPeli)) {
-                    setTieneLike(true);
-                }
+            if (!isLoggedIn) return;
+            const verListas = await fetch(`http://localhost:8000/listas/${userData.id}`);
+            const dataVerListas = await verListas.json();
+            const listaFiltrada = dataVerListas.find((lista) => lista.tipo.toLowerCase() === "likes");
+            if (listaFiltrada && listaFiltrada.peliculas.includes(idPeli)) {
+                setTieneLike(true);
             }
         };
 
         verificarLike();
-    }, [isLoggedIn, userData.id, idPeli]);
+    }, [isLoggedIn, idPeli]);
 
     const darLike = async () => {
         const verListas = await fetch(`http://localhost:8000/listas/${userData.id}`);
