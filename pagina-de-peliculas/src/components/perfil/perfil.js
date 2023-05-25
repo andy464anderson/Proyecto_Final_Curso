@@ -46,7 +46,9 @@ function Perfil() {
             updateMovieData(peliculas)
         };
         obtenerPeliculas();
+    }, [updateMovieData]);
 
+    useEffect(() => {
         const obtenerDatosUsuario = async () => {
             const responseUsuario = await fetch(`http://localhost:8000/perfil/${nombre_usuario}`, {
                 method: "GET",
@@ -89,7 +91,7 @@ function Perfil() {
             }
         };
         obtenerDatosUsuario();
-    }, [nombre_usuario, userData.id, updateMovieData]);
+    }, [nombre_usuario, userData.id]);
 
     const pintarSeguidores = () => {
         navigate(`/perfil/${nombre_usuario}/seguidores`);
