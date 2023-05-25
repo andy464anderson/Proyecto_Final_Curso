@@ -236,7 +236,7 @@ async def get_usuario(correo: str, clave: str):
 async def post_usuario(usuario: Usuario):
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO usuario (correo, nombre_completo, nombre_usuario, clave, rol) VALUES (%s, %s, %s, %s, %s, %s)",
+    cursor.execute("INSERT INTO usuario (correo, nombre_completo, nombre_usuario, clave, rol) VALUES (%s, %s, %s, %s, %s)",
                    (usuario.correo, usuario.nombre_completo, usuario.nombre_usuario, usuario.clave, usuario.rol))
     conn.commit()
     conn.close()

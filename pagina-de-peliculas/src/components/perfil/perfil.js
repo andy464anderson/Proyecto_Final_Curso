@@ -31,8 +31,9 @@ function Perfil() {
     const [nombreCompleto, setNombreCompleto] = useState("");
     const [nombreUsuario, setNombreUsuario] = useState("");
     const [correo, setCorreo] = useState("");
-    const [password, setPassword] = useState("");
     const [publica, setPublica] = useState(false);
+    const [error, setError] = useState(false);
+    const [envioEditar, setEnvioEditar] = useState(false);
 
     useEffect(() => {
         const obtenerPeliculas = async () => {
@@ -62,7 +63,6 @@ function Perfil() {
             setNombreCompleto(dataUsuario.nombre_completo);
             setNombreUsuario(dataUsuario.nombre_usuario);
             setCorreo(dataUsuario.correo);
-            setPassword(dataUsuario.clave);
 
             const responseReviews = await fetch(`http://localhost:8000/reviews/usuario/${dataUsuario.id}`);
             const dataReviews = await responseReviews.json();
@@ -408,36 +408,81 @@ function Perfil() {
         }
     }
 
-    const editarPerfil = async () => {
-        if (correo != userData.correo || password != userData.clave || nombreCompleto != userData.nombre_completo || nombreUsuario != userData.nombre_usuario) {
-            const Usuario = {
-                id: userData.id,
-                correo: correo,
-                clave: password,
-                rol: userData.rol,
-                nombre_usuario: nombreUsuario,
-                nombre_completo: nombreCompleto
+    const comprobarEditarPerfil = async () => {
+        if (correo != userData.correo || nombreCompleto != userData.nombre_completo || nombreUsuario != userData.nombre_usuario) {
+            const responseUsuarios = await fetch(`http://localhost:8000/usuarios`);
+            const dataUsuarios = await responseUsuarios.json();
+
+            const listaExisteUsuario = dataUsuarios.filter(usuario => usuario.nombre_usuario == nombreUsuario && userData.nombre_usuario != nombreUsuario);
+            const listaExisteCorreo = dataUsuarios.filter(usuario => usuario.correo == correo && userData.correo != correo);
+
+            if (listaExisteUsuario.length > 0) {
+                alert('El nombre de usuario ya existe');
+                setError(true);
             }
 
-            const response = await fetch(`http://localhost:8000/usuario/${userData.id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(Usuario),
-            });
-            const dataResponse = await response.json();
-            setNombreUsuario(dataResponse.nombre_usuario);
-            setNombreCompleto(dataResponse.nombre_completo);
-            setCorreo(dataResponse.correo);
-            setPassword(dataResponse.clave);
-            updateHeader(true, dataResponse);
-            navigate(`/perfil/${dataResponse.nombre_usuario}`);
+            if (listaExisteCorreo.length > 0) {
+                alert('Ya existe una cuenta con ese correo electrónico');
+                setError(true);
+            }
+
+
+            if (nombreCompleto.length < 3) {
+                alert('El nombre debe tener al menos 3 caracteres');
+                setError(true);
+            }
+
+            if (nombreUsuario.length < 3) {
+                alert('El nombre de usuario debe tener al menos 3 caracteres');
+                setError(true);
+            }
+
+            if (!correo.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
+                alert('El formato del correo no es válido');
+                setError(true);
+            }
+
+            setEnvioEditar(true);
         } else {
             alert("No se ha modificado nada");
-        }
-        setVerEditarPerfil(false);
+        }        
     }
+
+    const editarPerfil = async () => {
+        if (envioEditar) {
+            if (error == false) {
+                const Usuario = {
+                    id: userData.id,
+                    correo: correo,
+                    clave: userData.clave,
+                    rol: userData.rol,
+                    nombre_usuario: nombreUsuario,
+                    nombre_completo: nombreCompleto
+                }
+
+                const response = await fetch(`http://localhost:8000/usuario/${userData.id}`, {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(Usuario),
+                });
+                const dataResponse = await response.json();
+                setNombreUsuario(dataResponse.nombre_usuario);
+                setNombreCompleto(dataResponse.nombre_completo);
+                setCorreo(dataResponse.correo);
+                updateHeader(true, dataResponse);
+                navigate(`/perfil/${dataResponse.nombre_usuario}`);
+                setVerEditarPerfil(false);
+            }
+        }
+        setError(false);
+        setEnvioEditar(false);
+    }
+
+    useEffect(()=>{
+        editarPerfil();
+    }, [envioEditar]);
 
     if (!usuario || !reviews || !listas || !seguidores || siguiendo == null) {
         return <div></div>;
@@ -643,7 +688,7 @@ function Perfil() {
                         <div className="modal">
                             <div className="modal-content">
                                 <div id="cruzDivListasNormales" onClick={() => {
-                                    setVerEditarPerfil(false); setNombreCompleto(userData.nombre_completo); setNombreUsuario(userData.nombre_usuario); setCorreo(userData.correo); setPassword(userData.clave)
+                                    setVerEditarPerfil(false); setNombreCompleto(userData.nombre_completo); setNombreUsuario(userData.nombre_usuario); setCorreo(userData.correo); setError(false); setEnvioEditar(false);
                                 }}>
                                     <FontAwesomeIcon icon={faXmark} />
                                 </div>
@@ -656,10 +701,7 @@ function Perfil() {
                                 <label htmlFor="correo">Correo electrónico: </label>
                                 <input id="correo" type="text" value={correo} onChange={(e) => setCorreo(e.target.value)} />
                                 <br /><br />
-                                <label htmlFor="clave">Contraseña: </label>
-                                <input id="clave" type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
-                                <br /><br />
-                                <button type="submit" onClick={editarPerfil}>Editar perfil</button>
+                                <button type="submit" onClick={comprobarEditarPerfil}>Editar perfil</button>
                             </div>
                         </div>
                     )}
