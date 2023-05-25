@@ -1,6 +1,11 @@
+import "./botonLike.css";
 import React from 'react';
 import { HeaderContext } from "../header/headerContext";
 import { useEffect, useState, useContext } from "react";
+import { Tooltip } from 'react-tippy';
+import 'react-tippy/dist/tippy.css'; 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const BotonLike = ({ idPeli }) => {
     const { userData, isLoggedIn } = useContext(HeaderContext);
@@ -102,9 +107,30 @@ const BotonLike = ({ idPeli }) => {
     return (
         <>
             {tieneLike ? (
-                <button onClick={quitarLike}>Quitar like</button>
+                <Tooltip
+                    title="Quitar like"
+                    position="bottom"
+                    arrow="true"
+                    animation="fade"
+                    theme="custom-theme"
+                    className="custom-tooltip"
+                >
+                    <FontAwesomeIcon className="corazon-icono-like" onClick={quitarLike} icon={faHeart} style={{color: 'rgb(255, 94, 0)'}} />
+
+                </Tooltip>
+                
             ) : (
-                <button onClick={darLike}>Dar like</button>
+                <Tooltip
+                title="Dar like"
+                position="bottom"
+                arrow="true"
+                animation="fade"
+                theme="custom-theme"
+                className="custom-tooltip"
+            >
+                <FontAwesomeIcon className="corazon-icono-like" onClick={darLike} icon={faHeart} style={{color: '#8595A3'}} />
+
+            </Tooltip>
             )}
         </>
     );

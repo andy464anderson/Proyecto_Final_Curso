@@ -100,11 +100,45 @@
 }
 
 .modal-content {
-    background-color: white;
+    background-color: #363f49;
     padding: 20px;
     border-radius: 5px;
+    width: 400px;
+    
 }  
-
+.modal-content label{
+    color: aliceblue;
+    font-weight: bold; 
+}  
+.modal-content input{
+    margin-top: 6px;
+    width: 100%;
+    background-color: #262d34;
+    border: 1px solid #262d34;
+    outline: 0;
+    border-bottom: 1px solid #40BCF4;
+    color: #fff6f6;
+    padding: 3px;
+    border-radius: 4px;
+}  
+.modal-content input:focus{
+    border-bottom: 2px solid #40BCF4;
+}  
+.modal-content select{
+    margin-bottom: 20px;
+}  
+.modal-content button{
+    color: lime;
+    padding: 5px;
+    border: 0;
+    border-bottom: 1px solid #363f49;
+    background-color: #4f5a68;
+    border-radius: 4px;
+    width: 100%;
+}   
+.modal-content button:hover{
+    background-color: #444d58;
+} 
 .opciones-perfil button:hover{
     color: #40BCF4;
 }
@@ -279,4 +313,36 @@ body::-webkit-scrollbar-track, #infoListasNormalesCuerpo::-webkit-scrollbar-trac
 body::-webkit-scrollbar-thumb, #infoListasNormalesCuerpo::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
+}
+#boton-crear-lista{
+    width: 100%;
+    margin-top: 15px;
+    padding: 5px;
+    border: 3px solid #40BCF4;
+    color: aliceblue;
+    font-weight: bold;
+    background-color: #40BCF4;
+    border-radius: 5px;    
+}
+.eliminar-lista{
+    color: rgb(255, 72, 0);
+    background-color: #14181C;
+    border: 0;
+    border-bottom: 1px solid #14181C;
+    margin-right: 15px;
+    transition: 0.2s;
+}
+.editar-lista{
+    color: rgb(159, 46, 252);
+    background-color: #14181C;
+    border: 0;
+    border-bottom: 1px solid #14181C;
+    margin-right: 15px;
+    transition: 0.2s;
+}
+.editar-lista:hover{
+    border-bottom: 1px solid rgb(159, 46, 252);
+}
+.eliminar-lista:hover{
+    border-bottom: 1px solid rgb(255, 72, 0);
 }

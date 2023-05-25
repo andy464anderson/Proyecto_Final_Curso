@@ -5,7 +5,7 @@ import { useEffect, useState, useContext } from "react";
 import { HeaderContext } from "../header/headerContext";
 import $ from 'jquery';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faPlus } from '@fortawesome/free-solid-svg-icons';
 import BuscadorPelisLista from "./buscadorPelisLista";
 
 function Perfil() {
@@ -573,7 +573,7 @@ function Perfil() {
                     </div>
                     <div className="listas-normales">
                         {usuario.id === userData.id && (
-                            <button type="button" onClick={() => { setVerCrearLista(true) }}>Crear nueva lista</button>
+                            <button id="boton-crear-lista" type="button" onClick={() => { setVerCrearLista(true) }}>Crear nueva lista <FontAwesomeIcon icon={faPlus} /></button>
                         )}
                         {listaNormal.map((lista) => (
                             (usuario.id === userData.id) ? (
@@ -584,10 +584,10 @@ function Perfil() {
                                         </div>
                                     )}
                                     <div className="nombreListaNormal">
-                                        <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
+                                        <span><h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5></span>
                                         <p>{lista.peliculasLista.length} películas</p>
-                                        <button type="button" onClick={() => eliminarLista(lista.id)}>Eliminar lista</button>
-                                        <button type="button" onClick={() => { setListaActual(lista); setVerEditarLista(true); setNombreEditarLista(lista.nombre_lista) }}>Editar lista</button>
+                                        <button className="eliminar-lista" type="button" onClick={() => eliminarLista(lista.id)}>Eliminar lista</button>
+                                        <button className="editar-lista" type="button" onClick={() => { setListaActual(lista); setVerEditarLista(true); setNombreEditarLista(lista.nombre_lista) }}>Editar lista</button>
                                     </div>
                                 </div>
                             ) :
@@ -614,7 +614,7 @@ function Perfil() {
                                     <h3 onClick={() => redireccionarPeli(review.id_pelicula)}>{review.pelicula.title}</h3>
                                     <p className="perfil-review-contenido">{review.contenido}</p>
                                     <p className="perfil-review-fecha">Vista en {review.fecha}</p>
-                                    <p className="perfil-review-rating">{review.valoracion}/10</p>
+                                    <p className="perfil-review-rating">{review.valoracion}/5</p>
                                 </div>
                             </div>
                         ))}
@@ -650,10 +650,11 @@ function Perfil() {
                     </div>
                     {verCrearLista && (
                         <div className="modal">
-                            <div id="cruzDivListasNormales" onClick={() => setVerCrearLista(false)}>
-                                <FontAwesomeIcon icon={faXmark} />
-                            </div>
+
                             <div className="modal-content">
+                                <div id="cruzDivListasNormales" onClick={() => setVerCrearLista(false)}>
+                                    <FontAwesomeIcon icon={faXmark} />
+                                </div>
                                 <label htmlFor="nombreLista">Nombre de la lista: </label>
                                 <input type="text" value={nombreCrearLista} onChange={(e) => setNombreCrearLista(e.target.value)} />
                                 <br /><br />
@@ -687,21 +688,30 @@ function Perfil() {
                     {verEditarPerfil && (
                         <div className="modal">
                             <div className="modal-content">
-                                <div id="cruzDivListasNormales" onClick={() => {
-                                    setVerEditarPerfil(false); setNombreCompleto(userData.nombre_completo); setNombreUsuario(userData.nombre_usuario); setCorreo(userData.correo); setError(false); setEnvioEditar(false);
-                                }}>
-                                    <FontAwesomeIcon icon={faXmark} />
+                                <div id="caja-editar-perfil">
+                                    
+                                    <div id="cruzDivListasNormales" onClick={() => {
+                                        setVerEditarPerfil(false); setNombreCompleto(userData.nombre_completo); setNombreUsuario(userData.nombre_usuario); setCorreo(userData.correo); setError(false); setEnvioEditar(false);
+                                    }}>
+                                        <FontAwesomeIcon icon={faXmark} />
+                                    </div>
+                                    <div>
+                                        <label htmlFor="nombreCompleto">Nombre completo: </label>
+                                        <br />
+                                        <input id="nombreCompleto" type="text" value={nombreCompleto} onChange={(e) => setNombreCompleto(e.target.value)} />
+                                        <br /><br />
+                                        <label htmlFor="nombreUsuario">Nombre de usuario: </label>
+                                        <br />
+                                        <input id="nombreUsuario" type="text" value={nombreUsuario} onChange={(e) => setNombreUsuario(e.target.value)} />
+                                        <br /><br />
+                                        <label htmlFor="correo">Correo electrónico: </label>
+                                        <br />
+                                        <input id="correo" type="text" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+                                        <br /><br />
+                                        <button type="submit" onClick={comprobarEditarPerfil}>Guardar cambios</button>
+                                    </div>
+
                                 </div>
-                                <label htmlFor="nombreCompleto">Nombre completo: </label>
-                                <input id="nombreCompleto" type="text" value={nombreCompleto} onChange={(e) => setNombreCompleto(e.target.value)} />
-                                <br /><br />
-                                <label htmlFor="nombreUsuario">Nombre de usuario: </label>
-                                <input id="nombreUsuario" type="text" value={nombreUsuario} onChange={(e) => setNombreUsuario(e.target.value)} />
-                                <br /><br />
-                                <label htmlFor="correo">Correo electrónico: </label>
-                                <input id="correo" type="text" value={correo} onChange={(e) => setCorreo(e.target.value)} />
-                                <br /><br />
-                                <button type="submit" onClick={comprobarEditarPerfil}>Editar perfil</button>
                             </div>
                         </div>
                     )}

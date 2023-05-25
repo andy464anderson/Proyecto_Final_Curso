@@ -269,3 +269,13 @@ tr:nth-child(even) {
   border: 1px solid #40BCF4;
   padding: 5px;
 }
+#boton-eliminar-detalle{
+  color: rgb(255, 60, 0);
+  background-color: #1E2329;
+  border: 0;
+  border-bottom: 1px solid #1E2329;
+  transition: 0.3s;
+}
+#boton-eliminar-detalle:hover{
+  border-bottom: 1px solid rgb(255, 60, 0);
+}

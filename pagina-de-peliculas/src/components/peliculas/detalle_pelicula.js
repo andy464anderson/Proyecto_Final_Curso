@@ -325,11 +325,8 @@ const DetallePelicula = () => {
           </div>
           <div className="detalle-completo-pelicula">
             <h2>
-              {pelicula.title}
+              {pelicula.title} <BotonLike idPeli={pelicula.id} />
             </h2>
-            <div>
-              <BotonLike idPeli={pelicula.id} />
-            </div>
 
             <div>
               <p className="genere">
