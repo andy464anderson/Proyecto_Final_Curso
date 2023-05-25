@@ -9,6 +9,7 @@ import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
 import { faXmark, faStar } from '@fortawesome/free-solid-svg-icons';
 import $ from 'jquery';
+import BotonLike from "../botonLike/botonLike";
 
 const DetallePelicula = () => {
   const navigate = useNavigate();
@@ -326,6 +327,9 @@ const DetallePelicula = () => {
             <h2>
               {pelicula.title}
             </h2>
+            <div>
+              <BotonLike idPeli={pelicula.id} />
+            </div>
 
             <div>
               <p className="genere">
@@ -474,7 +478,7 @@ const DetallePelicula = () => {
                           </div>
                         ) : null}
 
-                        {review.id_usuario === userData.id && (
+                        {isLoggedIn && review.id_usuario === userData.id && (
                           <button id="boton-eliminar-detalle" onClick={() => eliminarReview(review.id)}>
                             Eliminar reseña
                           </button>

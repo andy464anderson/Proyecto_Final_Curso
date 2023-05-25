@@ -19,17 +19,34 @@ function Perfil() {
     const [seguidos, setSeguidos] = useState([]);
     const [listaPeliculas, setListaPeliculas] = useState([]);
     const [listaActual, setListaActual] = useState({});
-    const { movieData, userData } = useContext(HeaderContext);
+    const { movieData, userData, updateHeader, updateMovieData } = useContext(HeaderContext);
     const nombre_usuario = window.location.pathname.split("/")[2];
     const [showSearch, setShowSearch] = useState(false);
     const [pelisSeleccionadas, setPelisSeleccionadas] = useState([]);
     const [verEditarLista, setVerEditarLista] = useState(false);
     const [verCrearLista, setVerCrearLista] = useState(false);
+    const [verEditarPerfil, setVerEditarPerfil] = useState(false);
     const [nombreEditarLista, setNombreEditarLista] = useState("");
     const [nombreCrearLista, setNombreCrearLista] = useState("");
+    const [nombreCompleto, setNombreCompleto] = useState("");
+    const [nombreUsuario, setNombreUsuario] = useState("");
+    const [correo, setCorreo] = useState("");
+    const [password, setPassword] = useState("");
     const [publica, setPublica] = useState(false);
 
     useEffect(() => {
+        const obtenerPeliculas = async () => {
+            const data = await fetch('http://localhost:8000/peliculas', {
+                method: 'GET',
+                headers: {
+                    'accept': 'application/json'
+                }
+            })
+            var peliculas = await data.json();
+            updateMovieData(peliculas)
+        };
+        obtenerPeliculas();
+
         const obtenerDatosUsuario = async () => {
             const responseUsuario = await fetch(`http://localhost:8000/perfil/${nombre_usuario}`, {
                 method: "GET",
@@ -39,6 +56,11 @@ function Perfil() {
             });
             var dataUsuario = await responseUsuario.json();
             setUsuario(dataUsuario);
+
+            setNombreCompleto(dataUsuario.nombre_completo);
+            setNombreUsuario(dataUsuario.nombre_usuario);
+            setCorreo(dataUsuario.correo);
+            setPassword(dataUsuario.clave);
 
             const responseReviews = await fetch(`http://localhost:8000/reviews/usuario/${dataUsuario.id}`);
             const dataReviews = await responseReviews.json();
@@ -56,16 +78,18 @@ function Perfil() {
             const dataSeguidos = await responseSeguidos.json();
             setSeguidos(dataSeguidos);
 
-            const responseSiguiendo = await fetch(`http://localhost:8000/seguidos/${userData.id}`);
-            const dataSiguiendo = await responseSiguiendo.json();
-            if (dataSiguiendo.find(user => user.id_usuario_seguido == dataUsuario.id)) {
-                setSiguiendo(true);
-            } else {
-                setSiguiendo(false);
+            if (userData) {
+                const responseSiguiendo = await fetch(`http://localhost:8000/seguidos/${userData.id}`);
+                const dataSiguiendo = await responseSiguiendo.json();
+                if (dataSiguiendo.find(user => user.id_usuario_seguido == dataUsuario.id)) {
+                    setSiguiendo(true);
+                } else {
+                    setSiguiendo(false);
+                }
             }
         };
         obtenerDatosUsuario();
-    }, [nombre_usuario]);
+    }, [nombre_usuario, userData.id, updateMovieData]);
 
     const pintarSeguidores = () => {
         navigate(`/perfil/${nombre_usuario}/seguidores`);
@@ -382,6 +406,37 @@ function Perfil() {
         }
     }
 
+    const editarPerfil = async () => {
+        if (correo != userData.correo || password != userData.clave || nombreCompleto != userData.nombre_completo || nombreUsuario != userData.nombre_usuario) {
+            const Usuario = {
+                id: userData.id,
+                correo: correo,
+                clave: password,
+                rol: userData.rol,
+                nombre_usuario: nombreUsuario,
+                nombre_completo: nombreCompleto
+            }
+
+            const response = await fetch(`http://localhost:8000/usuario/${userData.id}`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(Usuario),
+            });
+            const dataResponse = await response.json();
+            setNombreUsuario(dataResponse.nombre_usuario);
+            setNombreCompleto(dataResponse.nombre_completo);
+            setCorreo(dataResponse.correo);
+            setPassword(dataResponse.clave);
+            updateHeader(true, dataResponse);
+            navigate(`/perfil/${dataResponse.nombre_usuario}`);
+        } else {
+            alert("No se ha modificado nada");
+        }
+        setVerEditarPerfil(false);
+    }
+
     if (!usuario || !reviews || !listas || !seguidores || siguiendo == null) {
         return <div></div>;
     } else {
@@ -398,10 +453,10 @@ function Perfil() {
                 <div className="perfil-header">
                     <div className="perfil-avatar">
                         <img width={200} height={200} src="sinFoto.png" alt={usuario.nombre_usuario} />
-                        <h2>{usuario.nombre_completo}</h2>
-                        <h5>{usuario.nombre_usuario}</h5>
+                        <h2>{nombreCompleto}</h2>
+                        <h5>{nombreUsuario}</h5>
                         {usuario.id === userData.id &&
-                            <button>Editar perfil</button>
+                            <button onClick={() => setVerEditarPerfil(true)}>Editar perfil</button>
                         }
                         {usuario.id !== userData.id && siguiendo === true &&
                             <button onClick={() => dejarDeSeguir(userData.id, usuario.id)}>Dejar de seguir</button>
@@ -546,6 +601,24 @@ function Perfil() {
                             </div>
                         </div>
                     </div>
+                    {verCrearLista && (
+                        <div className="modal">
+                            <div id="cruzDivListasNormales" onClick={() => setVerCrearLista(false)}>
+                                <FontAwesomeIcon icon={faXmark} />
+                            </div>
+                            <div className="modal-content">
+                                <label htmlFor="nombreLista">Nombre de la lista: </label>
+                                <input type="text" value={nombreCrearLista} onChange={(e) => setNombreCrearLista(e.target.value)} />
+                                <br /><br />
+                                <label htmlFor="privacidad">Privacidad de la lista</label>
+                                <select id="privacidad" name="privacidad" onChange={(e) => setPublica(e.target.value === 'publica')}>
+                                    <option value="publica">Pública</option>
+                                    <option value="privada">Privada</option>
+                                </select>
+                                <button type="submit" onClick={() => crearLista()}>Crear lista</button>
+                            </div>
+                        </div>
+                    )}
                     {verEditarLista && (
                         <div className="modal">
                             <div id="cruzDivListasNormales" onClick={() => setVerEditarLista(false)}>
@@ -564,21 +637,27 @@ function Perfil() {
                             </div>
                         </div>
                     )}
-                    {verCrearLista && (
+                    {verEditarPerfil && (
                         <div className="modal">
-                            <div id="cruzDivListasNormales" onClick={() => setVerCrearLista(false)}>
-                                <FontAwesomeIcon icon={faXmark} />
-                            </div>
                             <div className="modal-content">
-                                <label htmlFor="nombreLista">Nombre de la lista: </label>
-                                <input type="text" value={nombreCrearLista} onChange={(e) => setNombreCrearLista(e.target.value)} />
+                                <div id="cruzDivListasNormales" onClick={() => {
+                                    setVerEditarPerfil(false); setNombreCompleto(userData.nombre_completo); setNombreUsuario(userData.nombre_usuario); setCorreo(userData.correo); setPassword(userData.clave)
+                                }}>
+                                    <FontAwesomeIcon icon={faXmark} />
+                                </div>
+                                <label htmlFor="nombreCompleto">Nombre completo: </label>
+                                <input id="nombreCompleto" type="text" value={nombreCompleto} onChange={(e) => setNombreCompleto(e.target.value)} />
                                 <br /><br />
-                                <label htmlFor="privacidad">Privacidad de la lista</label>
-                                <select id="privacidad" name="privacidad" onChange={(e) => setPublica(e.target.value === 'publica')}>
-                                    <option value="publica">Pública</option>
-                                    <option value="privada">Privada</option>
-                                </select>
-                                <button type="submit" onClick={() => crearLista()}>Crear lista</button>
+                                <label htmlFor="nombreUsuario">Nombre de usuario: </label>
+                                <input id="nombreUsuario" type="text" value={nombreUsuario} onChange={(e) => setNombreUsuario(e.target.value)} />
+                                <br /><br />
+                                <label htmlFor="correo">Correo electrónico: </label>
+                                <input id="correo" type="text" value={correo} onChange={(e) => setCorreo(e.target.value)} />
+                                <br /><br />
+                                <label htmlFor="clave">Contraseña: </label>
+                                <input id="clave" type="text" value={password} onChange={(e) => setPassword(e.target.value)} />
+                                <br /><br />
+                                <button type="submit" onClick={editarPerfil}>Editar perfil</button>
                             </div>
                         </div>
                     )}

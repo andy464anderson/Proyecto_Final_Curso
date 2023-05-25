@@ -252,7 +252,7 @@ async def put_usuario(id: int, usuario: Usuario):
     conn = conectar()
     cursor = conn.cursor()
     cursor.execute("UPDATE usuario SET correo = %s, nombre_completo = %s, nombre_usuario = %s, clave = %s, rol = %s WHERE id = %s",
-                   (usuario.correo, usuario.nombre_completo, usuario.nombre_usuario, usuario.clave, usuario.rol))
+                   (usuario.correo, usuario.nombre_completo, usuario.nombre_usuario, usuario.clave, usuario.rol, id))
     conn.commit()
     conn.close()
     cursor.close()

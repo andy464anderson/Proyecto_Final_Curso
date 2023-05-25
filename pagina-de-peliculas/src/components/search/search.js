@@ -21,11 +21,26 @@ const Search = () => {
               console.log(arregloUsuarios[i].nombre_usuario);
             }
         }); */
-    const { movieData } = useContext(HeaderContext);
+    const { movieData, updateMovieData } = useContext(HeaderContext);
 
     const [pelisFiltradas, setPelisFiltradas] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
     const [listaUsuarios, setUsuarios] = useState([]);
+
+    useEffect(() => {
+        const obtenerPeliculas = async () => {
+            const data = await fetch('http://localhost:8000/peliculas', {
+                method: 'GET',
+                headers: {
+                  'accept': 'application/json'
+                }
+              })
+            var peliculas = await data.json();
+            updateMovieData(peliculas)
+          };
+          obtenerPeliculas();
+
+    }, []);
 
     function cambiarResultados(tipo) {
         $("#select-tipo-buscador").val(tipo);
