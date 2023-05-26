@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
-    "jquery": "^3.6.4"
+    "jquery": "^3.6.4",
+    "react-tippy": "^1.4.0"
   }
 }

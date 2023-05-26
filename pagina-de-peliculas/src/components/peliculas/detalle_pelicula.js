@@ -236,7 +236,6 @@ const DetallePelicula = () => {
           body: JSON.stringify(reviewPeli),
         });
         const dataResponse = await response.json();
-        console.log(dataResponse);
 
         setCalificacion("");
         setContenido("");
@@ -246,7 +245,9 @@ const DetallePelicula = () => {
         );
         const dataReviews = await responseReviews.json();
         setReviews(dataReviews);
-        cancelarReview()
+        const ultimaReview = dataReviews[0];
+        listaReviewsFiltrada.unshift(ultimaReview);
+        cancelarReview();
       }
     } else {
       alert("No puedes realizar esta acción si no has iniciado sesión");
@@ -290,6 +291,7 @@ const DetallePelicula = () => {
     );
     const dataReviews = await responseReviews.json();
     setReviews(dataReviews);
+    setListaReviewsFiltrada(dataReviews);
   };
 
   const seleccionarOpcionReview = async (opcion) => {

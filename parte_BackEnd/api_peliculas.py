@@ -438,7 +438,7 @@ async def get_reviews():
 async def get_review(id):
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("SELECT r.id, r.id_usuario, r.id_pelicula, r.contenido, r.valoracion, r.fecha, u.rol, u.nombre_usuario, u.nombre_completo FROM review r join usuario u on r.id_usuario = u.id WHERE r.id_pelicula = %s", (id,))
+    cursor.execute("SELECT r.id, r.id_usuario, r.id_pelicula, r.contenido, r.valoracion, r.fecha, u.rol, u.nombre_usuario, u.nombre_completo FROM review r join usuario u on r.id_usuario = u.id WHERE r.id_pelicula = %s order by r.fecha desc, r.id desc", (id,))
     reviews = cursor.fetchall()
     conn.close()
     cursor.close()
