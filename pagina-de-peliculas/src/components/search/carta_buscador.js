@@ -21,7 +21,6 @@ const CartaBucador = ({ pelicula }) => {
         <p onClick={() => detallePelicula(pelicula.id)}><strong className="titulo-carta-buscador">{pelicula.title}</strong><span className="year-carta-buscador">{pelicula.release_date.split("-")[0]}</span></p>
         <p className="sinopsis-carta-buscador">{pelicula.overview}</p>
         <div className="detalle-pelicula-buscador">
-          <button className="boton-carta-buscador" value={pelicula.id} onClick={() => detallePelicula(pelicula.id)}>Ver más detalles</button>
           <BotonLike idPeli={pelicula.id} />
         </div>
       </div>

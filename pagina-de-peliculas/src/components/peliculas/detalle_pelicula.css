@@ -279,3 +279,17 @@ tr:nth-child(even) {
 #boton-eliminar-detalle:hover{
   border-bottom: 1px solid rgb(255, 60, 0);
 }
+.boton-volver button{
+  padding: 7px;
+  margin-top: 10px;
+  border: 0;
+  background-color: #14181C;
+  color: rgb(133, 149, 163);
+  width: 100%;
+  text-align: left;
+  border-radius: 4px;
+}
+.boton-volver button:hover{
+  background-color: #262d34;
+  cursor: pointer;
+}

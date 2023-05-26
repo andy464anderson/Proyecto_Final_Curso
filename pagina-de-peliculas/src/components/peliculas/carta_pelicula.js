@@ -17,10 +17,9 @@ const CartaPelicula = ({ pelicula }) => {
     <div className="carta-pelicula" value={pelicula.id}>
       <img onClick={() => detallePelicula(pelicula.id)} src={pelicula.poster} alt={pelicula.title} className="imagen-pelicula" />
       <div className="info-pelicula">
-        <p className="titulo-pelicula"><strong>{pelicula.title}</strong></p>
+        <p onClick={() => detallePelicula(pelicula.id)} className="titulo-pelicula"><strong>{pelicula.title}</strong></p>
         <p className="anno-pelicula">{pelicula.release_date}</p>
         <div className="boton-pelicula">
-          <button value={pelicula.id} onClick={() => detallePelicula(pelicula.id)}>Ver más detalles</button>
           <BotonLike idPeli={pelicula.id} />
         </div>
       </div>

@@ -19,6 +19,7 @@
   width: 170px;
   height: 250px;
   border-radius: 5px 5px 0px 0px;
+  cursor: pointer;
 }
 
 .boton-pelicula button{
@@ -37,4 +38,7 @@
 }
 .titulo-pelicula, .anno-pelicula{
   margin: 5px;
+}
+.titulo-pelicula{
+  cursor: pointer;
 }

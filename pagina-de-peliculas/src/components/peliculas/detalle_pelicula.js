@@ -91,7 +91,8 @@ const DetallePelicula = () => {
     var nota3 = reviews.filter(rev => rev.valoracion === 3)
     var nota4 = reviews.filter(rev => rev.valoracion === 4)
     var nota5 = reviews.filter(rev => rev.valoracion === 5)
-    var notaMedia = ((1 * nota1.length) + (2 * nota2.length) + (3 * nota3.length) + (4 * nota4.length) + (5 * nota5.length)) / reviews.length;
+    var reviewsSinNota = reviews.filter(rev => rev.valoracion !== -1)
+    var notaMedia = ((1 * nota1.length) + (2 * nota2.length) + (3 * nota3.length) + (4 * nota4.length) + (5 * nota5.length)) / reviewsSinNota.length;
     const etiquetas = ['1', '2', '3', '4', '5'];
     const valores = [nota1.length, nota2.length, nota3.length, nota4.length, nota5.length];
     const data = {
@@ -313,7 +314,9 @@ const DetallePelicula = () => {
     }
   }
 
-
+  const volver = () =>{
+    window.history.back();
+  }
 
   if (!pelicula || !reviews || !listaReviewsFiltrada) {
     return <div></div>
@@ -322,6 +325,9 @@ const DetallePelicula = () => {
     return (
       <div className="container">
         <div className="detalle-pelicula">
+          <div className="boton-volver">
+            <button onClick={volver}>Volver</button>
+          </div>
           <div className="poster-detalle">
             <img src={pelicula.poster} alt={pelicula.title} />
           </div>

@@ -2,6 +2,8 @@
   "dependencies": {
     "cheerio": "^1.0.0-rc.12",
     "jquery": "^3.6.4",
+    "react-icons": "^4.8.0",
+    "react-router-dom": "^6.11.2",
     "react-tippy": "^1.4.0"
   }
 }
