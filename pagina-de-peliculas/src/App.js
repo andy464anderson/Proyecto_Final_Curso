@@ -1,10 +1,9 @@
-// App.js
 import React from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import './App.css';
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
-import { HeaderContextProvider } from './components/header/headerContext'; // Importa el proveedor del contexto
+import { HeaderContextProvider } from './components/header/headerContext';
 import 'bootstrap/dist/js/bootstrap.min.js';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Search from './components/search/search';
@@ -17,7 +16,12 @@ import Social from './components/perfil/social';
 
 function App() {
   const location = useLocation();
-  const showFooter = ['/peliculas', '/detalle/:id', '/search', '/perfil/:nombre_usuario'].includes(location.pathname);
+
+  const showFooter =
+    location.pathname === '/peliculas' ||
+    location.pathname === '/search' ||
+    location.pathname.startsWith('/detalle/') ||
+    location.pathname.startsWith('/perfil/');
 
   return (
     <div className="app">
@@ -25,7 +29,6 @@ function App() {
         <Header />
         <div className="content">
           <Routes>
-            {/* <Route path="/" element={<Inicio />} /> */}
             <Route path="/peliculas" element={<Peliculas />} />
             <Route path="/detalle/:id" element={<DetallePelicula />} />
             <Route path="/search" element={<Search />} />
@@ -41,6 +44,5 @@ function App() {
     </div>
   );
 }
-
 
 export default App;
