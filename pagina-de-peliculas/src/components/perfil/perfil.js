@@ -152,6 +152,11 @@ function Perfil() {
                 `
         }).join('')}
         `);
+        $(".imagenLista").on("click", function () {
+            const id = $(this).attr('id');
+            var idPeli = id.split("-")[1];
+            navigate(`/detalle/${idPeli}`);
+        });
 
         var pelisEnLista = [];
         lista.peliculas.map(idPeli => {
@@ -351,9 +356,16 @@ function Perfil() {
     const seleccionarPelis = () => {
         if (seleccionar === true) {
             setSeleccionar(false);
-
+            setPelisSeleccionadas([]);
+            $("#infoListasNormalesCuerpo").find("div").removeClass("peliSeleccionada");
+            $(".imagenLista").on("click", function () {
+                const id = $(this).attr('id');
+                var idPeli = id.split("-")[1];
+                navigate(`/detalle/${idPeli}`);
+            });
         } else {
             setSeleccionar(true);
+            $(".imagenLista").off("click");
             if (usuario.id == userData.id) {
                 $(".imagenLista").on("click", function () {
                     const id = $(this).attr('id');
