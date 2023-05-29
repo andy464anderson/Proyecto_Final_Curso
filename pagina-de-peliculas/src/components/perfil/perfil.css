@@ -1,25 +1,30 @@
-.perfil-container{
+.perfil-container {
     width: 1000px;
     margin: auto;
 }
-.perfil-header{
+
+.perfil-header {
     display: flex;
     justify-content: space-between;
-    
+
     background-color: #14181C;
 }
-.perfil-avatar{
+
+.perfil-avatar {
     width: 70%;
 }
-.perfil-avatar h2{
+
+.perfil-avatar h2 {
     font-weight: 900;
     color: #fff6f6;
 }
-.perfil-avatar h5{
+
+.perfil-avatar h5 {
     font-style: italic;
     color: #8595A3;
 }
-.perfil-avatar button{
+
+.perfil-avatar button {
     background-color: #14181C;
     border: 1px solid #8595A3;
     border-radius: 3px;
@@ -30,19 +35,23 @@
     margin: 20px;
     margin-left: 0;
 }
-.perfil-avatar button:hover{
+
+.perfil-avatar button:hover {
     background-color: #262d34;
     border: 1px solid #40BCF4;
     color: #40BCF4;
 }
-.perfil-info{
+
+.perfil-info {
     width: 30%;
 }
-.seg{
+
+.seg {
     margin-top: 10px;
     width: 100%;
 }
-.seg tr{
+
+.seg tr {
     border: 3px solid #14181C;
     display: flex;
     justify-content: space-between;
@@ -51,18 +60,21 @@
     border: 0;
     border-bottom: 1px solid #14181C;
 }
-.seg tr td{
+
+.seg tr td {
     padding: 4px;
     padding-left: 10px;
     padding-right: 10px;
 }
-.seg tr:hover{
+
+.seg tr:hover {
     background-color: #262d34;
     color: white;
     cursor: pointer;
     border-bottom: 1px solid #40BCF4;
 }
-.opciones-perfil{
+
+.opciones-perfil {
     width: 100%;
     padding: 10px;
     padding-top: 0px;
@@ -73,7 +85,8 @@
     display: flex;
     justify-content: center;
 }
-.opciones-perfil button{
+
+.opciones-perfil button {
     padding: 10px;
     border: 0;
     color: #8595A3;
@@ -95,7 +108,7 @@
     align-items: center;
 }
 
-#divBotonesLista{
+#divBotonesLista {
     display: flex;
 }
 
@@ -104,13 +117,15 @@
     padding: 20px;
     border-radius: 5px;
     width: 400px;
-    
-}  
-.modal-content label{
+
+}
+
+.modal-content label {
     color: aliceblue;
-    font-weight: bold; 
-}  
-.modal-content input{
+    font-weight: bold;
+}
+
+.modal-content input {
     margin-top: 6px;
     width: 100%;
     background-color: #262d34;
@@ -120,14 +135,17 @@
     color: #fff6f6;
     padding: 3px;
     border-radius: 4px;
-}  
-.modal-content input:focus{
+}
+
+.modal-content input:focus {
     border-bottom: 2px solid #40BCF4;
-}  
-.modal-content select{
+}
+
+.modal-content select {
     margin-bottom: 20px;
-}  
-.modal-content button{
+}
+
+.modal-content button {
     color: lime;
     padding: 5px;
     border: 0;
@@ -135,80 +153,99 @@
     background-color: #4f5a68;
     border-radius: 4px;
     width: 100%;
-}   
-.modal-content button:hover{
+}
+
+.modal-content button:hover {
     background-color: #444d58;
-} 
-.opciones-perfil button:hover{
+}
+
+.opciones-perfil button:hover {
     color: #40BCF4;
 }
-#botonLikes{
+
+#botonLikes {
     background-color: #262d34;
     border-top: 2px solid #262d34;
     border-bottom: 2px solid #40BCF4;
     color: #40BCF4;
 }
-.listas-normales{
+
+.listas-normales {
     display: none;
 }
-.bloqueReseñas{
+
+.bloqueReseñas {
     display: none;
 }
-.lista-likes-hijo{
+
+.lista-likes-hijo {
     display: flex;
     flex-wrap: wrap;
     justify-content: left;
     padding: 10px;
 
 }
-.divPeliListaLike, .imagenLista{
-    width: 140px;    
+
+.divPeliListaLike,
+.imagenLista {
+    width: 140px;
     height: 190px;
     margin: 15px;
     border: 1px solid #8595A3;
     border-radius: 4px;
     transition: 10ms;
 }
-.divPeliListaLike:hover, .imagenLista:hover{
+
+.divPeliListaLike:hover,
+.imagenLista:hover {
     border: 3px solid #40BCF4;
     cursor: pointer;
 }
-.divPeliListaLike img{
-  width: 100%;
-  height: 100%;
+
+.divPeliListaLike img {
+    width: 100%;
+    height: 100%;
 }
-.perfil-review{
+
+.perfil-review {
     display: flex;
     border-bottom: 1px solid #8595A3;
     padding: 20px;
     background-color: #14181C;
 }
-.perfil-review img{
+
+.perfil-review img {
     cursor: pointer;
     border: 1px solid #8595A3;
     width: 150px;
     height: 200px;
     border-radius: 4px;
 }
-.review-info{
+
+.review-info {
     margin-left: 20px;
 }
-.review-info h3{
+
+.review-info h3 {
     color: #fff6f6;
     font-weight: bold;
 }
-.perfil-review-contenido{
+
+.perfil-review-contenido {
     color: #8595A3;
 }
-.perfil-review-fecha{
+
+.perfil-review-fecha {
     color: #8595A3;
     font-style: italic;
 }
-.review-info h3:hover{
+
+.review-info h3:hover {
     color: #40BCF4;
     cursor: pointer;
 }
-.perfil-review-rating{
+
+.perfil-review-rating {
     background-color: #262d34;
     width: 50px;
     text-align: center;
@@ -217,32 +254,36 @@
     color: #40BCF4;
     border: 1px solid #40BCF4;
 }
-.lista-normal{
+
+.lista-normal {
     display: flex;
     padding: 20px;
     border-bottom: 1px solid #8595A3;
 }
 
-.divPeliListaNormal img{
+.divPeliListaNormal img {
     width: 150px;
     height: 200px;
     border: 1px solid #8595A3;
     border-radius: 4px;
 }
 
-.nombreListaNormal{
+.nombreListaNormal {
     color: #fff6f6;
     margin: 20px;
 }
-.nombreListaNormal h5:hover{
+
+.nombreListaNormal h5:hover {
     color: #40BCF4;
     cursor: pointer;
 }
-.nombreListaNormal p{
+
+.nombreListaNormal p {
     color: #8595A3;
     font-style: italic;
 }
-#infoListasNormales{
+
+#infoListasNormales {
     position: fixed;
     background-color: rgba(34, 34, 34, 0.774);
     width: 100%;
@@ -253,7 +294,8 @@
     z-index: 100;
     display: none;
 }
-#infoListasNormalesHijo{
+
+#infoListasNormalesHijo {
     width: 800px;
     height: 500px;
     background-color: #262d34;
@@ -267,54 +309,66 @@
     border: 1px solid #8595A3;
     color: #fff6f6;
 }
-#infoListasNormalesHeader{
+
+#infoListasNormalesHeader {
     height: 10%;
     background-color: #262d34;
     padding: 10px;
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #8595A3;
-    
+
 }
-#tituloDivListasNormales{
+
+#tituloDivListasNormales {
     font-weight: bold;
 }
-#infoListasNormalesCuerpo{
+
+#infoListasNormalesCuerpo {
     margin: 10px;
     display: flex;
     flex-wrap: wrap;
     overflow-y: scroll;
 }
-#tituloDivListasNormales{
+
+#tituloDivListasNormales {
     width: 95%;
 }
-#cruzDivListasNormales{
+
+#cruzDivListasNormales {
     padding: 2px;
     width: 5%;
     text-align: center;
     border-radius: 4px;
 }
-#cruzDivListasNormales:hover{
+
+#cruzDivListasNormales:hover {
     background-image: radial-gradient(closest-side at center, rgb(254, 133, 133), rgb(249, 74, 74), rgb(254, 59, 59), rgb(250, 21, 21));
     cursor: pointer;
 }
-.imagenLista img{
+
+.imagenLista img {
     width: 100%;
     height: 100%;
 }
-body::-webkit-scrollbar, #infoListasNormalesCuerpo::-webkit-scrollbar{
+
+body::-webkit-scrollbar,
+#infoListasNormalesCuerpo::-webkit-scrollbar {
     width: 1em;
-  }
-   
-body::-webkit-scrollbar-track, #infoListasNormalesCuerpo::-webkit-scrollbar-track {
+}
+
+body::-webkit-scrollbar-track,
+#infoListasNormalesCuerpo::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
-   
-body::-webkit-scrollbar-thumb, #infoListasNormalesCuerpo::-webkit-scrollbar-thumb {
+
+body::-webkit-scrollbar-thumb,
+#infoListasNormalesCuerpo::-webkit-scrollbar-thumb {
     background-color: darkgrey;
     outline: 1px solid slategrey;
 }
-#boton-crear-lista{
+
+#boton-crear-lista {
     width: 100%;
     margin-top: 15px;
     padding: 5px;
@@ -322,9 +376,10 @@ body::-webkit-scrollbar-thumb, #infoListasNormalesCuerpo::-webkit-scrollbar-thum
     color: aliceblue;
     font-weight: bold;
     background-color: #40BCF4;
-    border-radius: 5px;    
+    border-radius: 5px;
 }
-.eliminar-lista{
+
+.eliminar-lista {
     color: rgb(255, 72, 0);
     background-color: #14181C;
     border: 0;
@@ -332,7 +387,8 @@ body::-webkit-scrollbar-thumb, #infoListasNormalesCuerpo::-webkit-scrollbar-thum
     margin-right: 15px;
     transition: 0.2s;
 }
-.editar-lista{
+
+.editar-lista {
     color: rgb(159, 46, 252);
     background-color: #14181C;
     border: 0;
@@ -340,9 +396,11 @@ body::-webkit-scrollbar-thumb, #infoListasNormalesCuerpo::-webkit-scrollbar-thum
     margin-right: 15px;
     transition: 0.2s;
 }
-.editar-lista:hover{
+
+.editar-lista:hover {
     border-bottom: 1px solid rgb(159, 46, 252);
 }
-.eliminar-lista:hover{
+
+.eliminar-lista:hover {
     border-bottom: 1px solid rgb(255, 72, 0);
 }

@@ -7,10 +7,10 @@ import $ from 'jquery';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faPlus } from '@fortawesome/free-solid-svg-icons';
 import BuscadorPelisLista from "./buscadorPelisLista";
+import BotonSeguir from "../botonSeguir/botonSeguir";
 
 function Perfil() {
     const navigate = useNavigate();
-    const [siguiendo, setSiguiendo] = useState(null);
     const [idLista, setIdLista] = useState(null);
     const [usuario, setUsuario] = useState(null);
     const [reviews, setReviews] = useState([]);
@@ -19,21 +19,18 @@ function Perfil() {
     const [seguidos, setSeguidos] = useState([]);
     const [listaPeliculas, setListaPeliculas] = useState([]);
     const [listaActual, setListaActual] = useState({});
-    const { movieData, userData, updateHeader, updateMovieData } = useContext(HeaderContext);
+    const { isLoggedIn, movieData, userData, updateHeader, updateMovieData } = useContext(HeaderContext);
     const nombre_usuario = window.location.pathname.split("/")[2];
     const [showSearch, setShowSearch] = useState(false);
     const [pelisSeleccionadas, setPelisSeleccionadas] = useState([]);
     const [verEditarLista, setVerEditarLista] = useState(false);
     const [verCrearLista, setVerCrearLista] = useState(false);
-    const [verEditarPerfil, setVerEditarPerfil] = useState(false);
     const [nombreEditarLista, setNombreEditarLista] = useState("");
     const [nombreCrearLista, setNombreCrearLista] = useState("");
     const [nombreCompleto, setNombreCompleto] = useState("");
     const [nombreUsuario, setNombreUsuario] = useState("");
-    const [correo, setCorreo] = useState("");
     const [publica, setPublica] = useState(false);
-    const [error, setError] = useState(false);
-    const [envioEditar, setEnvioEditar] = useState(false);
+    const [seleccionar, setSeleccionar] = useState(false);
 
     useEffect(() => {
         const obtenerPeliculas = async () => {
@@ -62,7 +59,6 @@ function Perfil() {
 
             setNombreCompleto(dataUsuario.nombre_completo);
             setNombreUsuario(dataUsuario.nombre_usuario);
-            setCorreo(dataUsuario.correo);
 
             const responseReviews = await fetch(`http://localhost:8000/reviews/usuario/${dataUsuario.id}`);
             const dataReviews = await responseReviews.json();
@@ -79,19 +75,9 @@ function Perfil() {
             const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${dataUsuario.id}`);
             const dataSeguidos = await responseSeguidos.json();
             setSeguidos(dataSeguidos);
-
-            if (userData) {
-                const responseSiguiendo = await fetch(`http://localhost:8000/seguidos/${userData.id}`);
-                const dataSiguiendo = await responseSiguiendo.json();
-                if (dataSiguiendo.find(user => user.id_usuario_seguido == dataUsuario.id)) {
-                    setSiguiendo(true);
-                } else {
-                    setSiguiendo(false);
-                }
-            }
         };
         obtenerDatosUsuario();
-    }, [nombre_usuario, userData.id]);
+    }, [nombre_usuario]);
 
     const pintarSeguidores = () => {
         navigate(`/perfil/${nombre_usuario}/seguidores`);
@@ -151,6 +137,7 @@ function Perfil() {
         } else {
             alert("No ha seleccionado ninguna película para eliminar");
         }
+        setSeleccionar(false);
     }
 
     function verLista(lista) {
@@ -165,13 +152,6 @@ function Perfil() {
                 `
         }).join('')}
         `);
-
-        if (usuario.id == userData.id) {
-            $(".imagenLista").on("click", function () {
-                const id = $(this).attr('id');
-                seleccionarPeli(id);
-            });
-        }
 
         var pelisEnLista = [];
         lista.peliculas.map(idPeli => {
@@ -257,47 +237,6 @@ function Perfil() {
             "border-bottom": "2px solid #14181C",
             "color": "#8595A3"
         });
-    }
-
-    const dejarDeSeguir = async (id_usuario_seguidor, id_usuario_seguido) => {
-        const dejarSeguir = await fetch(`http://localhost:8000/seguidor/${id_usuario_seguidor}/${id_usuario_seguido}`, {
-            method: "DELETE"
-        });
-
-        const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${usuario.id}`);
-        const dataSeguidores = await responseSeguidores.json();
-        setSeguidores(dataSeguidores);
-
-        const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${usuario.id}`);
-        const dataSeguidos = await responseSeguidos.json();
-        setSeguidos(dataSeguidos);
-        setSiguiendo(false);
-    }
-
-
-    const seguir = async (id_usuario_seguidor, id_usuario_seguido) => {
-        const userSeguido = {
-            id_usuario_seguidor,
-            id_usuario_seguido
-        };
-
-        const response = await fetch("http://localhost:8000/seguidor", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userSeguido),
-        });
-
-
-        const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${usuario.id}`);
-        const dataSeguidores = await responseSeguidores.json();
-        setSeguidores(dataSeguidores);
-
-        const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${usuario.id}`);
-        const dataSeguidos = await responseSeguidos.json();
-        setSeguidos(dataSeguidos);
-        setSiguiendo(true);
     }
 
     const accionPeliculasSeleccionadas = async (pelisSeleccionadas) => {
@@ -402,89 +341,37 @@ function Perfil() {
             const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
             const dataListas = await responseListas.json();
             setListas(dataListas);
+            setNombreCrearLista("");
             setVerCrearLista(false);
         } else {
             alert("El nombre no puede estar vacío");
         }
     }
 
-    const comprobarEditarPerfil = async () => {
-        if (correo != userData.correo || nombreCompleto != userData.nombre_completo || nombreUsuario != userData.nombre_usuario) {
-            const responseUsuarios = await fetch(`http://localhost:8000/usuarios`);
-            const dataUsuarios = await responseUsuarios.json();
+    const seleccionarPelis = () => {
+        if (seleccionar === true) {
+            setSeleccionar(false);
 
-            const listaExisteUsuario = dataUsuarios.filter(usuario => usuario.nombre_usuario == nombreUsuario && userData.nombre_usuario != nombreUsuario);
-            const listaExisteCorreo = dataUsuarios.filter(usuario => usuario.correo == correo && userData.correo != correo);
-
-            if (listaExisteUsuario.length > 0) {
-                alert('El nombre de usuario ya existe');
-                setError(true);
-            }
-
-            if (listaExisteCorreo.length > 0) {
-                alert('Ya existe una cuenta con ese correo electrónico');
-                setError(true);
-            }
-
-
-            if (nombreCompleto.length < 3) {
-                alert('El nombre debe tener al menos 3 caracteres');
-                setError(true);
-            }
-
-            if (nombreUsuario.length < 3) {
-                alert('El nombre de usuario debe tener al menos 3 caracteres');
-                setError(true);
-            }
-
-            if (!correo.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
-                alert('El formato del correo no es válido');
-                setError(true);
-            }
-
-            setEnvioEditar(true);
         } else {
-            alert("No se ha modificado nada");
-        }        
-    }
-
-    const editarPerfil = async () => {
-        if (envioEditar) {
-            if (error == false) {
-                const Usuario = {
-                    id: userData.id,
-                    correo: correo,
-                    clave: userData.clave,
-                    rol: userData.rol,
-                    nombre_usuario: nombreUsuario,
-                    nombre_completo: nombreCompleto
-                }
-
-                const response = await fetch(`http://localhost:8000/usuario/${userData.id}`, {
-                    method: "PUT",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(Usuario),
+            setSeleccionar(true);
+            if (usuario.id == userData.id) {
+                $(".imagenLista").on("click", function () {
+                    const id = $(this).attr('id');
+                    seleccionarPeli(id);
                 });
-                const dataResponse = await response.json();
-                setNombreUsuario(dataResponse.nombre_usuario);
-                setNombreCompleto(dataResponse.nombre_completo);
-                setCorreo(dataResponse.correo);
-                updateHeader(true, dataResponse);
-                navigate(`/perfil/${dataResponse.nombre_usuario}`);
-                setVerEditarPerfil(false);
             }
         }
-        setError(false);
-        setEnvioEditar(false);
     }
 
-    useEffect(()=>{
-        editarPerfil();
-    }, [envioEditar]);
+    const actualizarDatos = (seguidos, seguidores, nombreUsuario, nombreCompleto) => {
+        setSeguidos(seguidos);
+        setSeguidores(seguidores);
+        setNombreCompleto(nombreCompleto);
+        setNombreUsuario(nombreUsuario);
+    }
 
-    if (!usuario || !reviews || !listas || !seguidores || siguiendo == null) {
+
+    if (!usuario || !reviews || !listas || !seguidores) {
         return <div></div>;
     } else {
         const listaReviews = obtenerReviewsUsuarioConPeliculas(movieData, reviews, usuario.id);
@@ -502,15 +389,7 @@ function Perfil() {
                         <img width={200} height={200} src="sinFoto.png" alt={usuario.nombre_usuario} />
                         <h2>{nombreCompleto}</h2>
                         <h5>{nombreUsuario}</h5>
-                        {usuario.id === userData.id &&
-                            <button onClick={() => setVerEditarPerfil(true)}>Editar perfil</button>
-                        }
-                        {usuario.id !== userData.id && siguiendo === true &&
-                            <button onClick={() => dejarDeSeguir(userData.id, usuario.id)}>Dejar de seguir</button>
-                        }
-                        {usuario.id !== userData.id && siguiendo === false &&
-                            <button onClick={() => seguir(userData.id, usuario.id)}>Seguir</button>
-                        }
+                        <BotonSeguir usuario={usuario} actualizarDatos={actualizarDatos} />
                     </div>
 
                     <div className="perfil-info">
@@ -572,11 +451,11 @@ function Perfil() {
                         ))}
                     </div>
                     <div className="listas-normales">
-                        {usuario.id === userData.id && (
+                        {isLoggedIn && usuario.id === userData.id && (
                             <button id="boton-crear-lista" type="button" onClick={() => { setVerCrearLista(true) }}>Crear nueva lista <FontAwesomeIcon icon={faPlus} /></button>
                         )}
                         {listaNormal.map((lista) => (
-                            (usuario.id === userData.id) ? (
+                            (isLoggedIn && usuario.id === userData.id) ? (
                                 <div className="lista-normal" id={lista.id} key={lista.id}>
                                     {lista.peliculasLista.length > 0 && (
                                         <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
@@ -624,12 +503,13 @@ function Perfil() {
                         <div id="infoListasNormalesHijo">
                             <div id="infoListasNormalesHeader">
                                 <div id="tituloDivListasNormales">titulo</div>
-                                <div id="cruzDivListasNormales" onClick={esconderLista}>
+                                <div id="cruzDivListasNormales" onClick={() => { esconderLista(); setSeleccionar(false) }}>
                                     <FontAwesomeIcon icon={faXmark} /> </div>
-                                {usuario.id === userData.id &&
+                                {isLoggedIn && usuario.id === userData.id &&
                                     <div id="divBotonesLista">
-                                        <button onClick={() => setShowSearch(true)}>Agregar películas a la lista</button>
-                                        <button onClick={eliminarPeliculasLista}>Eliminar las películas seleccionadas</button>
+                                        <button id="btnSeleccionarPelis" onClick={seleccionarPelis}>Seleccionar</button>
+                                        <button id="btnAgregarPelis" disabled={seleccionar} onClick={() => { setShowSearch(true); setSeleccionar(false) }}>Agregar películas a la lista</button>
+                                        <button id="btnEliminarPelis" disabled={!seleccionar} onClick={eliminarPeliculasLista}>Eliminar las películas seleccionadas</button>
                                     </div>
                                 }
                                 {showSearch && (
@@ -682,36 +562,6 @@ function Perfil() {
                                     <option value="privada">Privada</option>
                                 </select>
                                 <button type="submit" onClick={() => editarLista(listaActual)}>Actualizar lista</button>
-                            </div>
-                        </div>
-                    )}
-                    {verEditarPerfil && (
-                        <div className="modal">
-                            <div className="modal-content">
-                                <div id="caja-editar-perfil">
-                                    
-                                    <div id="cruzDivListasNormales" onClick={() => {
-                                        setVerEditarPerfil(false); setNombreCompleto(userData.nombre_completo); setNombreUsuario(userData.nombre_usuario); setCorreo(userData.correo); setError(false); setEnvioEditar(false);
-                                    }}>
-                                        <FontAwesomeIcon icon={faXmark} />
-                                    </div>
-                                    <div>
-                                        <label htmlFor="nombreCompleto">Nombre completo: </label>
-                                        <br />
-                                        <input id="nombreCompleto" type="text" value={nombreCompleto} onChange={(e) => setNombreCompleto(e.target.value)} />
-                                        <br /><br />
-                                        <label htmlFor="nombreUsuario">Nombre de usuario: </label>
-                                        <br />
-                                        <input id="nombreUsuario" type="text" value={nombreUsuario} onChange={(e) => setNombreUsuario(e.target.value)} />
-                                        <br /><br />
-                                        <label htmlFor="correo">Correo electrónico: </label>
-                                        <br />
-                                        <input id="correo" type="text" value={correo} onChange={(e) => setCorreo(e.target.value)} />
-                                        <br /><br />
-                                        <button type="submit" onClick={comprobarEditarPerfil}>Guardar cambios</button>
-                                    </div>
-
-                                </div>
                             </div>
                         </div>
                     )}

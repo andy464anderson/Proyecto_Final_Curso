@@ -21,7 +21,7 @@ const Search = () => {
               console.log(arregloUsuarios[i].nombre_usuario);
             }
         }); */
-    const { movieData, updateMovieData } = useContext(HeaderContext);
+    const { movieData, updateMovieData, userData, isLoggedIn } = useContext(HeaderContext);
 
     const [pelisFiltradas, setPelisFiltradas] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -32,13 +32,13 @@ const Search = () => {
             const data = await fetch('http://localhost:8000/peliculas', {
                 method: 'GET',
                 headers: {
-                  'accept': 'application/json'
+                    'accept': 'application/json'
                 }
-              })
+            })
             var peliculas = await data.json();
             updateMovieData(peliculas)
-          };
-          obtenerPeliculas();
+        };
+        obtenerPeliculas();
 
     }, []);
 
@@ -62,13 +62,14 @@ const Search = () => {
         navigate(`/perfil/${usuario}`);
     }
     const buscarPeliculas = () => {
-
-
-
-
         var textoBuscador = document.getElementById("buscador").value.toLowerCase();
         var pelisFiltradas1 = movieData.filter((peli) => peli.title.toLowerCase().includes(textoBuscador));
-        var usuariosFiltrados = listaUsuarios.filter((user) => user.nombre_usuario.toLowerCase().includes(textoBuscador));
+        var usuariosFiltrados = [];
+        if (isLoggedIn) {
+            usuariosFiltrados = listaUsuarios.filter((user) => user.nombre_usuario.toLowerCase().includes(textoBuscador) && user.id != userData.id);
+        } else {
+            usuariosFiltrados = listaUsuarios.filter((user) => user.nombre_usuario.toLowerCase().includes(textoBuscador));
+        }
         /*         console.log(pelisFiltradas1);
                 console.log(usuariosFiltrados); */
         var listaFiltrada = [...usuariosFiltrados, ...pelisFiltradas1];
