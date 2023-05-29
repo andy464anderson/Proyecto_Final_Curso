@@ -314,7 +314,7 @@ const DetallePelicula = () => {
     }
   }
 
-  const volver = () =>{
+  const volver = () => {
     window.history.back();
   }
 
@@ -430,8 +430,12 @@ const DetallePelicula = () => {
               <div id="opcionesReviews">
                 <p>¿De quién quieres ver las reseñas?</p>
                 <button onClick={() => seleccionarOpcionReview("general")}>General</button>
-                <button onClick={() => seleccionarOpcionReview("amigos")}>Amigos</button>
-                <button onClick={() => seleccionarOpcionReview("tu")}>Tú</button>
+                {isLoggedIn && (
+                  <>
+                    <button onClick={() => seleccionarOpcionReview("amigos")}>Amigos</button>
+                    <button onClick={() => seleccionarOpcionReview("tu")}>Tú</button>
+                  </>
+                )}
               </div>
               <div id="resenas">
                 <div className="resena-list">
