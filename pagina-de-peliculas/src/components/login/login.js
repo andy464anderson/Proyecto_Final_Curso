@@ -36,7 +36,7 @@ function Login() {
 
     return (
         <div className="carta-login">
-            <h1>Peliculas.</h1>
+            <h1>Inicia sesión</h1>
 
             <label htmlFor="email">Email</label>
             <input type="email" name="email" id="email" className={error ? "error" : ""} />

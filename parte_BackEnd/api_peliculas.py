@@ -386,6 +386,81 @@ async def delete_seguidor(id_usuario_seguidor: int, id_usuario_seguido: int):
     return {"message": "Seguidor eliminado"}
 
 
+@app.get("/cercanas/{id}")
+async def get_cercanas(id):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute('SELECT DISTINCT u.id, u.nombre_usuario, u.nombre_completo FROM usuario u JOIN seguidor s1 ON u.id = s1.id_usuario_seguido JOIN seguidor s2 ON s1.id_usuario_seguidor = s2.id_usuario_seguido WHERE s2.id_usuario_seguidor = %s;', (id,))
+    seguidores = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    lista_seguidores = []
+    for seguidor in seguidores:
+        lista_seguidores.append({
+            "id_usuario": seguidor[0],
+            "nombre_usuario": seguidor[1],
+            "nombre_completo": seguidor[2],
+        })
+
+    return lista_seguidores
+
+@app.get("/populares")
+async def get_populares():
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute('SELECT seguidores.id_usuario, seguidores.nombre_usuario, seguidores.nombre_completo, seguidores.num_seguidores, r.id AS id_review, r.contenido, r.valoracion, r.fecha, r.id_pelicula FROM (SELECT u.id as id_usuario, u.nombre_usuario as nombre_usuario, u.nombre_completo as nombre_completo, COUNT(s.id_usuario_seguidor) AS num_seguidores FROM usuario u LEFT JOIN seguidor s ON u.id = s.id_usuario_seguido GROUP BY u.id, u.nombre_usuario, u.nombre_completo ORDER BY num_seguidores DESC LIMIT 5) AS seguidores LEFT JOIN review r ON seguidores.id_usuario = r.id_usuario WHERE r.id IN (SELECT id FROM review WHERE id_usuario = seguidores.id_usuario ORDER BY fecha desc LIMIT 4) ORDER BY seguidores.id_usuario, seguidores.num_seguidores asc;')
+    seguidores = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    lista_seguidores = []
+    for seguidor in seguidores:
+        lista_seguidores.append({
+            "id_usuario": seguidor[0],
+            "nombre_usuario": seguidor[1],
+            "nombre_completo": seguidor[2],
+            "num_seguidores": seguidor[3],
+            "id_review": seguidor[4],
+            "review_contenido": seguidor[5],
+            "review_valoracion": seguidor[6],
+            "review_fecha": seguidor[7],
+            "id_pelicula": seguidor[8],
+        })
+
+    return lista_seguidores
+
+@app.get("/toplikes")
+async def get_toplikes():
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT pelicula_id, COUNT(*) AS total_likes FROM (SELECT UNNEST(peliculas) AS pelicula_id FROM lista WHERE lower(tipo) = 'likes') AS subquery GROUP BY pelicula_id ORDER BY total_likes DESC limit 5;")
+    pelis = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    lista_pelis = []
+    for peli in pelis:
+        lista_pelis.append({
+            "pelicula_id": peli[0],
+            "total_likes": peli[1],
+        })
+
+    return lista_pelis
+@app.get("/topvaloracion")
+async def get_topvaloracion():
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT id_pelicula, AVG(valoracion) as valoracion_media FROM review where valoracion != -1 group by id_pelicula order by valoracion_media desc limit 5;")
+    pelis = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    lista_pelis = []
+    for peli in pelis:
+        lista_pelis.append({
+            "pelicula_id": peli[0],
+            "valoracion_media": peli[1],
+        })
+
+    return lista_pelis
+
 # --------------------------------------------------------------------------------
 # creamos la api para los reviews
 
@@ -414,7 +489,7 @@ class NewReview(BaseModel):
 async def get_reviews():
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM review")
+    cursor.execute("SELECT r.id, r.id_usuario, r.id_pelicula, r.contenido, r.valoracion, r.fecha, u.nombre_usuario FROM review r join usuario u on r.id_usuario = u.id where contenido != '' order by r.fecha desc, r.id desc limit 5")
     reviews = cursor.fetchall()
     conn.close()
     cursor.close()
@@ -426,7 +501,8 @@ async def get_reviews():
             "id_pelicula": review[2],
             "contenido": review[3],
             "valoracion": review[4],
-            "fecha": review[5]
+            "fecha": review[5],
+            "nombre_usuario": review[6],
         })
 
     return lista_reviews

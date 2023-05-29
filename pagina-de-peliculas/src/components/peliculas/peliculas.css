@@ -3,7 +3,6 @@ body{
   margin: 0;
 }
 .container-peliculas{
-  padding: 30px;
   display: flex;
   justify-content: center;
 

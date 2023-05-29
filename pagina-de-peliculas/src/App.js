@@ -13,11 +13,13 @@ import Perfil from './components/perfil/perfil';
 import Login from './components/login/login';
 import Registrar from './components/Registrar/registrar';
 import Social from './components/perfil/social';
+import Inicio from './components/inicio/inicio';
 
 function App() {
   const location = useLocation();
 
   const showFooter =
+    location.pathname === '/' ||
     location.pathname === '/peliculas' ||
     location.pathname === '/search' ||
     location.pathname.startsWith('/detalle/') ||
@@ -29,6 +31,7 @@ function App() {
         <Header />
         <div className="content">
           <Routes>
+            <Route path="/" element={<Inicio />} />
             <Route path="/peliculas" element={<Peliculas />} />
             <Route path="/detalle/:id" element={<DetallePelicula />} />
             <Route path="/search" element={<Search />} />

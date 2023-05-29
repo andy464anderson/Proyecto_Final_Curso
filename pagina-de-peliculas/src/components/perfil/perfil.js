@@ -5,7 +5,7 @@ import { useEffect, useState, useContext } from "react";
 import { HeaderContext } from "../header/headerContext";
 import $ from 'jquery';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faPlus, faPencil } from '@fortawesome/free-solid-svg-icons';
 import BuscadorPelisLista from "./buscadorPelisLista";
 import BotonSeguir from "../botonSeguir/botonSeguir";
 
@@ -519,7 +519,7 @@ function Perfil() {
                                     <FontAwesomeIcon icon={faXmark} /> </div>
                                 {isLoggedIn && usuario.id === userData.id &&
                                     <div id="divBotonesLista">
-                                        <button id="btnSeleccionarPelis" onClick={seleccionarPelis}>Seleccionar</button>
+                                        <button id="btnSeleccionarPelis" onClick={seleccionarPelis}><FontAwesomeIcon icon={faPencil} /></button>
                                         <button id="btnAgregarPelis" disabled={seleccionar} onClick={() => { setShowSearch(true); setSeleccionar(false) }}>Agregar películas a la lista</button>
                                         <button id="btnEliminarPelis" disabled={!seleccionar} onClick={eliminarPeliculasLista}>Eliminar las películas seleccionadas</button>
                                     </div>

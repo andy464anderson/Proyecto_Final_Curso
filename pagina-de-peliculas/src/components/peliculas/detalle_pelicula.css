@@ -14,6 +14,7 @@ tr:nth-child(even) {
 }
 #castYReviews{
   background-color: #1e2329;
+  width: 100%;
 }
 #botonesCastYReviews{
   display: flex;
@@ -288,6 +289,7 @@ tr:nth-child(even) {
   width: 100%;
   text-align: left;
   border-radius: 4px;
+  
 }
 .boton-volver button:hover{
   background-color: #262d34;

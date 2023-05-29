@@ -1,0 +1,8 @@
+#divPersonasCercanas, #divUsuariosPopulares, #divUltimasReviews, #divTopLikes, #divTopValoracion{
+    color: aliceblue;
+}
+#central-inicio{
+    width: 1000px;
+    background-color: red;
+    margin: auto;
+}

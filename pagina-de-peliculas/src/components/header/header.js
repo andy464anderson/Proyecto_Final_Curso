@@ -44,18 +44,15 @@ function Header({children}) {
     <div>
       <nav>
         <div className="menu-left">
-          <img src="logo.png" alt="Logo" />
+          <img src="logo.svg" alt="Logo" />
         </div>
         <div className="menu-middle">
           <ul>
             <li>
-              <Link to="#">Inicio</Link>
+              <Link to="/">Inicio</Link>
             </li>
             <li>
               <Link to="/peliculas">Peliculas</Link>
-            </li>
-            <li>
-              <Link to="#">Contacto</Link>
             </li>
             {!isLoggedIn && (
               <li className="dropdown" onClick={toggleDropdown}>
@@ -93,6 +90,8 @@ function Header({children}) {
           )}
         </div>
       </nav>
+      <div id="separador-header">
+      </div>
       <main className="content">
         {children}
       </main>
