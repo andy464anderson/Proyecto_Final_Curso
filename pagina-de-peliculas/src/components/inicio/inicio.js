@@ -65,7 +65,6 @@ const Inicio = () => {
       const topValoracion = await fetch(`http://localhost:8000/topvaloracion`);
       const datatopValoracion = await topValoracion.json();
       setTopValoracion(datatopValoracion);
-
       if(isLoggedIn){
         const personasCercanas = await fetch(`http://localhost:8000/cercanas/${userData.id}`);
         const dataPersonasCercanas = await personasCercanas.json();
@@ -74,13 +73,10 @@ const Inicio = () => {
         setPersonasCercanas(dataFiltrado);
       }else{
         setPersonasCercanas([]);
-      }
-
-
-      
+      }      
     };
     obtenerUsuariosPopulares();
-  }, []);
+  }, [isLoggedIn]);
   const items = [
     {
       imageUrl: 'bergman.jpg',
@@ -129,7 +125,7 @@ const Inicio = () => {
               personasCercanas.map((usuario) => {
                 var usuarios = listaUsuarios.find(user => user.nombre_usuario === usuario.nombre_usuario);
                 return(                
-                    <div className='usuarios-conocidos-inicio'>
+                    <div key={usuarios.id} className='usuarios-conocidos-inicio'>
                     <span>{usuario.nombre_usuario}</span><br />
                     <span>{usuario.nombre_completo}</span><br />
                     <BotonSeguir usuario={usuarios} actualizarDatos={undefined} />
@@ -165,7 +161,7 @@ const Inicio = () => {
         <br />
         <div id="divUltimasReviews">
         {ultimasReviews.map((review) => (
-          <div>{review.contenido}</div>
+          <div key={review.id}>{review.contenido}</div>
         ))}
         </div>
         <br />
@@ -173,7 +169,7 @@ const Inicio = () => {
         {topLikes.map((peli) => {
           const pelicula = movieData.find(p => p.id === peli.pelicula_id);
           if (pelicula){
-            return (<div>{pelicula.title}</div>)
+            return (<div key={pelicula.id}>{pelicula.title}</div>)
           }
         }
         )}
@@ -183,7 +179,7 @@ const Inicio = () => {
         {topValoracion.map((peli) => {
           const pelicula = movieData.find(p => p.id === peli.pelicula_id);
           if (pelicula){
-            return (<div>{pelicula.title}</div>)
+            return (<div key={pelicula.id}>{pelicula.title}</div>)
           }
         }
         )}
