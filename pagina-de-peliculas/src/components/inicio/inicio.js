@@ -13,28 +13,30 @@ const Inicio = () => {
   const [topValoracion, setTopValoracion] = useState([]);
   const [personasCercanas, setPersonasCercanas] = useState([]);
   const [listaUsuarios, setUsuarios] = useState([]);
-  const {userData, isLoggedIn, updateMovieData, movieData} = useContext(HeaderContext);
+  const { userData, isLoggedIn, updateMovieData, movieData } = useContext(HeaderContext);
+  const [listaObjetosPopular, setListaObjetosPopular] = useState([]);
+
   useEffect(() => {
     const obtenerPeliculas = async () => {
-        const data = await fetch('http://localhost:8000/peliculas', {
-            method: 'GET',
-            headers: {
-              'accept': 'application/json'
-            }
-          })
-        var peliculas = await data.json();
-        updateMovieData(peliculas)
-      };
-      obtenerPeliculas();
+      const data = await fetch('http://localhost:8000/peliculas', {
+        method: 'GET',
+        headers: {
+          'accept': 'application/json'
+        }
+      })
+      var peliculas = await data.json();
+      updateMovieData(peliculas)
+    };
+    obtenerPeliculas();
 
-}, []);
+  }, []);
   useEffect(() => {
     const obtenerDatosUsuario = async () => {
       const responseUsuario = await fetch(`http://localhost:8000/usuarios`, {
-          method: "GET",
-          headers: {
-              accept: "application/json",
-          },
+        method: "GET",
+        headers: {
+          accept: "application/json",
+        },
       });
       var dataUsuario = await responseUsuario.json();
 
@@ -42,13 +44,13 @@ const Inicio = () => {
     };
     var promesaUsuarios = obtenerDatosUsuario();
     promesaUsuarios.then((data) => {
-        setUsuarios(data);
+      setUsuarios(data);
 
     }).catch((error) => {
-        console.error(error);
+      console.error(error);
     });
     const obtenerUsuariosPopulares = async () => {
-      
+
 
       const usuariosPopulares = await fetch(`http://localhost:8000/populares`);
       const dataUsuariosPopulares = await usuariosPopulares.json();
@@ -65,14 +67,14 @@ const Inicio = () => {
       const topValoracion = await fetch(`http://localhost:8000/topvaloracion`);
       const datatopValoracion = await topValoracion.json();
       setTopValoracion(datatopValoracion);
-      if(isLoggedIn){
+      if (isLoggedIn) {
         const personasCercanas = await fetch(`http://localhost:8000/cercanas/${userData.id}`);
         const dataPersonasCercanas = await personasCercanas.json();
         var dataFiltrado = dataPersonasCercanas.filter(data => data.id_usuario !== userData.id);
         setPersonasCercanas(dataFiltrado);
-      }else{
+      } else {
         setPersonasCercanas([]);
-      }      
+      }
     };
     obtenerUsuariosPopulares();
   }, [isLoggedIn]);
@@ -106,22 +108,26 @@ const Inicio = () => {
       groupedReviews[usuario.nombre_usuario] = [usuario];
     }
   });
-  
-  const itemsPopulares = [];
+
   const cargarReviewsPopulares = () => {
+    var lista = [];
     Object.keys(groupedReviews).map((username) => {
-      
       var objetoUsuarioPopular = {};
       objetoUsuarioPopular.usuario = username;
+      var listaReviews = [];
 
       groupedReviews[username].map((review, i) => {
-        objetoUsuarioPopular["review"+(i+1)] = review;
+        var objetoReview = {};
+        objetoReview.contenido = review.review_contenido;
+        objetoReview.idPeli = review.id_pelicula;
+        listaReviews.push(objetoReview);
       });
-    itemsPopulares.push(objetoUsuarioPopular);
+      objetoUsuarioPopular.listaReviews = listaReviews;
+      lista.push(objetoUsuarioPopular);
     });
-    
+    return lista;
   }
-  cargarReviewsPopulares();
+
   return (
     <div>
       <div id='central-inicio'>
@@ -129,39 +135,37 @@ const Inicio = () => {
         {isLoggedIn && (
           <h4>Bienvenido {userData.nombre_usuario}</h4>
         )}
-        
+
         <div>
           <Carousel items={items} />
         </div>
         <p className='titular-inicio'>Personas que quizás conozcas</p>
         <div id="divPersonasCercanas">
-            {personasCercanas.length > 0 && (
-              personasCercanas.map((usuario) => {
-                var usuarios = listaUsuarios.find(user => user.nombre_usuario === usuario.nombre_usuario);
-                return(                
-                    <div key={usuarios.id} className='usuarios-conocidos-inicio'>
-                    <span>{usuario.nombre_usuario}</span><br />
-                    <span>{usuario.nombre_completo}</span><br />
-                    <BotonSeguir usuario={usuarios} actualizarDatos={undefined} />
-                  </div>)
+          {personasCercanas.length > 0 && (
+            personasCercanas.map((usuario) => {
+              var usuarios = listaUsuarios.find(user => user.nombre_usuario === usuario.nombre_usuario);
+              return (
+                <div key={usuarios.id} className='usuarios-conocidos-inicio'>
+                  <span>{usuario.nombre_usuario}</span><br />
+                  <span>{usuario.nombre_completo}</span><br />
+                  <BotonSeguir usuario={usuarios} actualizarDatos={undefined} />
+                </div>)
 
-              }
-                
+            }
 
-              )
-            )}
+
+            )
+          )}
         </div>
         <p className='titular-inicio'>Reseñas de usuarios populares</p>
-        <div>
-          {/* <CarouselPoulares items={itemsPopulares} /> */}
-        </div>
         <div id="divUsuariosPopulares">
-            {Object.keys(groupedReviews).map((username) => (
+          {Object.keys(groupedReviews).map((username) => {
+            return (
               <div key={username}>
                 <h3>Usuario: {username}</h3>
                 {groupedReviews[username].map((review) => {
                   const pelicula = movieData.find(p => p.id === review.id_pelicula);
-                  return(
+                  return (
                     <div key={review.review_id}>
                       <h5>{pelicula.title}</h5>
                       <p>{review.review_contenido}</p>
@@ -169,34 +173,41 @@ const Inicio = () => {
                     </div>
                   )
                 })}
+
               </div>
-            ))}
+            )
+          })}
+        </div>
+        <div>
+          <CarouselPoulares items={cargarReviewsPopulares()} />
+        </div>
+        <div>
         </div>
         <br />
         <div id="divUltimasReviews">
-        {ultimasReviews.map((review) => (
-          <div key={review.id}>{review.contenido}</div>
-        ))}
+          {ultimasReviews.map((review) => (
+            <div key={review.id}>{review.contenido}</div>
+          ))}
         </div>
         <br />
         <div id="divTopLikes">
-        {topLikes.map((peli) => {
-          const pelicula = movieData.find(p => p.id === peli.pelicula_id);
-          if (pelicula){
-            return (<div key={pelicula.id}>{pelicula.title}</div>)
+          {topLikes.map((peli) => {
+            const pelicula = movieData.find(p => p.id === peli.pelicula_id);
+            if (pelicula) {
+              return (<div key={pelicula.id}>{pelicula.title}</div>)
+            }
           }
-        }
-        )}
+          )}
         </div>
         <br />
         <div id="divTopValoracion">
-        {topValoracion.map((peli) => {
-          const pelicula = movieData.find(p => p.id === peli.pelicula_id);
-          if (pelicula){
-            return (<div key={pelicula.id}>{pelicula.title}</div>)
+          {topValoracion.map((peli) => {
+            const pelicula = movieData.find(p => p.id === peli.pelicula_id);
+            if (pelicula) {
+              return (<div key={pelicula.id}>{pelicula.title}</div>)
+            }
           }
-        }
-        )}
+          )}
         </div>
       </div>
 

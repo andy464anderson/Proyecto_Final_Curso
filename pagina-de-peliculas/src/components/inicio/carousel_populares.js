@@ -13,6 +13,7 @@ const CarouselPoulares = ({ items }) => {
   const handleNext = () => {
     setActiveIndex(prevIndex => (prevIndex === items.length - 1 ? 0 : prevIndex + 1));
   };
+  console.log(items);
 
   return (
     <div className="carousel">
@@ -22,16 +23,24 @@ const CarouselPoulares = ({ items }) => {
             key={index}
             className={`carousel-item ${index === activeIndex ? 'active' : ''}`}
           >
+            <div className="carousel-central">
+              <button className="carousel-button" onClick={handlePrev}>
+                <FontAwesomeIcon icon={faAnglesLeft} />
+              </button>
+              <img className='imagenesCarousel' src={item.imageUrl} alt={item.titulo} />
+              <button className="carousel-button" onClick={handleNext}>
+                <FontAwesomeIcon icon={faAnglesRight} />
+              </button>
+            </div>
             <h2>{item.usuario}</h2>
-            <p>{item.review1}</p>
-            <p>{item.review2}</p>
-            <p>{item.review3}</p>
-            <p>{item.review4}</p>
+            {item.listaReviews.map((review, index) => {
+              return (
+                <p key={index}>{review.contenido}</p>
+              )
+            })}
           </div>
         ))}
       </div>
-
-
     </div>
   );
 };
