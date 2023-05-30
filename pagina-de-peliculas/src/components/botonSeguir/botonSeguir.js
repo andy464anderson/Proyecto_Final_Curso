@@ -65,7 +65,9 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
         const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${usuario.id}`);
         const dataSeguidos = await responseSeguidos.json();
         setSeguidos(dataSeguidos);
-        actualizarDatos(dataSeguidos, dataSeguidores, nombreUsuario, nombreCompleto);
+        if (typeof actualizarDatos === 'function') {
+            actualizarDatos(dataSeguidos, dataSeguidores, nombreUsuario, nombreCompleto);
+        }
         setSiguiendo(true);
     }
 
@@ -81,7 +83,9 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
         const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${usuario.id}`);
         const dataSeguidos = await responseSeguidos.json();
         setSeguidos(dataSeguidos);
-        actualizarDatos(dataSeguidos, dataSeguidores, nombreUsuario, nombreCompleto);
+        if (typeof actualizarDatos === 'function') {
+            actualizarDatos(dataSeguidos, dataSeguidores, nombreUsuario, nombreCompleto);
+        }
         setSiguiendo(false);
     }
 
@@ -109,7 +113,9 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
                 setNombreCompleto(dataResponse.nombre_completo);
                 setCorreo(dataResponse.correo);
                 updateHeader(true, dataResponse);
-                actualizarDatos(seguidos, seguidores, dataResponse.nombre_usuario, dataResponse.nombre_completo);
+                if (typeof actualizarDatos === 'function') {
+                    actualizarDatos(seguidos, seguidores, dataResponse.nombre_usuario, dataResponse.nombre_completo);
+                }
                 navigate(`/perfil/${dataResponse.nombre_usuario}`);
                 setVerEditarPerfil(false);
             }
@@ -161,7 +167,7 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
     return (
         <>
             {isLoggedIn && userData ? (
-                <>
+                <div className="botonUsuario">
                     {usuario.id === userData.id && (
                         <button onClick={() => setVerEditarPerfil(true)}>Editar perfil</button>
                     )}
@@ -171,7 +177,7 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
                     {usuario.id !== userData.id && siguiendo === false && (
                         <button onClick={() => seguir(userData.id, usuario.id)}>Seguir</button>
                     )}
-                </>
+                </div>
             ) : (
                 <button className="deshabilitado" disabled={true}>Seguir</button>
             )}

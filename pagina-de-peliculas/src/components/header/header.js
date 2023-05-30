@@ -4,11 +4,17 @@ import { useContext, useState, useEffect, React } from "react";
 import { HeaderContext } from "./headerContext";
 import { useNavigate } from "react-router-dom";
 
-function Header({children}) {
+function Header({ children }) {
   const { isLoggedIn, data, updateHeader, userData } = useContext(HeaderContext);
   const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const [rutaActual, setRutaActual] = useState("");
+
+  useEffect(() => {
+    setRutaActual(location.pathname);
+  }, [location]);
+
   var nombre_usuario = "";
   if (userData != undefined) {
     nombre_usuario = "/perfil/" + userData.nombre_usuario;
@@ -33,7 +39,11 @@ function Header({children}) {
     setShowDropdown(!showDropdown);
     e.preventDefault();
     updateHeader(false, data);
-    navigate("/peliculas");
+    if (rutaActual.includes("/perfil/")) {
+      navigate("/");
+    } else {
+      navigate(rutaActual);
+    }
   };
 
   const toggleDropdown = () => {

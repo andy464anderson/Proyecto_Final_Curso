@@ -24,24 +24,6 @@
     color: #8595A3;
 }
 
-.perfil-avatar button {
-    background-color: #14181C;
-    border: 1px solid #8595A3;
-    border-radius: 3px;
-    color: #8595A3;
-    padding: 5px;
-    padding-left: 20px;
-    padding-right: 20px;
-    margin: 20px;
-    margin-left: 0;
-}
-
-.perfil-avatar button:hover {
-    background-color: #262d34;
-    border: 1px solid #40BCF4;
-    color: #40BCF4;
-}
-
 .perfil-info {
     width: 30%;
 }

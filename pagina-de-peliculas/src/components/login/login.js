@@ -23,7 +23,7 @@ function Login() {
                 alert("¡Has iniciado sesión!");
                 setError(false);
                 updateHeader(true, data);
-                navigate('/peliculas')
+                navigate('/')
             } else {
                 // Si la respuesta no es exitosa, se muestra el error y se aplica la clase de error
                 setError(true);

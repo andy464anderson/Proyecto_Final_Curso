@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import $ from 'jquery';
 import { useNavigate } from "react-router-dom";
+import BotonSeguir from '../botonSeguir/botonSeguir';
 
 
 const Search = () => {
@@ -92,7 +93,6 @@ const Search = () => {
             if(a.title < b.title) return -1;
             else return 1;
         }); */
-        console.log(listaFiltrada);
         setPelisFiltradas(listaFiltrada);
         setCurrentPage(1);
     }
@@ -121,7 +121,6 @@ const Search = () => {
         const startIndex = (currentPage - 1) * 6;
         const endIndex = startIndex + 6;
         const pagePelis = pelisFiltradas.slice(startIndex, endIndex);
-        console.log(pagePelis);
         return (
             <div id="divCentralSearch">
                 <div className="peliculas-buscador">
@@ -133,12 +132,16 @@ const Search = () => {
                                 </React.Fragment>
                             );
                         } if ('nombre_usuario' in pelicula) {
+                            var usuario = listaUsuarios.find(user => user.nombre_usuario === pelicula.nombre_usuario);
                             return (
-                                <div className="carta-usuario-buscador">
+                                <div key={pelicula.nombre_usuario} className="carta-usuario-buscador">
                                     <div><img src="sinFoto.png" alt="fotousuario" className="imagen-pelicula-buscador imagen-usuario-buscador" /></div>
                                     <div className="info-usuario-buscador">
                                         <p><strong className="titulo-carta-buscador nombre-carta-buscador" onClick={() => navegarPerfil(pelicula.nombre_usuario)}>{pelicula.nombre_usuario}</strong></p>
                                         <p className="sinopsis-carta-buscador">{pelicula.nombre_completo}</p>
+                                        {isLoggedIn && (
+                                            <BotonSeguir usuario={usuario} actualizarDatos={undefined} />
+                                        )}
                                     </div>
                                 </div>
                             )
