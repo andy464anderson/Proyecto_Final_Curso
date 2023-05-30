@@ -151,14 +151,17 @@ const Inicio = () => {
         </div>
         
         <div>
-          <p className='titular-inicio'>Las mejor valoradas por los usuarios</p>
+          <p className='titular-inicio'>Las favoritas de los usuarios</p>
           <div id="divTopLikes">
             {topLikes.map((peli, i) => {
               const pelicula = movieData.find(p => p.id === peli.pelicula_id);
               if (pelicula) {
                 return (
                   <div key={pelicula.id} className='cuerpo-top-likes' >
-                    <img src={pelicula.poster} alt={pelicula.title}></img>
+                    <div className='padre-foto-tops'>
+                      <img className='imagen-top' src={pelicula.poster} alt={pelicula.title}></img>
+                      <span className='puntuacion-general'>{peli.total_likes} likes</span>
+                    </div>
                     <span className='posicion-top'>{i+1}</span>
                     <span>{pelicula.title}</span>
                   </div>)
@@ -167,14 +170,17 @@ const Inicio = () => {
             )}
           </div>
           
-          <p className='titular-inicio'>Las favoritas de los usuarios</p>
+          <p className='titular-inicio'>Las mejor valoradas por los usuarios</p>
           <div id="divTopValoracion">
             {topValoracion.map((peli, i) => {
               const pelicula = movieData.find(p => p.id === peli.pelicula_id);
               if (pelicula) {
                 return (
                 <div key={pelicula.id} className='cuerpo-top-valoracion'>
-                  <img src={pelicula.poster}></img>
+                  <div className='padre-foto-tops'>
+                    <img className='imagen-top' src={pelicula.poster} alt={pelicula.title}></img>
+                    <span className='puntuacion-general'>{peli.valoracion_media}/5</span>
+                  </div>
                   <span className='posicion-top'>{i+1}</span>
                   <span>{pelicula.title}</span>
                 </div>)

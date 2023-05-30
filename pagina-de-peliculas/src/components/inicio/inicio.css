@@ -28,7 +28,7 @@
     display: flex;
     flex-direction: column;
 }
-.cuerpo-top-likes img, .cuerpo-top-valoracion img{
+.imagen-top{
     width: 180px;
     height: 260px;
     margin-bottom: 8px;
@@ -69,4 +69,14 @@
 }
 .titular-cercanas{
     width: 70%;
+}
+.puntuacion-general{
+    background-color: #0c3142e0;
+    position: absolute;
+    width: 100%;
+    left: 0;
+    font-weight: bolder;
+}
+.padre-foto-tops{
+    position: relative;
 }
