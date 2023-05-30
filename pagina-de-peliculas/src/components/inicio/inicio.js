@@ -69,7 +69,6 @@ const Inicio = () => {
         const personasCercanas = await fetch(`http://localhost:8000/cercanas/${userData.id}`);
         const dataPersonasCercanas = await personasCercanas.json();
         var dataFiltrado = dataPersonasCercanas.filter(data => data.id_usuario !== userData.id);
-        console.log(dataFiltrado);
         setPersonasCercanas(dataFiltrado);
       }else{
         setPersonasCercanas([]);
@@ -108,6 +107,21 @@ const Inicio = () => {
     }
   });
   
+  const itemsPopulares = [];
+  const cargarReviewsPopulares = () => {
+    Object.keys(groupedReviews).map((username) => {
+      
+      var objetoUsuarioPopular = {};
+      objetoUsuarioPopular.usuario = username;
+
+      groupedReviews[username].map((review, i) => {
+        objetoUsuarioPopular["review"+(i+1)] = review;
+      });
+    itemsPopulares.push(objetoUsuarioPopular);
+    });
+    
+  }
+  cargarReviewsPopulares();
   return (
     <div>
       <div id='central-inicio'>
@@ -139,7 +153,7 @@ const Inicio = () => {
         </div>
         <p className='titular-inicio'>Reseñas de usuarios populares</p>
         <div>
-          <CarouselPoulares items={items} />
+          {/* <CarouselPoulares items={itemsPopulares} /> */}
         </div>
         <div id="divUsuariosPopulares">
             {Object.keys(groupedReviews).map((username) => (
