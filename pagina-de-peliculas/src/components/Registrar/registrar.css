@@ -1,67 +1,46 @@
 .registro-form {
-    display: grid;
-    grid-template-columns: 1fr;
-    align-items: center;
-    width: 85%;
-    margin: 0 auto;
-    border: 2px solid #f1c40f;
-    border-radius: 10px;
-    padding: 20px 30px;
-  }
-  
-  .registro-form h1 {
-    font-size: 30px;
-    color: #f1c40f;
-    margin-bottom: 20px;
-    grid-column: 1 / -1;
-  }
-  
-  .registro-form input,
-  .registro-form select,
-  .registro-form textarea {
-    width: 100%;
-    padding: 14px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    margin-bottom: 20px;
-  }
-  
-  .registro-form select option {
-    padding: 6px;
-  }
-  
-  .registro-form label {
-    margin-bottom: 8px;
-    margin-right: auto;
-    grid-column: span 2;
-  }
-  
-  .registro-form button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-    background-color: #f1c40f;
-    color: #fff;
-    cursor: pointer;
-    transition: 0.5s all;
-    margin-top: 20px;
-    border: none;
-    border-radius: 6px;
-    padding: 14px 30px;
-    grid-column: span 2;
-  }
-  
-  .registro-form button:hover {
-    background-color: #fff;
-    color: #f1c40f;
-  }
+  width: 40%;
+  margin: 0 auto;
+  margin-top: 100px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
 
-  .form {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1.5rem;
-  }
+.registro-form h1 {
+  text-align: center;
+}
 
- 
-  
+.registro-form .form {
+  margin-top: 20px;
+}
+
+.registro-form .form-group {
+  margin-bottom: 10px;
+}
+
+.registro-form label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.registro-form input {
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+.registro-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.registro-form p {
+  text-align: center;
+}

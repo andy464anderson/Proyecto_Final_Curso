@@ -1,48 +1,60 @@
-.carta-login{
-    /*centrar el div de la pagina*/
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    max-width: 600px;
-    flex-direction: column;
-    border: 2px solid #f1c40f;
-    border-radius: 10px;
-    padding: 20px 30px;
-    translate: 60%;
-}
-
-.carta-login h1{
-    font-size: 30px;
-    color: #f1c40f;
-    margin-bottom: 20px;
-}
-
-.carta-login input,.carta-login button{
-    width: 100%;
-    padding: 14px;
+.carta-login {
+    width: 40%;
+    margin: 0 auto;
+    margin-top: 100px;
+    padding: 20px;
     border: 1px solid #ccc;
-    border-radius: 6px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.carta-login h1 {
+    text-align: center;
+}
+
+.carta-login label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.carta-login input {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+.carta-login .error {
+    border: 1px solid red;
+    /* Estilo para resaltar el campo de error */
+}
+
+.carta-login button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.carta-login p {
+    text-align: center;
+}
+
+.tab-row {
+    display: flex;
+    justify-content: center;
     margin-bottom: 20px;
 }
 
-.carta-login button{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: .5rem;
-    background-color: #f1c40f;
-    color: #fff;
+.tab-item {
     cursor: pointer;
-    transition: 0.5s all;
-    margin-top: 20px;
+    padding: 10px 20px;
+    margin-right: 10px;
 }
 
-.carta-login button:hover{
-    background-color: #fff;
-    color: #f1c40f;
-}
-
-.carta-login label{
-    margin-bottom: 8px;
-    margin-right: auto;
+.tab-item.selected {
+    background-color: #007bff;
+    color: white;
 }

@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import './login.css';
-import {HeaderContext}  from "../header/headerContext"; // Asegúrate de que la importación coincida con la ruta correcta
+import { HeaderContext } from "../header/headerContext"; // Asegúrate de que la importación coincida con la ruta correcta
 import { useNavigate } from "react-router-dom";
 
 
@@ -36,22 +36,28 @@ function Login() {
 
     return (
         <div className="carta-login">
-            <h1>Inicia sesión</h1>
+            <div className="tab-row">
+                <div className={"tab-item selected"}>
+                    Inicio de sesión
+                </div>
+                <div className={"tab-item"} onClick={() => navigate("/registrar")}>
+                    Registro
+                </div>
+            </div>
 
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Correo electrónico: </label>
             <input type="email" name="email" id="email" className={error ? "error" : ""} />
 
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Contraseña: </label>
             <input type="password" name="password" id="password" className={error ? "error" : ""} />
 
             <button onClick={handleLogin}>
-                <i className="bi bi-person-fill"></i> Log in
+                <i className="bi bi-person-fill"></i> Iniciar sesión
             </button>
 
             <p>
-                No tienes una cuenta? <a href="/registrar">Registrar</a>
+                No tienes una cuenta? <a href="/registrar">Registrarse</a>
             </p>
-
         </div>
     );
 };

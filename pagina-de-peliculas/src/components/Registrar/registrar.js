@@ -103,41 +103,74 @@ const Registrar = () => {
         setEnvioRegistro(false);
     }
 
-
     return (
-        <div className='registro-form'>
-            <h1>Regístrate</h1>
+        <div className="registro-form">
+            <div className="tab-row">
+                <div className={`tab-item`} onClick={() => navigate("/login")}>
+                    Inicio de sesión
+                </div>
+                <div className={`tab-item selected`}>
+                    Registro
+                </div>
+            </div>
 
             <div className="form">
                 <div className="form-group">
-                    <label htmlFor="name" >Nombre completo</label>
-                    <input type="text" name="name" id="name" onChange={(e) => setName(e.target.value)} />
+                    <label htmlFor="name">Nombre completo: </label>
+                    <input
+                        type="text"
+                        name="name"
+                        id="name"
+                        onChange={(e) => setName(e.target.value)}
+                    />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="nombreUsuario" >Nombre de usuario</label>
-                    <input type="text" name="nombreUsuario" id="nombreUsuario" onChange={(e) => setNombreUsuario(e.target.value)} />
+                    <label htmlFor="nombreUsuario">Nombre de usuario: </label>
+                    <input
+                        type="text"
+                        name="nombreUsuario"
+                        id="nombreUsuario"
+                        onChange={(e) => setNombreUsuario(e.target.value)}
+                    />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="email" >Email</label>
-                    <input type="email" name="email" id="email" onChange={(e) => setEmail(e.target.value)} />
+                    <label htmlFor="email">Correo electrónico: </label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="password" >Contraseña</label>
-                    <input type="password" name="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+                    <label htmlFor="password">Contraseña: </label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
                 </div>
+
                 <div className="form-group">
-                    <label htmlFor="confirm-password" >Confirmar contraseña</label>
-                    <input type="password" name="confirm-password" onChange={(e) => setConfirmPassword(e.target.value)} id="confirm-password" /></div>
+                    <label htmlFor="confirm-password">Confirmar contraseña: </label>
+                    <input
+                        type="password"
+                        name="confirm-password"
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        id="confirm-password"
+                    />
+                </div>
 
-                <button type="submit" onClick={handleSubmit}><i className="bi bi-person-plus-fill"></i>Registrar</button>
+                <button type="submit" onClick={handleSubmit}><i className="bi bi-person-plus-fill"></i> Registrarse</button>
 
-                <p>¿Ya tienes una cuenta? <a href="/login">Inicia sesión</a></p>
+                <p>¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a></p>
             </div>
         </div>
-    )
+    );
 }
 
 export default Registrar;
