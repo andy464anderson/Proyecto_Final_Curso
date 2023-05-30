@@ -1,0 +1,73 @@
+.usuarios-conocidos-inicio{
+    display: flex;
+    width: 70%;
+    overflow-x: scroll;
+    background-color: #191D22;
+}
+.usuarios-conocidos-inicio::-webkit-scrollbar,
+#infoListasNormalesCuerpo::-webkit-scrollbar {
+    width: 1em;
+}
+
+.usuarios-conocidos-inicio::-webkit-scrollbar-track,
+#infoListasNormalesCuerpo::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.usuarios-conocidos-inicio::-webkit-scrollbar-thumb,
+#infoListasNormalesCuerpo::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
+}
+.carousel-central-hijo{
+    display: flex;
+    width: 30%;
+    justify-content: space-around;
+    background-color: #1E2329;
+}
+.carousel-central-populares{
+    display: flex;
+}
+.usuarios-conocidos-inicio-hijo{
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.carousel-central-hijo h5{
+    width: 200px;
+    margin: auto;
+}
+.reviews-de-populares{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background-color: #1E2329;
+}
+.reviews-de-populares p{
+    width: 48%;
+    color: #8595A3;
+    border-bottom: 1px solid #8595A3;
+    padding-bottom: 10px;
+}
+.mensaje-usuario-review{
+    font-weight: lighter;
+    color: #6a747e;
+    font-style: italic;
+    font-size: 15px;
+}
+.usuario-top{
+    color: aliceblue;
+}
+.nombre-usuario-sugerencias{
+    color: aliceblue;
+    font-weight: bolder;
+}
+.nombre-completo-sugerencias{
+    color: #8595A3;
+    font-weight: lighter;
+    font-style: italic;
+}
+.reviews-de-populares-padre{
+    background-color: #1E2329;
+    margin-top: 0;
+    padding: 10px;
+}

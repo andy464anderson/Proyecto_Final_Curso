@@ -5,6 +5,8 @@
 .carousel-central img{
     width: 800px;
     height: 430px;
+    border: 1px solid #8595A3;
+    border-radius: 3px;
 }
 .carousel-titulo{
     margin-top: 20px;
@@ -22,8 +24,10 @@
     border: 0;
     padding: 10px;
     border-radius: 5px;
-    color: aliceblue;
+    color: #40BCF4;
+    margin: auto;
 }
 .carousel-button:hover{
     background-color: #282f36;
+    color: #40BCF4;
 }

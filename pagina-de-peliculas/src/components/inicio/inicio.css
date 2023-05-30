@@ -3,12 +3,11 @@
 }
 #central-inicio{
     width: 1000px;
-    background-color: red;
     margin: auto;
 }
 #titulo-inicio{
     color: aliceblue;
-    margin: 20px;
+    margin-bottom: 0;
 
 }
 #divPersonasCercanas{
@@ -17,10 +16,57 @@
     justify-content: space-around;
 }
 .titular-inicio{
-    margin-top: 20px;
-    border-bottom: 1px solid black;
+    margin-top: 50px;
+    border-bottom: 1px solid #8595A3;
+    color: #8595A3;
 }
 .usuarios-conocidos-inicio{
     margin: 0;
     text-align: center;
+}
+.cuerpo-top-likes, .cuerpo-top-valoracion{
+    display: flex;
+    flex-direction: column;
+}
+.cuerpo-top-likes img, .cuerpo-top-valoracion img{
+    width: 180px;
+    height: 260px;
+    margin-bottom: 8px;
+    border: 1px solid #8595A3;
+    border-radius: 3px;
+}
+.cuerpo-top-likes span, .cuerpo-top-valoracion span{
+    text-align: center;
+}
+#divTopLikes, #divTopValoracion{
+    display: flex;
+    justify-content: space-between;
+}
+.posicion-top{
+    background-color: #282f36;
+    padding-left: 7px;
+    padding-right: 7px;
+    margin: auto;
+    border-radius: 50px;
+    font-weight: bold;
+    color: #40BCF4;
+}
+#subtitulo-inicio, #titulo-inicio{
+    margin-left: 30px;
+}
+#subtitulo-inicio{
+    margin-top: 0;
+    margin-bottom: 30px;
+    color: #8595A3;
+    font-weight: lighter;
+}
+#titulares-coincidentes{
+    display: flex;
+    justify-content: space-between;
+}
+.titular-populares{
+    width: 28%;
+}
+.titular-cercanas{
+    width: 70%;
 }
