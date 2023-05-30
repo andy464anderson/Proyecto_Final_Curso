@@ -6,3 +6,21 @@
     background-color: red;
     margin: auto;
 }
+#titulo-inicio{
+    color: aliceblue;
+    margin: 20px;
+
+}
+#divPersonasCercanas{
+    border: 2px solid black;
+    display: flex;
+    justify-content: space-around;
+}
+.titular-inicio{
+    margin-top: 20px;
+    border-bottom: 1px solid black;
+}
+.usuarios-conocidos-inicio{
+    margin: 0;
+    text-align: center;
+}

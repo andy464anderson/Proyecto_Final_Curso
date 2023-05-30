@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './carousel.css';
+import './carousel_populares.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 
-const Carousel = ({ items }) => {
+const CarouselPoulares = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const handlePrev = () => {
@@ -22,19 +22,11 @@ const Carousel = ({ items }) => {
             key={index}
             className={`carousel-item ${index === activeIndex ? 'active' : ''}`}
           >
-            <div className="carousel-central">
-              <button className="carousel-button" onClick={handlePrev}>
-                <FontAwesomeIcon icon={faAnglesLeft} />
-              </button>
-              <img className='imagenesCarousel' src={item.imageUrl} alt={item.titulo} />
-              <button className="carousel-button" onClick={handleNext}>
-                <FontAwesomeIcon icon={faAnglesRight} />
-              </button>
-            </div>
-            <div>
-              <h5 className='carousel-titulo'>{item.titulo}</h5>
-              <p className='carousel-contenido'>{item.contenido}</p>
-            </div>
+            <h2>{item.usuario}</h2>
+            <p>{item.review1}</p>
+            <p>{item.review2}</p>
+            <p>{item.review3}</p>
+            <p>{item.review4}</p>
           </div>
         ))}
       </div>
@@ -44,4 +36,4 @@ const Carousel = ({ items }) => {
   );
 };
 
-export default Carousel;
+export default CarouselPoulares;

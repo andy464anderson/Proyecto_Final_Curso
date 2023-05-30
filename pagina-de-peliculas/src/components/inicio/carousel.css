@@ -1,0 +1,29 @@
+.carousel-central{
+    display: flex;
+    justify-content: space-around;
+}
+.carousel-central img{
+    width: 800px;
+    height: 430px;
+}
+.carousel-titulo{
+    margin-top: 20px;
+    text-align: center;
+    color: aliceblue;
+}
+.carousel-contenido{
+    text-align: center;
+    color: #8595A3;
+    font-weight: lighter;
+    font-style: italic;
+}
+.carousel-button{
+    background-color: #14181C;
+    border: 0;
+    padding: 10px;
+    border-radius: 5px;
+    color: aliceblue;
+}
+.carousel-button:hover{
+    background-color: #282f36;
+}

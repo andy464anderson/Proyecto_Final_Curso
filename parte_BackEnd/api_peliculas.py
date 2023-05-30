@@ -390,7 +390,7 @@ async def delete_seguidor(id_usuario_seguidor: int, id_usuario_seguido: int):
 async def get_cercanas(id):
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute('SELECT DISTINCT u.id, u.nombre_usuario, u.nombre_completo FROM usuario u JOIN seguidor s1 ON u.id = s1.id_usuario_seguido JOIN seguidor s2 ON s1.id_usuario_seguidor = s2.id_usuario_seguido WHERE s2.id_usuario_seguidor = %s;', (id,))
+    cursor.execute('SELECT DISTINCT u.id, u.nombre_usuario, u.nombre_completo FROM usuario u JOIN seguidor s1 ON u.id = s1.id_usuario_seguido JOIN seguidor s2 ON s1.id_usuario_seguidor = s2.id_usuario_seguido WHERE s2.id_usuario_seguidor = %s AND u.id NOT IN (SELECT id_usuario_seguido FROM seguidor WHERE id_usuario_seguidor = %s)', (id,id,))
     seguidores = cursor.fetchall()
     conn.close()
     cursor.close()
