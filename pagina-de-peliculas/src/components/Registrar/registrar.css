@@ -3,9 +3,9 @@
   margin: 0 auto;
   margin-top: 100px;
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #1E2329;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: #1E2329;
 }
 
 .registro-form h1 {
@@ -23,18 +23,29 @@
 .registro-form label {
   display: block;
   margin-bottom: 5px;
+  color: aliceblue;
 }
 
 .registro-form input {
   width: 100%;
   padding: 5px;
   margin-bottom: 10px;
+  outline: 0;
+  background-color: #57626e;
+  border: 0;
+  border-bottom: 2px solid #1E2329;
+  transition: 0.1s;
+  border-radius: 2px;
+}
+.registro-form input:focus{
+  background-color: #E8F0FE;
+  border-bottom: 2px solid #40BCF4;
 }
 
 .registro-form button {
   width: 100%;
   padding: 10px;
-  background-color: #007bff;
+  background-color: #40BCF4;
   color: #fff;
   border: none;
   border-radius: 5px;
