@@ -6,6 +6,13 @@ import { faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 const Carousel = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
+  const cambiarSlide = () => {
+    setTimeout(function() {
+      handleNext();
+      cambiarSlide();
+    }, 2000);
+  }
+
   const handlePrev = () => {
     setActiveIndex(prevIndex => (prevIndex === 0 ? items.length - 1 : prevIndex - 1));
   };
@@ -14,6 +21,7 @@ const Carousel = ({ items }) => {
     setActiveIndex(prevIndex => (prevIndex === items.length - 1 ? 0 : prevIndex + 1));
   };
 
+  cambiarSlide();
   return (
     <div className="carousel">
       <div className="carousel-inner">
