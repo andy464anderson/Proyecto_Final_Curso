@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './carousel.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
@@ -6,12 +6,15 @@ import { faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 const Carousel = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const cambiarSlide = () => {
-    setTimeout(function() {
+  useEffect(() => {
+    const timer = setTimeout(() => {
       handleNext();
-      cambiarSlide();
-    }, 2000);
-  }
+    }, 2500);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [activeIndex]);
 
   const handlePrev = () => {
     setActiveIndex(prevIndex => (prevIndex === 0 ? items.length - 1 : prevIndex - 1));
@@ -21,7 +24,6 @@ const Carousel = ({ items }) => {
     setActiveIndex(prevIndex => (prevIndex === items.length - 1 ? 0 : prevIndex + 1));
   };
 
-  cambiarSlide();
   return (
     <div className="carousel">
       <div className="carousel-inner">
@@ -46,8 +48,6 @@ const Carousel = ({ items }) => {
           </div>
         ))}
       </div>
-
-
     </div>
   );
 };
