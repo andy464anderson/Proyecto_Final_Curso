@@ -325,7 +325,7 @@
 }
 
 #cruzDivListasNormales:hover {
-    background-image: radial-gradient(closest-side at center, rgb(254, 133, 133), rgb(249, 74, 74), rgb(254, 59, 59), rgb(250, 21, 21));
+    background-color: rgba(243, 57, 57, 0.589);
     cursor: pointer;
 }
 
@@ -385,4 +385,26 @@ body::-webkit-scrollbar-thumb,
 
 .eliminar-lista:hover {
     border-bottom: 1px solid rgb(255, 72, 0);
+}
+#btnSeleccionarPelis{
+    background: none;
+    border: none;
+    padding-right: 5px;
+    margin-right: 5px;
+    padding-left: 3px;
+    color:  #40BCF4;
+    border-radius: 2px;
+}
+#btnSeleccionarPelis:hover{
+    background-color: #6c707260;
+}
+#btnAgregarPelis, #btnEliminarPelis{
+    background-color: #aebbc788;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: none;
+    border-radius: 4px;
+}
+#btnAgregarPelis:hover, #btnEliminarPelis:hover{
+    background-color: #6c707260;
 }

@@ -71,7 +71,7 @@
     width: 70%;
 }
 .puntuacion-general{
-    background-color: #0c3142e0;
+    background-image: linear-gradient(#051922e0, #051922c0, #051922a9,#0c314242, #0c314209);
     position: absolute;
     width: 100%;
     left: 0;

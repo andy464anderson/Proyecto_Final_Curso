@@ -5,6 +5,7 @@ body{
 .container-peliculas{
   display: flex;
   justify-content: center;
+  margin-top: 60px;
 
 }
 .peliculas {
@@ -33,7 +34,7 @@ body{
   border: 0;
 }
 select{
-  width: 100%;
+  width: 99%;
   padding: 5px;
   background-color: #262d34;
   color: #8595A3;
@@ -63,19 +64,31 @@ select:focus{
   transform: translate(-50%, -50%);
 }
 .filtros-fixed{
+  display: flex;
   position: fixed;
-  left: 75%;
-  top: 40%;
-  transform: translate(-50%, -50%);
-  padding: 10px;
-  width: 400px;
+  top: 65px;
+  left: 50%;
+  transform: translate(-50%);
+  width: 80%;
+  background-color: #262d34;
+  border-radius: 3px;
+  border: 1px solid #40BCF4;
 }
 #ultimo-boton{
   opacity: 0;
   transition: 0.5s;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
   
 }
 #ultimo-boton button{
-  background-image: radial-gradient(closest-side at center, #92ddff71, #92ddff71, #76ccf471, #3fc2ff70,#40bbf470);
-  border-radius: 4px;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: none;
+  background-color: #40BCF4;
+}
+#ultimo-boton button:hover{
+  background-color: #38a5d8;
 }

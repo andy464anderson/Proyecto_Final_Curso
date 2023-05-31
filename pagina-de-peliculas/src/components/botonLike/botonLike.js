@@ -128,7 +128,7 @@ const BotonLike = ({ idPeli }) => {
                 theme="custom-theme"
                 className="custom-tooltip"
             >
-                <FontAwesomeIcon className="corazon-icono-like" onClick={darLike} icon={faHeart} style={{color: '#8595A3'}} />
+                <FontAwesomeIcon className="corazon-icono-like" onClick={darLike} icon={faHeart} style={{color: 'aliceblue'}} />
 
             </Tooltip>
             )}

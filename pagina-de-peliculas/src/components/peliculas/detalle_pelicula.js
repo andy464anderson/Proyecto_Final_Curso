@@ -7,7 +7,7 @@ import React, { useEffect, useState, useContext } from "react";
 import { HeaderContext } from "../header/headerContext";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS } from "chart.js/auto";
-import { faXmark, faStar } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faStar, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import $ from 'jquery';
 import BotonLike from "../botonLike/botonLike";
 
@@ -326,7 +326,7 @@ const DetallePelicula = () => {
       <div className="container">
         <div className="detalle-pelicula">
           <div className="boton-volver">
-            <button onClick={volver}>Volver</button>
+            <button onClick={volver}><FontAwesomeIcon icon={faArrowLeft} /></button>
           </div>
           <div className="poster-detalle">
             <img src={pelicula.poster} alt={pelicula.title} />

@@ -154,8 +154,6 @@ const Peliculas = () => {
                 <p>No se encuentran películas con los filtros especficados</p>
             </div>
           }
-          <div className="filters">
-          </div> 
         </div> 
         <div className="filtros-fixed">
             <div className="select-filtro">
@@ -200,9 +198,10 @@ const Peliculas = () => {
                 <option value="desc">Descendente</option>
               </select>
             </div>
-            <div className="select-filtro" id="ultimo-boton">
-              <button><FontAwesomeIcon icon={faArrowUp} /></button>
-            </div>
+
+        </div>
+        <div id="ultimo-boton">
+          <button><FontAwesomeIcon icon={faArrowUp} /></button>
         </div>
       </div>     
     );

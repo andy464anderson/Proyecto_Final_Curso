@@ -398,7 +398,6 @@ function Perfil() {
             <div className="perfil-container">
                 <div className="perfil-header">
                     <div className="perfil-avatar">
-                        <img width={200} height={200} src="sinFoto.png" alt={usuario.nombre_usuario} />
                         <h2>{nombreCompleto}</h2>
                         <h5>{nombreUsuario}</h5>
                         <BotonSeguir usuario={usuario} actualizarDatos={actualizarDatos} />
@@ -520,8 +519,8 @@ function Perfil() {
                                 {isLoggedIn && usuario.id === userData.id &&
                                     <div id="divBotonesLista">
                                         <button id="btnSeleccionarPelis" onClick={seleccionarPelis}><FontAwesomeIcon icon={faPencil} /></button>
-                                        <button id="btnAgregarPelis" disabled={seleccionar} onClick={() => { setShowSearch(true); setSeleccionar(false) }}>Agregar películas a la lista</button>
-                                        <button id="btnEliminarPelis" disabled={!seleccionar} onClick={eliminarPeliculasLista}>Eliminar las películas seleccionadas</button>
+                                        <button id="btnAgregarPelis" disabled={seleccionar} onClick={() => { setShowSearch(true); setSeleccionar(false) }}>Agregar</button>
+                                        <button id="btnEliminarPelis" disabled={!seleccionar} onClick={eliminarPeliculasLista}>Eliminar</button>
                                     </div>
                                 }
                                 {showSearch && (

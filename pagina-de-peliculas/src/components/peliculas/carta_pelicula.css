@@ -3,34 +3,43 @@
   border-radius: 3px;
   display: flex;
   flex-direction: column;
-  border: 1px solid #1f252b;
-  box-shadow: #181d22 0px 0px 10px 5px;
 }
 .info-pelicula{
   padding: 10px;
-  width: 170px;
-  height: 170px;
+  padding-top: 0;
+  padding-bottom: 0;
+  width: 140px;
   background-color: #14181C;
   color: #8595A3;
-  border-radius: 0px 0px 5px 5px;
+  text-align: center;
 }
-
+.info-pelicula p:hover{
+  color: #40BCF4;
+}
 .imagen-pelicula {
-  width: 170px;
-  height: 250px;
-  border-radius: 5px 5px 0px 0px;
   cursor: pointer;
+  border-radius: 4px;
+  width: 100%;
+  height: 100%;
 }
 
-.boton-pelicula button{
-  padding: 7px;
-  margin-top: 10px;
-  border: 0;
-  background-color: #14181C;
-  color: rgb(133, 149, 163);
+.boton-pelicula{
+  position: absolute;
+  top: 0;
+  background-color: #0c0e0eb2;
   width: 100%;
-  text-align: left;
-  border-radius: 4px;
+  height: 100%;
+  opacity: 0;
+  transition: 0.1s;
+}
+.boton-pelicula:hover{
+  opacity: 1;
+}
+.boton-pelicula *{
+  position: absolute;
+  top: 50%;
+  left: 60%;
+  transform: translate(-50%, -50%);
 }
 .boton-pelicula button:hover{
   background-color: #262d34;
@@ -41,4 +50,11 @@
 }
 .titulo-pelicula{
   cursor: pointer;
+}
+.imagen-pelicula-padre{
+  position: relative;
+  width: 140px;
+  height: 200px;
+  border: 1px solid #8595A3;
+  border-radius: 4px;
 }
