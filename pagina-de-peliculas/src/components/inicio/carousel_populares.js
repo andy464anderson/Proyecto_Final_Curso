@@ -4,12 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 import BotonSeguir from "../botonSeguir/botonSeguir";
 import { HeaderContext } from "../header/headerContext";
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 const CarouselPoulares = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [personasCercanas, setPersonasCercanas] = useState([]);
   const [listaUsuarios, setUsuarios] = useState([]);
-  const { userData, isLoggedIn, updateMovieData, movieData } = useContext(HeaderContext);
+  const { userData, isLoggedIn, movieData } = useContext(HeaderContext);
   useEffect(() => {
     const obtenerDatosUsuario = async () => {
       const responseUsuario = await fetch(`http://localhost:8000/usuarios`, {
@@ -29,8 +30,8 @@ const CarouselPoulares = ({ items }) => {
     }).catch((error) => {
       console.error(error);
     });
-    const obtenerUsuariosPopulares = async () => {
 
+    const obtenerUsuariosPopulares = async () => {
       if (isLoggedIn) {
         const personasCercanas = await fetch(`http://localhost:8000/cercanas/${userData.id}`);
         const dataPersonasCercanas = await personasCercanas.json();
@@ -49,7 +50,6 @@ const CarouselPoulares = ({ items }) => {
   const handleNext = () => {
     setActiveIndex(prevIndex => (prevIndex === items.length - 1 ? 0 : prevIndex + 1));
   };
-  console.log(items);
 
   return (
     <div className="carousel">
@@ -65,7 +65,7 @@ const CarouselPoulares = ({ items }) => {
                   <FontAwesomeIcon icon={faAnglesLeft} />
                 </button>
                 <h5 className='usuario-top'>{item.usuario}</h5>
-                
+
                 <button className="carousel-button" onClick={handleNext}>
                   <FontAwesomeIcon icon={faAnglesRight} />
                 </button>
@@ -90,8 +90,50 @@ const CarouselPoulares = ({ items }) => {
               <h5 className='mensaje-usuario-review'>Viendo las reseñas de {item.usuario}</h5>
               <div className='reviews-de-populares'>
                 {item.listaReviews.map((review, index) => {
+                  var peli = movieData.find(p => p.id === review.idPeli);
                   return (
-                    <p key={index}>{review.contenido}</p>
+                    <div key={index}>
+                      <p><img style={{ width: '100px' }} src={peli.poster} /></p>
+                      <p>{peli.title}</p>
+                      <div id="estrellas">
+                        <div>
+                          {review.valoracion === 1 ? (
+                            <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>
+                          ) : null}
+                          {review.valoracion === 2 ? (
+                            <div className="nota-comentario-detalle">
+                              <FontAwesomeIcon icon={faStar} />
+                              <FontAwesomeIcon icon={faStar} />
+                            </div>
+                          ) : null}
+                          {review.valoracion === 3 ? (
+                            <div className="nota-comentario-detalle">
+                              <FontAwesomeIcon icon={faStar} />
+                              <FontAwesomeIcon icon={faStar} />
+                              <FontAwesomeIcon icon={faStar} />
+                            </div>
+                          ) : null}
+                          {review.valoracion === 4 ? (
+                            <div className="nota-comentario-detalle">
+                              <FontAwesomeIcon icon={faStar} />
+                              <FontAwesomeIcon icon={faStar} />
+                              <FontAwesomeIcon icon={faStar} />
+                              <FontAwesomeIcon icon={faStar} />
+                            </div>
+                          ) : null}
+                          {review.valoracion === 5 ? (
+                            <div className="nota-comentario-detalle">
+                              <FontAwesomeIcon icon={faStar} />
+                              <FontAwesomeIcon icon={faStar} />
+                              <FontAwesomeIcon icon={faStar} />
+                              <FontAwesomeIcon icon={faStar} />
+                              <FontAwesomeIcon icon={faStar} />
+                            </div>
+                          ) : null}
+                        </div>
+                      </div>
+                      <p>{review.contenido}</p>
+                    </div>
                   )
                 })}
               </div>

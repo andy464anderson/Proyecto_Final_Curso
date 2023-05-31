@@ -119,6 +119,7 @@ const Inicio = () => {
       groupedReviews[username].map((review, i) => {
         var objetoReview = {};
         objetoReview.contenido = review.review_contenido;
+        objetoReview.valoracion = review.review_valoracion;
         objetoReview.idPeli = review.id_pelicula;
         objetoReview.num_seguidores = review.num_seguidores;
         objetoReview.nombre_completo = review.nombre_completo;
@@ -130,70 +131,74 @@ const Inicio = () => {
     return lista;
   }
 
-  return (
-    <div>
-      <div id='central-inicio'>
-        <h1 id='titulo-inicio'>Movie Social Media</h1>
-        {isLoggedIn && (
-          <h4 id='subtitulo-inicio'>Bienvenido {userData.nombre_usuario}</h4>
-        )}
+  if (movieData) {
+    return (
+      <div>
+        <div id='central-inicio'>
+          <h1 id='titulo-inicio'>Movie Social Media</h1>
+          {isLoggedIn && (
+            <h4 id='subtitulo-inicio'>Bienvenido {userData.nombre_usuario}</h4>
+          )}
 
-        <div>
-          <Carousel items={items} />
-        </div>
-        <div id='titulares-coincidentes'>
-          <p className='titular-inicio titular-populares'>Usuarios populares</p>
-          <p className='titular-inicio titular-cercanas'>Personas que quizás conozcas</p>
-        </div>
+          <div>
+            <Carousel items={items} />
+          </div>
+          <div id='titulares-coincidentes'>
+            <p className='titular-inicio titular-populares'>Usuarios populares</p>
+            <p className='titular-inicio titular-cercanas'>Personas que quizás conozcas</p>
+          </div>
 
-        <div>
-          <CarouselPoulares items={cargarReviewsPopulares()} />
-        </div>
-        
-        <div>
-          <p className='titular-inicio'>Las favoritas de los usuarios</p>
-          <div id="divTopLikes">
-            {topLikes.map((peli, i) => {
-              const pelicula = movieData.find(p => p.id === peli.pelicula_id);
-              if (pelicula) {
-                return (
-                  <div key={pelicula.id} className='cuerpo-top-likes' >
-                    <div className='padre-foto-tops'>
-                      <img className='imagen-top' src={pelicula.poster} alt={pelicula.title}></img>
-                      <span className='puntuacion-general'>{peli.total_likes} likes</span>
+          <div>
+            <CarouselPoulares items={cargarReviewsPopulares()} />
+          </div>
+
+          <div>
+            <p className='titular-inicio'>Las favoritas de los usuarios</p>
+            <div id="divTopLikes">
+              {topLikes.map((peli, i) => {
+                const pelicula = movieData.find(p => p.id === peli.pelicula_id);
+                if (pelicula) {
+                  return (
+                    <div key={pelicula.id} className='cuerpo-top-likes' >
+                      <div className='padre-foto-tops'>
+                        <img className='imagen-top' src={pelicula.poster} alt={pelicula.title}></img>
+                        <span className='puntuacion-general'>{peli.total_likes} likes</span>
+                      </div>
+                      <span className='posicion-top'>{i + 1}</span>
+                      <span>{pelicula.title}</span>
+                    </div>)
+                }
+              }
+              )}
+            </div>
+
+            <p className='titular-inicio'>Las mejor valoradas por los usuarios</p>
+            <div id="divTopValoracion">
+              {topValoracion.map((peli, i) => {
+                const pelicula = movieData.find(p => p.id === peli.pelicula_id);
+                if (pelicula) {
+                  const valoracion = peli.valoracion_media % 1 === 0 ? peli.valoracion_media.toFixed(0) : peli.valoracion_media.toFixed(2);
+                  return (
+                    <div key={pelicula.id} className='cuerpo-top-valoracion'>
+                      <div className='padre-foto-tops'>
+                        <img className='imagen-top' src={pelicula.poster} alt={pelicula.title}></img>
+                        <span className='puntuacion-general'>{valoracion}/5</span>
+                      </div>
+                      <span className='posicion-top'>{i + 1}</span>
+                      <span>{pelicula.title}</span>
                     </div>
-                    <span className='posicion-top'>{i+1}</span>
-                    <span>{pelicula.title}</span>
-                  </div>)
-              }
-            }
-            )}
+                  );
+                }
+                return null;
+              })}
+            </div>
           </div>
-          
-          <p className='titular-inicio'>Las mejor valoradas por los usuarios</p>
-          <div id="divTopValoracion">
-            {topValoracion.map((peli, i) => {
-              const pelicula = movieData.find(p => p.id === peli.pelicula_id);
-              if (pelicula) {
-                return (
-                <div key={pelicula.id} className='cuerpo-top-valoracion'>
-                  <div className='padre-foto-tops'>
-                    <img className='imagen-top' src={pelicula.poster} alt={pelicula.title}></img>
-                    <span className='puntuacion-general'>{peli.valoracion_media}/5</span>
-                  </div>
-                  <span className='posicion-top'>{i+1}</span>
-                  <span>{pelicula.title}</span>
-                </div>)
-              }
-            }
-            )}
-          </div>
+
         </div>
 
       </div>
-
-    </div>
-  );
+    );
+  }
 };
 
 export default Inicio;
