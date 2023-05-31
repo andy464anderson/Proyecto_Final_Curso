@@ -29,10 +29,12 @@
     transition: 0.1s;
     border-radius: 2px;
 }
-.carta-login input:focus{
+
+.carta-login input:focus {
     background-color: #E8F0FE;
     border-bottom: 2px solid #40BCF4;
 }
+
 .carta-login .error {
     border: 1px solid red;
     /* Estilo para resaltar el campo de error */
@@ -41,6 +43,8 @@
 .carta-login button {
     width: 100%;
     padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     background-color: #40BCF4;
     color: #fff;
     border: none;
@@ -68,4 +72,8 @@
 
 .tab-item.selected {
     border-bottom: 1px solid #40BCF4;
+}
+
+.link {
+    cursor: pointer;
 }

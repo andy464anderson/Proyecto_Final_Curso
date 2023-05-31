@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
-import './registrar.css';
-import { data } from "jquery";
+import "./registrar.css";
+import $ from 'jquery';
 import { useNavigate } from "react-router-dom";
 
 const Registrar = () => {
 
-    const [name, setName] = useState('');
-    const [nombreUsuario, setNombreUsuario] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
+    const [name, setName] = useState("");
+    const [nombreUsuario, setNombreUsuario] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
     const [error, setError] = useState(false);
     const [envioRegistro, setEnvioRegistro] = useState(false);
     const navigate = useNavigate();
+    const [nameError, setNameError] = useState("");
+    const [nombreUsuarioError, setNombreUsuarioError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [passwordError, setPasswordError] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
     useEffect(() => {
         registrarUsuario();
@@ -21,6 +26,17 @@ const Registrar = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        setNameError("");
+        setNombreUsuarioError("");
+        setEmailError("");
+        setPasswordError("");
+        setConfirmPasswordError("");
+
+        $(".registro-form input").each(function () {
+            $(this).css("border", "0");
+        });
+
+
         const responseUsuarios = await fetch(`http://localhost:8000/usuarios`);
         const dataUsuarios = await responseUsuarios.json();
 
@@ -28,70 +44,74 @@ const Registrar = () => {
         const listaExisteCorreo = dataUsuarios.filter(usuario => usuario.correo == email);
 
         if (listaExisteUsuario.length > 0) {
-            alert('El nombre de usuario ya existe');
+            $("#nombreUsuario").css("border", "2px solid red");
+            setNombreUsuarioError("El nombre de usuario ya existe");
             setError(true);
         }
 
         if (listaExisteCorreo.length > 0) {
-            alert('Ya existe una cuenta con ese correo electrónico');
+            $("#email").css("border", "2px solid red");
+            setEmailError("Ya existe una cuenta con ese correo electrónico");
             setError(true);
         }
 
         if (name.length < 3) {
-            alert('El nombre debe tener al menos 3 caracteres');
+            $("#name").css("border", "2px solid red");
+            setNameError("El nombre debe tener al menos 3 caracteres");
             setError(true);
         }
 
         if (nombreUsuario.length < 3) {
-            alert('El nombre de usuario debe tener al menos 3 caracteres');
+            $("#nombreUsuario").css("border", "2px solid red");
+            setNombreUsuarioError(`El nombre de usuario debe tener al menos 3 caracteres`);
             setError(true);
         }
 
         if (password.length < 6) {
-            alert('La contraseña debe tener al menos 6 caracteres');
+            $("#password").css("border", "2px solid red");
+            setPasswordError("La contraseña debe tener al menos 6 caracteres");
             setError(true);
         }
 
         if (password !== confirmPassword) {
-            alert('Las contraseñas no coinciden');
+            $("#confirm-password").css("border", "2px solid red");
+            setConfirmPasswordError("Las contraseñas no coinciden");
             setError(true);
         }
 
         if (!email.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
-            alert('El formato del correo no es válido');
+            $("#email").css("border", "2px solid red");
+            setEmailError(`El formato del correo no es válido`);
             setError(true);
         }
         setEnvioRegistro(true);
     }
 
     const registrarUsuario = async () => {
-        console.log("envio registro " + envioRegistro);
         if (envioRegistro == true) {
-            console.log("error " + error);
             if (error == false) {
                 const Usuario = {
                     id: 0,
                     correo: email,
                     clave: password,
-                    rol: 'user',
+                    rol: "user",
                     nombre_usuario: nombreUsuario,
                     nombre_completo: name
                 }
-                console.log(Usuario);
 
-                fetch('http://localhost:8000/usuario/', {
-                    method: 'POST',
+                fetch("http://localhost:8000/usuario/", {
+                    method: "POST",
                     headers: {
-                        'Content-Type': 'application/json'
+                        "Content-Type": "application/json"
                     },
                     body: JSON.stringify(Usuario)
                 }).then(res => {
                     if (res.ok) {
-                        alert('Usuario creado correctamente');
+                        alert("Usuario creado correctamente");
                         navigate("/login");
                         return res.json();
                     } else {
-                        throw new Error('Error al crear el usuario');
+                        throw new Error("Error al crear el usuario");
                     }
                 }).catch(err => {
                     alert(err);
@@ -109,23 +129,17 @@ const Registrar = () => {
                 <div className={`tab-item`} onClick={() => navigate("/login")}>
                     Inicio de sesión
                 </div>
-                <div className={`tab-item selected`}>
-                    Registro
-                </div>
+                <div className={`tab-item selected`}>Registro</div>
             </div>
 
             <div className="form">
-                <div className="form-group">
+                <div className="form-group name">
                     <label htmlFor="name">Nombre completo: </label>
-                    <input
-                        type="text"
-                        name="name"
-                        id="name"
-                        onChange={(e) => setName(e.target.value)}
-                    />
+                    <input type="text" name="name" id="name" onChange={(e) => setName(e.target.value)} />
+                    {nameError && <p style={{ color: "red" }}>{nameError}</p>}
                 </div>
 
-                <div className="form-group">
+                <div className="form-group nombreUsuario">
                     <label htmlFor="nombreUsuario">Nombre de usuario: </label>
                     <input
                         type="text"
@@ -133,29 +147,22 @@ const Registrar = () => {
                         id="nombreUsuario"
                         onChange={(e) => setNombreUsuario(e.target.value)}
                     />
+                    {nombreUsuarioError && <p style={{ color: "red" }}>{nombreUsuarioError}</p>}
                 </div>
 
-                <div className="form-group">
+                <div className="form-group email">
                     <label htmlFor="email">Correo electrónico: </label>
-                    <input
-                        type="email"
-                        name="email"
-                        id="email"
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+                    <input type="email" name="email" id="email" onChange={(e) => setEmail(e.target.value)} />
+                    {emailError && <p style={{ color: "red" }}>{emailError}</p>}
                 </div>
 
-                <div className="form-group">
+                <div className="form-group password">
                     <label htmlFor="password">Contraseña: </label>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
+                    <input type="password" name="password" id="password" onChange={(e) => setPassword(e.target.value)} />
+                    {passwordError && <p style={{ color: "red" }}>{passwordError}</p>}
                 </div>
 
-                <div className="form-group">
+                <div className="form-group confirm-password">
                     <label htmlFor="confirm-password">Confirmar contraseña: </label>
                     <input
                         type="password"
@@ -163,11 +170,16 @@ const Registrar = () => {
                         onChange={(e) => setConfirmPassword(e.target.value)}
                         id="confirm-password"
                     />
+                    {confirmPasswordError && <p style={{ color: "red" }}>{confirmPasswordError}</p>}
                 </div>
 
-                <button type="submit" onClick={handleSubmit}><i className="bi bi-person-plus-fill"></i> Registrarse</button>
+                <button type="submit" onClick={handleSubmit}>
+                    <i className="bi bi-person-plus-fill"></i> Registrarse
+                </button>
 
-                <p>¿Ya tienes una cuenta? <a href="/login">Iniciar sesión</a></p>
+                <p>
+                    ¿Ya tienes una cuenta? <a className="link" onClick={() => navigate("/login")}>Iniciar sesión</a>
+                </p>
             </div>
         </div>
     );

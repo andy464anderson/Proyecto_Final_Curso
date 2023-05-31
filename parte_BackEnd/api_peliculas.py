@@ -408,7 +408,7 @@ async def get_cercanas(id):
 async def get_populares():
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute('SELECT seguidores.id_usuario, seguidores.nombre_usuario, seguidores.nombre_completo, seguidores.num_seguidores, r.id AS id_review, r.contenido, r.valoracion, r.fecha, r.id_pelicula FROM (SELECT u.id as id_usuario, u.nombre_usuario as nombre_usuario, u.nombre_completo as nombre_completo, COUNT(s.id_usuario_seguidor) AS num_seguidores FROM usuario u LEFT JOIN seguidor s ON u.id = s.id_usuario_seguido GROUP BY u.id, u.nombre_usuario, u.nombre_completo ORDER BY num_seguidores DESC LIMIT 5) AS seguidores LEFT JOIN review r ON seguidores.id_usuario = r.id_usuario WHERE r.id IN (SELECT id FROM review WHERE id_usuario = seguidores.id_usuario ORDER BY fecha desc LIMIT 4) ORDER BY seguidores.id_usuario, seguidores.num_seguidores asc;')
+    cursor.execute("SELECT seguidores.id_usuario, seguidores.nombre_usuario, seguidores.nombre_completo, seguidores.num_seguidores, r.id AS id_review, r.contenido, r.valoracion, r.fecha, r.id_pelicula FROM (SELECT u.id as id_usuario, u.nombre_usuario as nombre_usuario, u.nombre_completo as nombre_completo, COUNT(s.id_usuario_seguidor) AS num_seguidores FROM usuario u LEFT JOIN seguidor s ON u.id = s.id_usuario_seguido GROUP BY u.id, u.nombre_usuario, u.nombre_completo ORDER BY num_seguidores DESC LIMIT 5) AS seguidores LEFT JOIN review r ON seguidores.id_usuario = r.id_usuario WHERE r.id IN (SELECT id FROM review WHERE id_usuario = seguidores.id_usuario and contenido != '' ORDER BY fecha desc LIMIT 4) ORDER BY seguidores.id_usuario, seguidores.num_seguidores asc;")
     seguidores = cursor.fetchall()
     conn.close()
     cursor.close()

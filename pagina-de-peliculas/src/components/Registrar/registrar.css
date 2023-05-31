@@ -37,7 +37,8 @@
   transition: 0.1s;
   border-radius: 2px;
 }
-.registro-form input:focus{
+
+.registro-form input:focus {
   background-color: #E8F0FE;
   border-bottom: 2px solid #40BCF4;
 }
@@ -45,6 +46,7 @@
 .registro-form button {
   width: 100%;
   padding: 10px;
+  margin-bottom: 10px;
   background-color: #40BCF4;
   color: #fff;
   border: none;
@@ -54,4 +56,5 @@
 
 .registro-form p {
   text-align: center;
+  color: aliceblue;
 }

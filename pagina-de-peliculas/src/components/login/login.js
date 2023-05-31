@@ -19,18 +19,14 @@ function Login() {
             const data = await response.json();
 
             if (!data.error) {
-                // Si la respuesta es exitosa, se muestra el alert y se reinicia el formulario
-                alert("¡Has iniciado sesión!");
                 setError(false);
                 updateHeader(true, data);
                 navigate('/')
             } else {
-                // Si la respuesta no es exitosa, se muestra el error y se aplica la clase de error
                 setError(true);
-                alert(data.error);
             }
         } catch (error) {
-            alert(error);
+            console.log(error);
         }
     };
 
@@ -46,17 +42,19 @@ function Login() {
             </div>
 
             <label htmlFor="email">Correo electrónico: </label>
-            <input type="email" name="email" id="email" className={error ? "error" : ""} />
+            <input type="email" onFocus={() => setError(false)} name="email" id="email" />
 
             <label htmlFor="password">Contraseña: </label>
-            <input type="password" name="password" id="password" className={error ? "error" : ""} />
+            <input type="password" onFocus={() => setError(false)} name="password" id="password" />
 
             <button onClick={handleLogin}>
                 <i className="bi bi-person-fill"></i> Iniciar sesión
             </button>
 
+            {error && <p style={{ color: "red" }}>Su correo electrónico y su contraseña no coinciden. Por favor, inténtelo de nuevo.</p>}
+
             <p>
-                No tienes una cuenta? <a href="/registrar">Registrarse</a>
+                No tienes una cuenta? <a className="link" onClick={() => navigate("/registrar")}>Registrarse</a>
             </p>
         </div>
     );
