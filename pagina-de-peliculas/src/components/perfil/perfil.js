@@ -605,10 +605,11 @@ function Perfil() {
                                 }
                                 {showSearch && (
                                     <div className="modal">
-                                        <div id="cruzDivListasNormales" onClick={() => setShowSearch(false)}>
-                                            <FontAwesomeIcon icon={faXmark} />
-                                        </div>
-                                        <div className="modal-content">
+
+                                        <div className="modal-content buscador-pelis-perfil">
+                                            <div id="cruzDivListasNormales" onClick={() => setShowSearch(false)}>
+                                                <FontAwesomeIcon icon={faXmark} />
+                                            </div>
                                             <BuscadorPelisLista searchAbierto={cerrarSearch} idLista={idLista} anadirPeliculas={accionPeliculasSeleccionadas} peliculasEnLista={listaPeliculas} className="buscador-pelis" />
                                         </div>
                                     </div>

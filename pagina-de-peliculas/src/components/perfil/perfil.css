@@ -468,3 +468,6 @@ body::-webkit-scrollbar-thumb,
 .seleccionado:hover {
     background-color: rgb(7, 115, 165) !important;
 }
+.buscador-pelis-perfil{
+    height: 80%;
+}
