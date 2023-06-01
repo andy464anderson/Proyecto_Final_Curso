@@ -51,51 +51,53 @@ const CarouselPoulares = ({ items }) => {
     setActiveIndex(prevIndex => (prevIndex === items.length - 1 ? 0 : prevIndex + 1));
   };
 
-  return (
-    <div className="carousel">
-      <div className="carousel-inner">
-        {items.map((item, index) => (
-          <div
-            key={index}
-            className={`carousel-item ${index === activeIndex ? 'active' : ''}`}
-          >
-            <div className="carousel-central-populares">
-              <div className='carousel-central-hijo'>
-                <button className="carousel-button" onClick={handlePrev}>
-                  <FontAwesomeIcon icon={faAnglesLeft} />
-                </button>
-                <h5 className='usuario-top'>{item.usuario}</h5>
+  if (listaUsuarios.length === 0) {
+    return <div></div>
+  } else {
+    return (
+      <div className="carousel">
+        <div className="carousel-inner">
+          {items.map((item, index) => (
+            <div
+              key={index}
+              className={`carousel-item ${index === activeIndex ? 'active' : ''}`}
+            >
+              <div className="carousel-central-populares">
+                <div className='carousel-central-hijo'>
+                  <button className="carousel-button" onClick={handlePrev}>
+                    <FontAwesomeIcon icon={faAnglesLeft} />
+                  </button>
+                  <h5 className='usuario-top'>{item.usuario}</h5>
 
-                <button className="carousel-button" onClick={handleNext}>
-                  <FontAwesomeIcon icon={faAnglesRight} />
-                </button>
+                  <button className="carousel-button" onClick={handleNext}>
+                    <FontAwesomeIcon icon={faAnglesRight} />
+                  </button>
+                </div>
+                <div className='usuarios-conocidos-inicio'>
+                  {personasCercanas.length > 0 && (
+                    personasCercanas.map((usuario) => {
+                      var usuarios = listaUsuarios.find(user => user.nombre_usuario === usuario.nombre_usuario);
+                      return (
+                        <div key={usuarios.id} className='usuarios-conocidos-inicio-hijo'>
+                          <span className='nombre-usuario-sugerencias'>{usuario.nombre_usuario}</span><br />
+                          <span className='nombre-completo-sugerencias'>{usuario.nombre_completo}</span><br />
+                          <BotonSeguir class="boton-seguir-populares" usuario={usuarios} actualizarDatos={undefined} />
+                        </div>)
+
+                    }
+                    )
+                  )}
+                </div>
               </div>
-              <div className='usuarios-conocidos-inicio'>
-                {personasCercanas.length > 0 && (
-                  personasCercanas.map((usuario) => {
-                    var usuarios = listaUsuarios.find(user => user.nombre_usuario === usuario.nombre_usuario);
+              <div className='reviews-de-populares-padre'>
+                <h5 className='mensaje-usuario-review'>Viendo las reseñas de {item.usuario}</h5>
+                <div className='reviews-de-populares'>
+                  {item.listaReviews.map((review, index) => {
+                    var peli = movieData.find(p => p.id === review.idPeli);
                     return (
-                      <div key={usuarios.id} className='usuarios-conocidos-inicio-hijo'>
-                        <span className='nombre-usuario-sugerencias'>{usuario.nombre_usuario}</span><br />
-                        <span className='nombre-completo-sugerencias'>{usuario.nombre_completo}</span><br />
-                        <BotonSeguir class="boton-seguir-populares" usuario={usuarios} actualizarDatos={undefined} />
-                      </div>)
-
-                  }
-                  )
-                )}
-              </div>
-            </div>
-            <div className='reviews-de-populares-padre'>
-              <h5 className='mensaje-usuario-review'>Viendo las reseñas de {item.usuario}</h5>
-              <div className='reviews-de-populares'>
-                {item.listaReviews.map((review, index) => {
-                  var peli = movieData.find(p => p.id === review.idPeli);
-                  return (
-                    <div key={index}>
-                      <p><img style={{ width: '100px' }} src={peli.poster} /></p>
-                      <p>{peli.title}</p>
-                      <div id="estrellas">
+                      <div key={index}>
+                        <p><img style={{ width: '100px' }} src={peli.poster} /></p>
+                        <p>{peli.title}</p>
                         <div>
                           {review.valoracion === 1 ? (
                             <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>
@@ -131,18 +133,18 @@ const CarouselPoulares = ({ items }) => {
                             </div>
                           ) : null}
                         </div>
+                        <p>{review.contenido}</p>
                       </div>
-                      <p>{review.contenido}</p>
-                    </div>
-                  )
-                })}
+                    )
+                  })}
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default CarouselPoulares;

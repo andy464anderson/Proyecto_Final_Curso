@@ -5,7 +5,7 @@ import { useEffect, useState, useContext } from "react";
 import { HeaderContext } from "../header/headerContext";
 import $ from 'jquery';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark, faPlus, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { faXmark, faPlus, faPencil, faStar } from '@fortawesome/free-solid-svg-icons';
 import BuscadorPelisLista from "./buscadorPelisLista";
 import BotonSeguir from "../botonSeguir/botonSeguir";
 
@@ -41,7 +41,8 @@ function Perfil() {
                 }
             })
             var peliculas = await data.json();
-            updateMovieData(peliculas)
+            var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster));
+            updateMovieData(filtradorPelis);
         };
         obtenerPeliculas();
     }, [updateMovieData]);
@@ -504,7 +505,43 @@ function Perfil() {
                                     <h3 onClick={() => redireccionarPeli(review.id_pelicula)}>{review.pelicula.title}</h3>
                                     <p className="perfil-review-contenido">{review.contenido}</p>
                                     <p className="perfil-review-fecha">Vista en {review.fecha}</p>
-                                    <p className="perfil-review-rating">{review.valoracion}/5</p>
+                                    <div className="perfil-review-rating">
+                                        <div>
+                                            {review.valoracion === 1 ? (
+                                                <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>
+                                            ) : null}
+                                            {review.valoracion === 2 ? (
+                                                <div className="nota-comentario-detalle">
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                </div>
+                                            ) : null}
+                                            {review.valoracion === 3 ? (
+                                                <div className="nota-comentario-detalle">
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                </div>
+                                            ) : null}
+                                            {review.valoracion === 4 ? (
+                                                <div className="nota-comentario-detalle">
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                </div>
+                                            ) : null}
+                                            {review.valoracion === 5 ? (
+                                                <div className="nota-comentario-detalle">
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                    <FontAwesomeIcon icon={faStar} />
+                                                </div>
+                                            ) : null}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         ))}
@@ -518,9 +555,9 @@ function Perfil() {
                                     <FontAwesomeIcon icon={faXmark} /> </div>
                                 {isLoggedIn && usuario.id === userData.id &&
                                     <div id="divBotonesLista">
-                                        <button id="btnSeleccionarPelis" onClick={seleccionarPelis}><FontAwesomeIcon icon={faPencil} /></button>
-                                        <button id="btnAgregarPelis" disabled={seleccionar} onClick={() => { setShowSearch(true); setSeleccionar(false) }}>Agregar</button>
-                                        <button id="btnEliminarPelis" disabled={!seleccionar} onClick={eliminarPeliculasLista}>Eliminar</button>
+                                        <button id="btnSeleccionarPelis" className={seleccionar ? 'seleccionado' : ''} onClick={seleccionarPelis}><FontAwesomeIcon icon={faPencil} /></button>
+                                        <button id="btnAgregarPelis" className={seleccionar ? 'btnDesactivado' : 'btnActivadoAgregar'} disabled={seleccionar} onClick={() => { setShowSearch(true); setSeleccionar(false) }}>Agregar</button>
+                                        <button id="btnEliminarPelis" className={seleccionar ? 'btnActivadoEliminar' : 'btnDesactivado'} disabled={!seleccionar} onClick={eliminarPeliculasLista}>Eliminar</button>
                                     </div>
                                 }
                                 {showSearch && (

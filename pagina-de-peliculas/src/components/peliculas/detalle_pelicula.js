@@ -498,7 +498,7 @@ const DetallePelicula = () => {
                     </div>
                   ))}
                 </div>
-                {visibleReviews < reviews.length && (
+                {visibleReviews < listaReviewsFiltrada.length && (
                   <button id="boton-ver-mas" onClick={mostrarMasResenas}>Ver más reseñas</button>
                 )}
               </div>

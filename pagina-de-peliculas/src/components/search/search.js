@@ -37,7 +37,8 @@ const Search = () => {
                 }
             })
             var peliculas = await data.json();
-            updateMovieData(peliculas)
+            var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster));
+            updateMovieData(filtradorPelis);
         };
         obtenerPeliculas();
 

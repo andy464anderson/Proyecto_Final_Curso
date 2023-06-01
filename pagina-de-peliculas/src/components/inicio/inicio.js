@@ -25,7 +25,8 @@ const Inicio = () => {
         }
       })
       var peliculas = await data.json();
-      updateMovieData(peliculas)
+      var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster));
+      updateMovieData(filtradorPelis);
     };
     obtenerPeliculas();
 
@@ -145,7 +146,9 @@ const Inicio = () => {
           </div>
           <div id='titulares-coincidentes'>
             <p className='titular-inicio titular-populares'>Usuarios populares</p>
-            <p className='titular-inicio titular-cercanas'>Personas que quizás conozcas</p>
+            {isLoggedIn && personasCercanas.length > 0 && (
+              <p className='titular-inicio titular-cercanas'>Personas que quizás conozcas</p>
+            )}
           </div>
 
           <div>
