@@ -137,9 +137,10 @@ const Peliculas = () => {
           {
             peliculas.length === 0 || mostrarSpinner && <SlSpinner
               style={{
-                fontSize: '15rem',
-                '--indicator-color': 'darkblue',
-                '--track-color': 'lightblue'
+                'fontSize': '2rem',
+                '--indicator-color': '#91CCF4',
+                '--track-color': '#40BCF4',
+                'margin-top': '20px',
               }}
             />
           }

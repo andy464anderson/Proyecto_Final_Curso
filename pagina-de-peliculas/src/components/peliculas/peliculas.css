@@ -2,8 +2,9 @@ body {
   padding: 0;
   margin: 0;
 }
-
 .container-peliculas {
+  width: 1000px;
+  margin: auto;
   display: flex;
   justify-content: center;
   margin-top: 60px;
@@ -11,23 +12,33 @@ body {
   align-items: center;
   text-align: center;
 }
-
+/* estilos para movil */
+@media (max-width: 767px) {
+  .container-peliculas{
+    width: 90%;
+    margin-top: 200px;
+    margin-left: 30px;
+  }
+  .filtros-fixed {
+    flex-direction: column;
+  }
+}
 #boton-ver-mas-pelis {
   color: aliceblue;
   background-color: #2771945b;
   border: 1px solid #40BCF4;
   padding: 10px;
-  width: 15%;
+  width: 100%;
   height: 60px;
   font-size: 18px;
 }
+
 
 .peliculas {
   display: flex;
   flex-wrap: wrap;
   justify-content: left;
   margin: 0px;
-  width: 60%;
 }
 
 

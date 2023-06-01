@@ -42,12 +42,6 @@
     justify-content: space-between;
     background-color: #1E2329;
 }
-.reviews-de-populares p{
-    width: 48%;
-    color: #8595A3;
-    border-bottom: 1px solid #8595A3;
-    padding-bottom: 10px;
-}
 .mensaje-usuario-review{
     font-weight: lighter;
     color: #6a747e;
@@ -70,4 +64,29 @@
     background-color: #1E2329;
     margin-top: 0;
     padding: 10px;
+}
+.info-review-populares-padre{
+    width: 49%;
+    display: flex;
+    border-bottom: 1px solid #8595A3;
+    margin-top: 10px;
+}
+.info-review-populares-poster{
+    width: 130px;
+    height: 180px;
+    margin-bottom: 10px;
+    margin-right: 20px;
+    border: 1px solid #8595A3;
+    border-radius: 4px;
+}
+.info-review-populares{
+    width: 100%;
+}
+.info-review-populares-titulo{
+    color: aliceblue;
+}
+.info-review-populares-comentario{
+    margin-top: 10px;
+    color: #8595A3;
+    font-style: italic;
 }

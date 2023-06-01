@@ -95,45 +95,47 @@ const CarouselPoulares = ({ items }) => {
                   {item.listaReviews.map((review, index) => {
                     var peli = movieData.find(p => p.id === review.idPeli);
                     return (
-                      <div key={index}>
-                        <p><img style={{ width: '100px' }} src={peli.poster} /></p>
-                        <p>{peli.title}</p>
-                        <div>
-                          {review.valoracion === 1 ? (
-                            <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>
-                          ) : null}
-                          {review.valoracion === 2 ? (
-                            <div className="nota-comentario-detalle">
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                            </div>
-                          ) : null}
-                          {review.valoracion === 3 ? (
-                            <div className="nota-comentario-detalle">
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                            </div>
-                          ) : null}
-                          {review.valoracion === 4 ? (
-                            <div className="nota-comentario-detalle">
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                            </div>
-                          ) : null}
-                          {review.valoracion === 5 ? (
-                            <div className="nota-comentario-detalle">
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                            </div>
-                          ) : null}
+                      <div key={index} className='info-review-populares-padre'>
+                        <img className='info-review-populares-poster' src={peli.poster} alt={peli.title} />
+                        <div className='info-review-populares'>
+                          <h3 className='info-review-populares-titulo'>{peli.title}</h3>
+                          <div>
+                            {review.valoracion === 1 ? (
+                              <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>
+                            ) : null}
+                            {review.valoracion === 2 ? (
+                              <div className="nota-comentario-detalle">
+                                <FontAwesomeIcon icon={faStar} />
+                                <FontAwesomeIcon icon={faStar} />
+                              </div>
+                            ) : null}
+                            {review.valoracion === 3 ? (
+                              <div className="nota-comentario-detalle">
+                                <FontAwesomeIcon icon={faStar} />
+                                <FontAwesomeIcon icon={faStar} />
+                                <FontAwesomeIcon icon={faStar} />
+                              </div>
+                            ) : null}
+                            {review.valoracion === 4 ? (
+                              <div className="nota-comentario-detalle">
+                                <FontAwesomeIcon icon={faStar} />
+                                <FontAwesomeIcon icon={faStar} />
+                                <FontAwesomeIcon icon={faStar} />
+                                <FontAwesomeIcon icon={faStar} />
+                              </div>
+                            ) : null}
+                            {review.valoracion === 5 ? (
+                              <div className="nota-comentario-detalle">
+                                <FontAwesomeIcon icon={faStar} />
+                                <FontAwesomeIcon icon={faStar} />
+                                <FontAwesomeIcon icon={faStar} />
+                                <FontAwesomeIcon icon={faStar} />
+                                <FontAwesomeIcon icon={faStar} />
+                              </div>
+                            ) : null}
+                          </div>
+                          <p className='info-review-populares-comentario'>{review.contenido}</p>
                         </div>
-                        <p>{review.contenido}</p>
                       </div>
                     )
                   })}
