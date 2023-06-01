@@ -165,7 +165,29 @@
     flex-wrap: wrap;
     justify-content: left;
     padding: 10px;
+}
 
+#btnIrAPeliculas {
+    width: 50%;
+    margin-top: 15px;
+    padding: 5px;
+    border: 3px solid #40BCF4;
+    color: aliceblue;
+    font-weight: bold;
+    background-color: #40BCF4;
+    border-radius: 5px;
+  }
+
+  #btnIrAPeliculas:hover{
+    background-color: #1b8bbe;
+  }
+
+.listas-likes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
 }
 
 .divPeliListaLike,
@@ -436,11 +458,13 @@ body::-webkit-scrollbar-thumb,
 .btnActivadoEliminar:hover {
     background-color: rgb(194, 55, 0);
 }
-.seleccionado{
+
+.seleccionado {
     color: aliceblue !important;
     background-color: #40BCF4 !important;
     border: 1px solid #1188be !important;
 }
-.seleccionado:hover{
+
+.seleccionado:hover {
     background-color: rgb(7, 115, 165) !important;
 }

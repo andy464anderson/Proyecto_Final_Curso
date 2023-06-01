@@ -37,7 +37,7 @@ const Search = () => {
                 }
             })
             var peliculas = await data.json();
-            var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster));
+            var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id != 11853);
             updateMovieData(filtradorPelis);
         };
         obtenerPeliculas();

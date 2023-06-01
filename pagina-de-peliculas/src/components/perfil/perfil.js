@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faPlus, faPencil, faStar } from '@fortawesome/free-solid-svg-icons';
 import BuscadorPelisLista from "./buscadorPelisLista";
 import BotonSeguir from "../botonSeguir/botonSeguir";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function Perfil() {
     const navigate = useNavigate();
@@ -29,6 +31,7 @@ function Perfil() {
     const [nombreCrearLista, setNombreCrearLista] = useState("");
     const [nombreCompleto, setNombreCompleto] = useState("");
     const [nombreUsuario, setNombreUsuario] = useState("");
+    const [nombreListaError, setNombreListaError] = useState("");
     const [publica, setPublica] = useState(false);
     const [seleccionar, setSeleccionar] = useState(false);
 
@@ -41,7 +44,7 @@ function Perfil() {
                 }
             })
             var peliculas = await data.json();
-            var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster));
+            var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id != 11853);
             updateMovieData(filtradorPelis);
         };
         obtenerPeliculas();
@@ -260,8 +263,6 @@ function Perfil() {
             body: JSON.stringify(lista),
         });
         const dataResponse = await response.json();
-        console.log(dataResponse);
-
         const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
         const dataListas = await responseListas.json();
         setListas(dataListas);
@@ -293,31 +294,38 @@ function Perfil() {
     }
 
     const editarLista = async (lista) => {
-        if (lista.nombre_lista != nombreEditarLista || lista.publica != publica) {
-            const editarLista = {
-                nombre_lista: nombreEditarLista,
-                publica: publica
+        if (nombreEditarLista !== "") {
+            if (lista.nombre_lista !== nombreEditarLista || lista.publica !== publica) {
+                const editarLista = {
+                    nombre_lista: nombreEditarLista,
+                    publica: publica,
+                };
+
+                const response = await fetch(`http://localhost:8000/lista/${lista.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(editarLista),
+                });
+                const dataResponse = await response.json();
+
+                const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
+                const dataListas = await responseListas.json();
+                setListas(dataListas);
+                setNombreListaError("");
+                setVerEditarLista(false);
+
+                toast.success("Lista editada con éxito", { autoClose: 2500 });
+            } else {
+                toast.warning("No se ha modificado nada", { autoClose: 2500 });
+                setNombreListaError("");
+                setVerEditarLista(false);
             }
-
-            const response = await fetch(`http://localhost:8000/lista/${lista.id}`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(editarLista),
-            });
-            const dataResponse = await response.json();
-            console.log(dataResponse);
-
-            const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
-            const dataListas = await responseListas.json();
-            setListas(dataListas);
-            setVerEditarLista(false);
         } else {
-            alert("No ha modificado nada");
-            setVerEditarLista(false);
+            setNombreListaError("El nombre no puede estar vacío");
         }
-    }
+    };
 
     const redireccionarPeli = (idPeli) => {
         navigate(`/detalle/${idPeli}`);
@@ -342,15 +350,16 @@ function Perfil() {
                 body: JSON.stringify(lista),
             });
             const dataResponse = await response.json();
-            console.log(dataResponse);
 
             const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
             const dataListas = await responseListas.json();
+            toast.success("Lista creada con éxito", { autoClose: 2500 });
             setListas(dataListas);
             setNombreCrearLista("");
+            setNombreListaError("");
             setVerCrearLista(false);
         } else {
-            alert("El nombre no puede estar vacío");
+            setNombreListaError("El nombre no puede estar vacío");
         }
     }
 
@@ -394,7 +403,7 @@ function Perfil() {
             if (a.nombre_lista > b.nombre_lista) return 1;
             else return -1;
         });
-        const listaLikes = listaListas.filter((lista) => lista.tipo === "likes");
+        const listaLikes = listaListas.find((lista) => lista.tipo === "likes");
         return (
             <div className="perfil-container">
                 <div className="perfil-header">
@@ -450,39 +459,36 @@ function Perfil() {
                         <button id="botonReviews" onClick={mostrarReviews}>Reseñas</button>
                     </div>
                     <div className="listas-likes">
-                        {listaLikes.map((lista) => (
-                            <div className="lista-likes-hijo" id={lista.id} key={lista.id}>
-                                {lista.peliculasLista.map(peli => {
-                                    return (
-                                        <div className="divPeliListaLike" key={peli.id} id={peli.id}>
-                                            <img onClick={() => redireccionarPeli(peli.id)} src={peli.poster} alt="poster"></img>
-                                        </div>
-                                    )
-                                })}
+                        {listaLikes && listaLikes.peliculasLista.length > 0 ? (
+                            <div className="lista-likes-hijo" id={listaLikes.id}>
+                                {listaLikes.peliculasLista.map(peli => (
+                                    <div className="divPeliListaLike" key={peli.id} id={peli.id}>
+                                        <img onClick={() => redireccionarPeli(peli.id)} src={peli.poster} alt="poster" />
+                                    </div>
+                                ))}
                             </div>
-                        ))}
+                        ) : (
+                            <div id='noPelis'>
+                                {isLoggedIn && userData.id === usuario.id ? (
+                                    <>
+                                        <p>No has dado like a ninguna película</p>
+                                        <button id="btnIrAPeliculas" onClick={() => navigate("/peliculas")}>Ir a películas</button>
+                                    </>
+                                ) : (
+                                    <p>Este usuario no tiene likes</p>
+                                )}
+
+                            </div>
+                        )}
                     </div>
+
                     <div className="listas-normales">
                         {isLoggedIn && usuario.id === userData.id && (
                             <button id="boton-crear-lista" type="button" onClick={() => { setVerCrearLista(true) }}>Crear nueva lista <FontAwesomeIcon icon={faPlus} /></button>
                         )}
-                        {listaNormal.map((lista) => (
-                            (isLoggedIn && usuario.id === userData.id) ? (
-                                <div className="lista-normal" id={lista.id} key={lista.id}>
-                                    {lista.peliculasLista.length > 0 && (
-                                        <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
-                                            <img src={lista.peliculasLista[0].poster} alt="poster" />
-                                        </div>
-                                    )}
-                                    <div className="nombreListaNormal">
-                                        <span><h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5></span>
-                                        <p>{lista.peliculasLista.length} películas</p>
-                                        <button className="eliminar-lista" type="button" onClick={() => eliminarLista(lista.id)}>Eliminar lista</button>
-                                        <button className="editar-lista" type="button" onClick={() => { setListaActual(lista); setVerEditarLista(true); setNombreEditarLista(lista.nombre_lista) }}>Editar lista</button>
-                                    </div>
-                                </div>
-                            ) :
-                                lista.publica && (
+                        {listaNormal && listaNormal.length > 0 ? (
+                            listaNormal.map((lista) => (
+                                (isLoggedIn && usuario.id === userData.id) ? (
                                     <div className="lista-normal" id={lista.id} key={lista.id}>
                                         {lista.peliculasLista.length > 0 && (
                                             <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
@@ -490,61 +496,98 @@ function Perfil() {
                                             </div>
                                         )}
                                         <div className="nombreListaNormal">
-                                            <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
+                                            <span><h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5></span>
                                             <p>{lista.peliculasLista.length} películas</p>
+                                            <button className="eliminar-lista" type="button" onClick={() => eliminarLista(lista.id)}>Eliminar lista</button>
+                                            <button className="editar-lista" type="button" onClick={() => { setListaActual(lista); setVerEditarLista(true); setNombreEditarLista(lista.nombre_lista) }}>Editar lista</button>
                                         </div>
                                     </div>
+                                ) : (
+                                    lista.publica && (
+                                        <div className="lista-normal" id={lista.id} key={lista.id}>
+                                            {lista.peliculasLista.length > 0 && (
+                                                <div className="divPeliListaNormal" key={lista.peliculasLista[0].id}>
+                                                    <img src={lista.peliculasLista[0].poster} alt="poster" />
+                                                </div>
+                                            )}
+                                            <div className="nombreListaNormal">
+                                                <h5 onClick={() => verLista(lista)}>{lista.nombre_lista}</h5>
+                                                <p>{lista.peliculasLista.length} películas</p>
+                                            </div>
+                                        </div>
+                                    )
                                 )
-                        ))}
+                            ))
+                        ) : (
+                            <div id='noPelis'>
+                                {isLoggedIn && userData.id === usuario.id ? (
+                                    <p>No has creado ninguna lista</p>
+                                ) : (
+                                    <p>Este usuario no tiene listas públicas</p>
+                                )}
+                            </div>
+                        )}
                     </div>
+
+
                     <div className="bloqueReseñas">
-                        {listaReviews.map((review) => (
-                            <div className="perfil-review" key={review.id} id={review.id}>
-                                <img onClick={() => redireccionarPeli(review.id_pelicula)} src={review.pelicula.poster} alt="poster"></img>
-                                <div className="review-info">
-                                    <h3 onClick={() => redireccionarPeli(review.id_pelicula)}>{review.pelicula.title}</h3>
-                                    <p className="perfil-review-contenido">{review.contenido}</p>
-                                    <p className="perfil-review-fecha">Vista en {review.fecha}</p>
-                                    <div className="perfil-review-rating">
-                                        <div>
-                                            {review.valoracion === 1 ? (
-                                                <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>
-                                            ) : null}
-                                            {review.valoracion === 2 ? (
-                                                <div className="nota-comentario-detalle">
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                </div>
-                                            ) : null}
-                                            {review.valoracion === 3 ? (
-                                                <div className="nota-comentario-detalle">
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                </div>
-                                            ) : null}
-                                            {review.valoracion === 4 ? (
-                                                <div className="nota-comentario-detalle">
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                </div>
-                                            ) : null}
-                                            {review.valoracion === 5 ? (
-                                                <div className="nota-comentario-detalle">
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                    <FontAwesomeIcon icon={faStar} />
-                                                </div>
-                                            ) : null}
+                        {listaReviews && listaReviews.length > 0 ? (
+                            listaReviews.map((review) => (
+                                <div className="perfil-review" key={review.id} id={review.id}>
+                                    <img onClick={() => redireccionarPeli(review.id_pelicula)} src={review.pelicula.poster} alt="poster"></img>
+                                    <div className="review-info">
+                                        <h3 onClick={() => redireccionarPeli(review.id_pelicula)}>{review.pelicula.title}</h3>
+                                        <p className="perfil-review-contenido">{review.contenido}</p>
+                                        <p className="perfil-review-fecha">Vista en {review.fecha}</p>
+                                        <div className="perfil-review-rating">
+                                            <div>
+                                                {review.valoracion === 1 ? (
+                                                    <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>
+                                                ) : null}
+                                                {review.valoracion === 2 ? (
+                                                    <div className="nota-comentario-detalle">
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                    </div>
+                                                ) : null}
+                                                {review.valoracion === 3 ? (
+                                                    <div className="nota-comentario-detalle">
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                    </div>
+                                                ) : null}
+                                                {review.valoracion === 4 ? (
+                                                    <div className="nota-comentario-detalle">
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                    </div>
+                                                ) : null}
+                                                {review.valoracion === 5 ? (
+                                                    <div className="nota-comentario-detalle">
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                        <FontAwesomeIcon icon={faStar} />
+                                                    </div>
+                                                ) : null}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+                            ))
+                        ) : (
+                            <div id='noPelis'>
+                                {isLoggedIn && userData.id === usuario.id ? (
+                                    <p>No has creado ninguna reseña</p>
+                                ) : (
+                                    <p>Este usuario no tiene reseñas</p>
+                                )}
                             </div>
-                        ))}
+                        )}
                     </div>
 
                     <div id="infoListasNormales">
@@ -580,11 +623,12 @@ function Perfil() {
                         <div className="modal">
 
                             <div className="modal-content">
-                                <div id="cruzDivListasNormales" onClick={() => setVerCrearLista(false)}>
+                                <div id="cruzDivListasNormales" onClick={() => { setVerCrearLista(false); setNombreListaError(""); setNombreCrearLista(""); }}>
                                     <FontAwesomeIcon icon={faXmark} />
                                 </div>
                                 <label htmlFor="nombreLista">Nombre de la lista: </label>
                                 <input type="text" value={nombreCrearLista} onChange={(e) => setNombreCrearLista(e.target.value)} />
+                                {nombreListaError && <p style={{ color: "red" }}>{nombreListaError}</p>}
                                 <br /><br />
                                 <label htmlFor="privacidad">Privacidad de la lista</label>
                                 <select id="privacidad" name="privacidad" onChange={(e) => setPublica(e.target.value === 'publica')}>
@@ -597,12 +641,13 @@ function Perfil() {
                     )}
                     {verEditarLista && (
                         <div className="modal">
-                            <div id="cruzDivListasNormales" onClick={() => setVerEditarLista(false)}>
+                            <div id="cruzDivListasNormales" onClick={() => { setVerEditarLista(false); setNombreListaError(""); }}>
                                 <FontAwesomeIcon icon={faXmark} />
                             </div>
                             <div className="modal-content">
                                 <label htmlFor="nombreLista">Nombre de la lista: </label>
                                 <input type="text" value={nombreEditarLista} onChange={(e) => setNombreEditarLista(e.target.value)} />
+                                {nombreListaError && <p style={{ color: "red" }}>{nombreListaError}</p>}
                                 <br /><br />
                                 <label htmlFor="privacidad">Privacidad de la lista</label>
                                 <select id="privacidad" name="privacidad" onChange={(e) => setPublica(e.target.value === 'publica')} defaultValue={listaActual.publica ? "publica" : "privada"}>
@@ -614,8 +659,8 @@ function Perfil() {
                         </div>
                     )}
                 </div>
+                <ToastContainer />
             </div>
-
         );
 
     }
