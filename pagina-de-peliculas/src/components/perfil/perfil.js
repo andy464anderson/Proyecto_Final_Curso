@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark, faPlus, faPencil, faStar } from '@fortawesome/free-solid-svg-icons';
 import BuscadorPelisLista from "./buscadorPelisLista";
 import BotonSeguir from "../botonSeguir/botonSeguir";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function Perfil() {
@@ -659,7 +659,6 @@ function Perfil() {
                         </div>
                     )}
                 </div>
-                <ToastContainer />
             </div>
         );
 

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./registrar.css";
 import $ from 'jquery';
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const Registrar = () => {
 
@@ -107,14 +108,14 @@ const Registrar = () => {
                     body: JSON.stringify(Usuario)
                 }).then(res => {
                     if (res.ok) {
-                        alert("Usuario creado correctamente");
+                        toast.success("Registro completado correctamente", { autoClose: 2500 });
                         navigate("/login");
                         return res.json();
                     } else {
-                        throw new Error("Error al crear el usuario");
+                        toast.warning("Error al crear el usuario", { autoClose: 2500 });
                     }
                 }).catch(err => {
-                    alert(err);
+                    toast.warning(err, { autoClose: 2500 });
                 });
             }
 

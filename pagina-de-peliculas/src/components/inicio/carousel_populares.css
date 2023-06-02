@@ -54,6 +54,11 @@
 .nombre-usuario-sugerencias{
     color: aliceblue;
     font-weight: bolder;
+    cursor: pointer;
+}
+.nombre-usuario-sugerencias:hover{
+    color: #38a5d8;
+    text-decoration: underline;
 }
 .nombre-completo-sugerencias{
     color: #8595A3;

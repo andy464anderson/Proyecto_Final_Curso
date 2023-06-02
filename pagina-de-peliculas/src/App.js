@@ -14,6 +14,7 @@ import Login from './components/login/login';
 import Registrar from './components/Registrar/registrar';
 import Social from './components/perfil/social';
 import Inicio from './components/inicio/inicio';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const location = useLocation();
@@ -43,6 +44,7 @@ function App() {
           </Routes>
         </div>
         {showFooter && <Footer />}
+        < ToastContainer/>
       </HeaderContextProvider>
     </div>
   );

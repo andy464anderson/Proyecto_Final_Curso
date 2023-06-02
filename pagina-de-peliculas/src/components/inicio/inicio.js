@@ -152,48 +152,53 @@ const Inicio = () => {
           </div>
 
           <div>
-            <CarouselPoulares items={cargarReviewsPopulares()} />
+            {cargarReviewsPopulares().length > 0 && (
+              <CarouselPoulares items={cargarReviewsPopulares()} />
+            )}
           </div>
 
           <div>
             <p className='titular-inicio'>Las favoritas de los usuarios</p>
             <div id="divTopLikes">
-              {topLikes.map((peli, i) => {
-                const pelicula = movieData.find(p => p.id === peli.pelicula_id);
-                if (pelicula) {
-                  return (
-                    <div key={pelicula.id} className='cuerpo-top-likes' >
-                      <div className='padre-foto-tops'>
-                        <img className='imagen-top' src={pelicula.poster} alt={pelicula.title}></img>
-                        <span className='puntuacion-general'>{peli.total_likes} likes</span>
-                      </div>
-                      <span className='posicion-top'>{i + 1}</span>
-                      <span>{pelicula.title}</span>
-                    </div>)
-                }
-              }
+              {topLikes && topLikes.length > 0 && (
+                topLikes.map((peli, i) => {
+                  const pelicula = movieData.find(p => p.id === peli.pelicula_id);
+                  if (pelicula) {
+                    return (
+                      <div key={pelicula.id} className='cuerpo-top-likes' >
+                        <div className='padre-foto-tops'>
+                          <img className='imagen-top' src={pelicula.poster} alt={pelicula.title}></img>
+                          <span className='puntuacion-general'>{peli.total_likes} likes</span>
+                        </div>
+                        <span className='posicion-top'>{i + 1}</span>
+                        <span>{pelicula.title}</span>
+                      </div>)
+                  }
+                })
               )}
             </div>
 
             <p className='titular-inicio'>Las mejor valoradas por los usuarios</p>
             <div id="divTopValoracion">
-              {topValoracion.map((peli, i) => {
-                const pelicula = movieData.find(p => p.id === peli.pelicula_id);
-                if (pelicula) {
-                  const valoracion = peli.valoracion_media % 1 === 0 ? peli.valoracion_media.toFixed(0) : peli.valoracion_media.toFixed(2);
-                  return (
-                    <div key={pelicula.id} className='cuerpo-top-valoracion'>
-                      <div className='padre-foto-tops'>
-                        <img className='imagen-top' src={pelicula.poster} alt={pelicula.title}></img>
-                        <span className='puntuacion-general'>{valoracion}/5</span>
+              {topValoracion && topValoracion.length > 0 && (
+                topValoracion.map((peli, i) => {
+                  const pelicula = movieData.find(p => p.id === peli.pelicula_id);
+                  if (pelicula) {
+                    const valoracion = peli.valoracion_media % 1 === 0 ? peli.valoracion_media.toFixed(0) : peli.valoracion_media.toFixed(2);
+                    return (
+                      <div key={pelicula.id} className='cuerpo-top-valoracion'>
+                        <div className='padre-foto-tops'>
+                          <img className='imagen-top' src={pelicula.poster} alt={pelicula.title}></img>
+                          <span className='puntuacion-general'>{valoracion}/5</span>
+                        </div>
+                        <span className='posicion-top'>{i + 1}</span>
+                        <span>{pelicula.title}</span>
                       </div>
-                      <span className='posicion-top'>{i + 1}</span>
-                      <span>{pelicula.title}</span>
-                    </div>
-                  );
-                }
-                return null;
-              })}
+                    );
+                  }
+                  return null;
+                })
+              )}
             </div>
           </div>
 

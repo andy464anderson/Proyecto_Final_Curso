@@ -5,8 +5,10 @@ import { faAnglesRight, faAnglesLeft } from '@fortawesome/free-solid-svg-icons';
 import BotonSeguir from "../botonSeguir/botonSeguir";
 import { HeaderContext } from "../header/headerContext";
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const CarouselPoulares = ({ items }) => {
+  const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
   const [personasCercanas, setPersonasCercanas] = useState([]);
   const [listaUsuarios, setUsuarios] = useState([]);
@@ -79,7 +81,7 @@ const CarouselPoulares = ({ items }) => {
                       var usuarios = listaUsuarios.find(user => user.nombre_usuario === usuario.nombre_usuario);
                       return (
                         <div key={usuarios.id} className='usuarios-conocidos-inicio-hijo'>
-                          <span className='nombre-usuario-sugerencias'>{usuario.nombre_usuario}</span><br />
+                          <span onClick={()=>navigate(`/perfil/${usuario.nombre_usuario}`)} className='nombre-usuario-sugerencias'>{usuario.nombre_usuario}</span><br />
                           <span className='nombre-completo-sugerencias'>{usuario.nombre_completo}</span><br />
                           <BotonSeguir class="boton-seguir-populares" usuario={usuarios} actualizarDatos={undefined} />
                         </div>)
@@ -90,7 +92,7 @@ const CarouselPoulares = ({ items }) => {
                 </div>
               </div>
               <div className='reviews-de-populares-padre'>
-                <h5 className='mensaje-usuario-review'>Viendo las reseñas de {item.usuario}</h5>
+                <h5 className='mensaje-usuario-review'>Viendo las últimas reseñas de {item.usuario}</h5>
                 <div className='reviews-de-populares'>
                   {item.listaReviews.map((review, index) => {
                     var peli = movieData.find(p => p.id === review.idPeli);

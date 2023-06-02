@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import "react-tippy/dist/tippy.css";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const BotonSeguir = ({ usuario, actualizarDatos }) => {

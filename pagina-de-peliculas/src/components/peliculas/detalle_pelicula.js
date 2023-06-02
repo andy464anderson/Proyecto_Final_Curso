@@ -10,6 +10,7 @@ import { Chart as ChartJS } from "chart.js/auto";
 import { faXmark, faStar, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import $ from 'jquery';
 import BotonLike from "../botonLike/botonLike";
+import { toast } from 'react-toastify';
 
 const DetallePelicula = () => {
   const navigate = useNavigate();
@@ -206,8 +207,7 @@ const DetallePelicula = () => {
     if (isLoggedIn) {
 
       if ((calificacion == "-1" || calificacion == "") && contenido == "") {
-        alert("Tienes que rellenar al menos un campo de la reseña");
-
+        toast.warning("Tienes que rellenar al menos un campo de la reseña", { autoClose: 2500 });
       } else {
         const fechaActual = new Date();
         const anio = fechaActual.getFullYear();
@@ -248,10 +248,12 @@ const DetallePelicula = () => {
         setReviews(dataReviews);
         const ultimaReview = dataReviews[0];
         listaReviewsFiltrada.unshift(ultimaReview);
+        toast.success("Reseña publicada", { autoClose: 2500 });
         cancelarReview();
       }
     } else {
-      alert("No puedes realizar esta acción si no has iniciado sesión");
+      toast.warning("No puedes realizar esta acción si no has iniciado sesión", { autoClose: 2500 });
+      cancelarReview();
     }
   };
 
@@ -506,7 +508,6 @@ const DetallePelicula = () => {
 
           </div>
         </div>
-
       </div>
     );
   }
