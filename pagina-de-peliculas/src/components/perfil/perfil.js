@@ -622,7 +622,6 @@ function Perfil() {
                     </div>
                     {verCrearLista && (
                         <div className="modal">
-
                             <div className="modal-content">
                                 <div id="cruzDivListasNormales" onClick={() => { setVerCrearLista(false); setNombreListaError(""); setNombreCrearLista(""); }}>
                                     <FontAwesomeIcon icon={faXmark} />
@@ -642,10 +641,10 @@ function Perfil() {
                     )}
                     {verEditarLista && (
                         <div className="modal">
-                            <div id="cruzDivListasNormales" onClick={() => { setVerEditarLista(false); setNombreListaError(""); }}>
-                                <FontAwesomeIcon icon={faXmark} />
-                            </div>
                             <div className="modal-content">
+                                <div id="cruzDivListasNormales" onClick={() => { setVerEditarLista(false); setNombreListaError(""); }}>
+                                    <FontAwesomeIcon icon={faXmark} />
+                                </div>
                                 <label htmlFor="nombreLista">Nombre de la lista: </label>
                                 <input type="text" value={nombreEditarLista} onChange={(e) => setNombreEditarLista(e.target.value)} />
                                 {nombreListaError && <p style={{ color: "red" }}>{nombreListaError}</p>}

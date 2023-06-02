@@ -1,13 +1,13 @@
 import "./botonSeguir.css";
-import React from 'react';
+import React from "react";
 import { HeaderContext } from "../header/headerContext";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import 'react-tippy/dist/tippy.css';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import "react-tippy/dist/tippy.css";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const BotonSeguir = ({ usuario, actualizarDatos }) => {
     const navigate = useNavigate();
@@ -70,7 +70,7 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
         const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${usuario.id}`);
         const dataSeguidos = await responseSeguidos.json();
         setSeguidos(dataSeguidos);
-        if (typeof actualizarDatos === 'function') {
+        if (typeof actualizarDatos === "function") {
             actualizarDatos(dataSeguidos, dataSeguidores, nombreUsuario, nombreCompleto);
         }
         setSiguiendo(true);
@@ -88,7 +88,7 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
         const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${usuario.id}`);
         const dataSeguidos = await responseSeguidos.json();
         setSeguidos(dataSeguidos);
-        if (typeof actualizarDatos === 'function') {
+        if (typeof actualizarDatos === "function") {
             actualizarDatos(dataSeguidos, dataSeguidores, nombreUsuario, nombreCompleto);
         }
         setSiguiendo(false);
@@ -118,12 +118,12 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
                 setNombreCompleto(dataResponse.nombre_completo);
                 setCorreo(dataResponse.correo);
                 updateHeader(true, dataResponse);
-                if (typeof actualizarDatos === 'function') {
+                if (typeof actualizarDatos === "function") {
                     toast.success("Perfil editado con éxito", { autoClose: 2500 });
                     actualizarDatos(seguidos, seguidores, dataResponse.nombre_usuario, dataResponse.nombre_completo);
                 }
                 navigate(`/perfil/${dataResponse.nombre_usuario}`);
-                setVerEditarPerfil(false);
+                cerrar();
             }
         }
         setError(false);
@@ -132,6 +132,10 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
 
     const comprobarEditarPerfil = async () => {
         if (correo != userData.correo || nombreCompleto != userData.nombre_completo || nombreUsuario != userData.nombre_usuario) {
+            setNameError("");
+            setNombreUsuarioError("");
+            setEmailError("");
+
             const responseUsuarios = await fetch(`http://localhost:8000/usuarios`);
             const dataUsuarios = await responseUsuarios.json();
 
@@ -139,28 +143,28 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
             const listaExisteCorreo = dataUsuarios.filter(usuario => usuario.correo == correo && userData.correo != correo);
 
             if (listaExisteUsuario.length > 0) {
-                setNombreUsuarioError('El nombre de usuario ya existe');
+                setNombreUsuarioError("El nombre de usuario ya existe");
                 setError(true);
             }
 
             if (listaExisteCorreo.length > 0) {
-                setEmailError('Ya existe una cuenta con ese correo electrónico');
+                setEmailError("Ya existe una cuenta con ese correo electrónico");
                 setError(true);
             }
 
 
             if (nombreCompleto.length < 3) {
-                setNameError('El nombre debe tener al menos 3 caracteres');
+                setNameError("El nombre debe tener al menos 3 caracteres");
                 setError(true);
             }
 
             if (nombreUsuario.length < 3) {
-                setNombreUsuarioError('El nombre de usuario debe tener al menos 3 caracteres');
+                setNombreUsuarioError("El nombre de usuario debe tener al menos 3 caracteres");
                 setError(true);
             }
 
             if (!correo.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i)) {
-                setEmailError('El formato del correo no es válido');
+                setEmailError("El formato del correo no es válido");
                 setError(true);
             }
 
@@ -210,20 +214,14 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
                             </div>
                             <div>
                                 <label htmlFor="nombreCompleto">Nombre completo: </label>
-                                <br />
                                 <input id="nombreCompleto" type="text" value={nombreCompleto} onChange={(e) => setNombreCompleto(e.target.value)} />
-                                {nameError && <p style={{ color: "red" }}>{nameError}</p>}
-                                <br /><br />
+                                {nameError ? (<p style={{ color: "red" }}>{nameError}</p>) : (<><br /><br /></>)}
                                 <label htmlFor="nombreUsuario">Nombre de usuario: </label>
-                                <br />
                                 <input id="nombreUsuario" type="text" value={nombreUsuario} onChange={(e) => setNombreUsuario(e.target.value)} />
-                                {nombreUsuarioError && <p style={{ color: "red" }}>{nombreUsuarioError}</p>}
-                                <br /><br />
+                                {nombreUsuarioError ? (<p style={{ color: "red" }}>{nombreUsuarioError}</p>) : (<><br /><br /></>)}
                                 <label htmlFor="correo">Correo electrónico: </label>
-                                <br />
                                 <input id="correo" type="text" value={correo} onChange={(e) => setCorreo(e.target.value)} />
-                                {emailError && <p style={{ color: "red" }}>{emailError}</p>}
-                                <br /><br />
+                                {emailError ? (<p style={{ color: "red" }}>{emailError}</p>) : (<><br /><br /></>)}
                                 <button type="submit" onClick={comprobarEditarPerfil}>Guardar cambios</button>
                             </div>
 
