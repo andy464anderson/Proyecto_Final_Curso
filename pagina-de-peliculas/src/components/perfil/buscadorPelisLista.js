@@ -4,6 +4,7 @@ import React from 'react';
 import { HeaderContext } from '../header/headerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
+import { toast, ToastContainer } from "react-toastify";
 
 
 const BuscadorPelisLista = ({ peliculasEnLista, anadirPeliculas, idLista, searchAbierto }) => {
@@ -65,7 +66,7 @@ const BuscadorPelisLista = ({ peliculasEnLista, anadirPeliculas, idLista, search
 
             anadirPeliculas(pelisSeleccionadas);
         } else {
-            alert("No se ha actualizado la lista");
+            toast.warning("No se ha actualizado la lista", { autoClose: 2500 });
         }
         searchAbierto(false);
     }

@@ -48,7 +48,7 @@ function Perfil() {
             updateMovieData(filtradorPelis);
         };
         obtenerPeliculas();
-    }, [updateMovieData]);
+    }, []);
 
     useEffect(() => {
         const obtenerDatosUsuario = async () => {

@@ -16,11 +16,13 @@
 }
 
 .deshabilitado {
+    background-color: #14181C;
+    border: 1px solid #8595A3;
+    border-radius: 3px;
+    color: #8595A3;
+    padding: 5px;
+    padding-left: 20px;
+    padding-right: 20px;
+    margin: 5px;
     cursor: not-allowed;
-}
-
-.deshabilitado:hover {
-    background-color: #14181C !important;
-    border: 1px solid #8595A3 !important;
-    color: #8595A3 !important;
 }
