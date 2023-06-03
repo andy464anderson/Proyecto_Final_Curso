@@ -3,6 +3,8 @@ import "./perfil.css";
 import "./social.css";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function Social() {
     const navigate = useNavigate();
@@ -35,7 +37,9 @@ function Social() {
         };
         obtenerDatosUsuario();
     }, [nombre_usuario]);
-
+    const volver = () => {
+        window.history.back();
+    }
     const verUsuario = (nombreUsuario) => {
         navigate(`/perfil/${nombreUsuario}`);
     }
@@ -46,11 +50,16 @@ function Social() {
         if (seg == "seguidores") {
             return (
                 <div className="social">
-                    <h5>Seguidores</h5>
-                    <hr></hr>
+                    <div className="titulo-social">
+                        <div className="boton-volver boton-volver-social">
+                            <button onClick={volver}><FontAwesomeIcon icon={faArrowLeft} /></button>
+                        </div>
+                        <h5>Seguidores</h5>
+                    </div>
+
                     {seguidores.map((user) => (
                         <div onClick={() => verUsuario(user.nombre_usuario)} className="divUsuario" id={user.id_usuario_seguidor} key={user.id_usuario_seguidor}>
-                            <div><strong>{user.nombre_usuario}</strong></div>
+                            <div>{user.nombre_usuario}</div>
                         </div>
                     ))}
                 </div>
@@ -58,11 +67,15 @@ function Social() {
         } else {
             return (
                 <div className="social">
-                    <h5>Siguiendo</h5>
-                    <hr></hr>
+                    <div className="titulo-social">
+                        <div className="boton-volver boton-volver-social">
+                            <button onClick={volver}><FontAwesomeIcon icon={faArrowLeft} /></button>
+                        </div>
+                        <h5>Seguidos</h5>
+                    </div>
                     {seguidos.map((user) => (
                         <div onClick={() => verUsuario(user.nombre_usuario)} className="divUsuario" id={user.id_usuario_seguido} key={user.id_usuario_seguido}>
-                            <div><strong>{user.nombre_usuario}</strong></div>
+                            <div>{user.nombre_usuario}</div>
                         </div>
                     ))}
                 </div>

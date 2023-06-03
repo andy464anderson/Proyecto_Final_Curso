@@ -432,22 +432,6 @@ function Perfil() {
                                         {seguidos.length}
                                     </td>
                                 </tr>
-                                <tr className="seguidos">
-                                    <td>
-                                        Listas
-                                    </td>
-                                    <td>
-                                        {listaNormal.length}
-                                    </td>
-                                </tr>
-                                <tr className="seguidos">
-                                    <td>
-                                        Reseñas
-                                    </td>
-                                    <td>
-                                        {reviews.length}
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -460,7 +444,9 @@ function Perfil() {
                     </div>
                     <div className="listas-likes">
                         {listaLikes && listaLikes.peliculasLista.length > 0 ? (
+                            
                             <div className="lista-likes-hijo" id={listaLikes.id}>
+                                
                                 {listaLikes.peliculasLista.map(peli => (
                                     <div className="divPeliListaLike" key={peli.id} id={peli.id}>
                                         <img onClick={() => redireccionarPeli(peli.id)} src={peli.poster} alt="poster" />

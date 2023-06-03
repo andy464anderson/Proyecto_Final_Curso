@@ -1,0 +1,16 @@
+todas en google fonts
+//PARA TITULOS//
+- playfair display extrabold 800
+- arvo bold 700 *italic?*
+- bitter bold 700
+- lora semiBold 600/700
+- Libre Baskerville bold 700
+- Merriweather bold 700
+- Abril Fatface
+- quattrocento bold 700
+
+//PARA CUERPO//
+- source sans pro light
+- montserrat
+- lato
+- raleway
