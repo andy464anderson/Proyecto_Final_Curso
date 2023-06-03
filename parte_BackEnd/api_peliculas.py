@@ -270,6 +270,50 @@ async def delete_usuario(id: int):
     return {"message": "Usuario eliminado"}
 
 
+@app.delete("/listasUsuario/{id}")
+async def delete_listas_usuario(id: int):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM lista WHERE usuario_id = %s", (id,))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return {"message": "Listas eliminadas"}
+
+
+@app.delete("/reviewsUsuario/{id}")
+async def delete_reviews_usuario(id: int):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM review WHERE id_usuario = %s", (id,))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return {"message": "Reviews eliminadas"}
+
+
+@app.delete("/seguidoresUsuario/{id}")
+async def delete_seguidores_usuario(id: int):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM seguidor WHERE id_usuario_seguidor = %s", (id,))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return {"message": "Seguidores eliminados"}
+
+
+@app.delete("/seguidosUsuario/{id}")
+async def delete_seguidos_usuario(id: int):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM seguidor WHERE id_usuario_seguido = %s", (id,))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return {"message": "Seguidos eliminados"}
+
+
 # --------------------------------------------------------------------------------
 # creamos la api para los seguidores
 

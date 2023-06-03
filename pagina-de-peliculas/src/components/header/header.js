@@ -64,6 +64,9 @@ function Header({ children }) {
             <li>
               <Link to="/peliculas">Peliculas</Link>
             </li>
+            <li>
+              <Link to="/mapaWeb">Mapa Web</Link>
+            </li>
             {!isLoggedIn && (
               <li className="dropdown" onClick={toggleDropdown}>
                 <Link href="#">Sesión</Link>
