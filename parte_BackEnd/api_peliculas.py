@@ -430,6 +430,8 @@ async def delete_seguidor(id_usuario_seguidor: int, id_usuario_seguido: int):
     return {"message": "Seguidor eliminado"}
 
 
+
+
 @app.get("/cercanas/{id}")
 async def get_cercanas(id):
     conn = conectar()
@@ -447,6 +449,24 @@ async def get_cercanas(id):
         })
 
     return lista_seguidores
+
+@app.get("/actividad/{id}")
+async def get_actividad(id):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT r.id_pelicula, r.valoracion, u.nombre_usuario FROM review r INNER JOIN seguidor s ON r.id_usuario = s.id_usuario_seguidor INNER JOIN usuario u ON u.id = s.id_usuario_seguidor WHERE s.id_usuario_seguido = %s AND r.fecha >= CURRENT_DATE - INTERVAL '7 days' ORDER BY r.fecha DESC;", (id,))
+    seguidores = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    lista_actividad = []
+    for seguidor in seguidores:
+        lista_actividad.append({
+            "id_pelicula": seguidor[0],
+            "valoracion": seguidor[1],
+            "nombre_usuario": seguidor[2],
+        })
+
+    return lista_actividad
 
 @app.get("/populares")
 async def get_populares():
@@ -471,6 +491,8 @@ async def get_populares():
         })
 
     return lista_seguidores
+
+
 
 @app.get("/toplikes")
 async def get_toplikes():

@@ -80,3 +80,21 @@
 .padre-foto-tops{
     position: relative;
 }
+#actividadSeguidores{
+    display: flex;
+    overflow-x: scroll;
+    padding: 10px;
+    background-color: #191D22;
+}
+.actividad-seguidores-hijo{
+    margin: 10px;
+}
+.actividad-seguidores-foto{
+    width: 120px;
+    height: 170px;
+
+}
+.actividad-seguidores-hijo p{
+    margin: 0;
+    color: #8595A3;
+}
