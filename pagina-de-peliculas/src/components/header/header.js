@@ -3,6 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { useContext, useState, useEffect, React } from "react";
 import { HeaderContext } from "./headerContext";
 import { useNavigate } from "react-router-dom";
+import Hamburguesa from './hamburguesa'; // Ruta al archivo del componente Hamburguesa
+
 
 function Header({ children }) {
   const { isLoggedIn, data, updateHeader, userData } = useContext(HeaderContext);
@@ -10,6 +12,7 @@ function Header({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [rutaActual, setRutaActual] = useState("");
+  const [abierto, setAbierto] = useState(false);
 
   useEffect(() => {
     setRutaActual(location.pathname);
@@ -50,9 +53,18 @@ function Header({ children }) {
     setShowDropdown(!showDropdown);
   };
 
+  const toggleAbierto = () => {
+    setAbierto(!abierto);
+  };
+
   return (
     <div>
-      <nav>
+      {window.innerWidth <= 767 ? (
+        <div>
+          {/* <Hamburguesa /> */}
+        </div>
+      ) : (
+        <nav>
         <div className="menu-left">
           <img src="logo.svg" alt="Logo" />
         </div>
@@ -103,6 +115,8 @@ function Header({ children }) {
           )}
         </div>
       </nav>
+      )}
+      
       <div id="separador-header">
       </div>
       <main className="content">
