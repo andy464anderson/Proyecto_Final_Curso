@@ -42,7 +42,7 @@ const Peliculas = () => {
         }
       })
       var peliculas = await data.json();
-      var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id != 11853);
+      var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id !== 11853);
       setPeliculas(filtradorPelis);
       updateMovieData(filtradorPelis)
     };
@@ -135,7 +135,7 @@ const Peliculas = () => {
       <div className="container-peliculas">
         <div className="spinner">
           {
-            peliculas.length === 0 || mostrarSpinner && <SlSpinner
+            (peliculas.length === 0 || mostrarSpinner) && <SlSpinner
               style={{
                 'fontSize': '2rem',
                 '--indicator-color': '#91CCF4',

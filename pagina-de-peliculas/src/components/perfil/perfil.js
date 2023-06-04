@@ -22,7 +22,7 @@ function Perfil() {
     const [seguidos, setSeguidos] = useState([]);
     const [listaPeliculas, setListaPeliculas] = useState([]);
     const [listaActual, setListaActual] = useState({});
-    const { isLoggedIn, movieData, userData, updateHeader, updateMovieData } = useContext(HeaderContext);
+    const { isLoggedIn, movieData, userData, updateMovieData } = useContext(HeaderContext);
     const nombre_usuario = window.location.pathname.split("/")[2];
     const [showSearch, setShowSearch] = useState(false);
     const [pelisSeleccionadas, setPelisSeleccionadas] = useState([]);
@@ -45,7 +45,7 @@ function Perfil() {
                 }
             })
             var peliculas = await data.json();
-            var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id != 11853);
+            var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id !== 11853);
             updateMovieData(filtradorPelis);
         };
         obtenerPeliculas();
@@ -121,7 +121,7 @@ function Perfil() {
     }
 
     const seleccionarPeli = (idPelicula) => {
-        const [idLista, peliculaId] = idPelicula.split('-');
+        const peliculaId = idPelicula.split('-')[1];
         const divPeli = document.getElementById(idPelicula);
         if (divPeli.classList.contains('peliSeleccionada')) {
             divPeli.classList.remove('peliSeleccionada');
@@ -278,7 +278,7 @@ function Perfil() {
         if (Object.keys(listaActual).length > 0 && $("#infoListasNormales").is(":visible")) {
             verLista(listaActual);
         }
-    }, [listaActual]);
+    }, [listaActual, verLista]);
 
     const cerrarSearch = (cerrar) => {
         setShowSearch(cerrar);
@@ -333,7 +333,7 @@ function Perfil() {
     }
 
     const crearLista = async () => {
-        if (nombreCrearLista != "") {
+        if (nombreCrearLista !== "") {
             const lista = {
                 id: 0,
                 tipo: "normal",
@@ -377,7 +377,7 @@ function Perfil() {
         } else {
             setSeleccionar(true);
             $(".imagenLista").off("click");
-            if (usuario.id == userData.id) {
+            if (usuario.id === userData.id) {
                 $(".imagenLista").on("click", function () {
                     const id = $(this).attr('id');
                     seleccionarPeli(id);
