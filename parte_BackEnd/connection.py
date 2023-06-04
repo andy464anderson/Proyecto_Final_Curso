@@ -8,7 +8,7 @@ def conectar():
         host="localhost",
         database="Usuarios",
         user="postgres",
-        password="123qwe"
+        password="4646"
     )
     #devolvemos la conexion
     return conn

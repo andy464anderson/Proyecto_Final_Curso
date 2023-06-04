@@ -140,7 +140,7 @@ const Peliculas = () => {
                 'fontSize': '2rem',
                 '--indicator-color': '#91CCF4',
                 '--track-color': '#40BCF4',
-                'margin-top': '20px',
+                'marginTop': '20px',
               }}
             />
           }

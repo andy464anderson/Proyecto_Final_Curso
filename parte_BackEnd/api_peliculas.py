@@ -18,39 +18,33 @@ from pyspark.sql.functions import *
 from typing import List
 import ast
 import json
-import imdb
+# import imdb
 
 
 # creamos la clase Pelicula
 class Pelicula(BaseModel):
-    id: int
     adult: bool
+    genres: str
+    id: int
     imdb_id: str
     title: str
     overview: str
     release_date: str
-    runtime: str
+    runtime: float
     cast: str
     crew: str
     keywords: str
     poster: str
-    genres: str
 
 
 # creamos la sesión de Spark
-spark = SparkSession.builder.appName("Peliculas").getOrCreate()
+spark = SparkSession.builder.appName("Api_De_Peliculas").getOrCreate()
 
 # leemos el archivo csv
-df = spark.read.csv("lista_Pelis.csv", header=True, inferSchema=True)
-
-# filtrar los genres que no sean nulos y son array validos
-df = df.filter(df['genres'].cast('string').isNotNull())
-
-# filtramos las filas que corresponden a Pelicula
-peliculas_df = df.filter(df['overview'].cast('string').isNotNull())
+df = spark.read.parquet("peliculas.parquet")
 
 # convertimos el dataframe a una lista de diccionarios
-lista = [Pelicula(**row.asDict()) for row in peliculas_df.collect()]
+lista = [Pelicula(**row.asDict()) for row in df.collect()]
 
 
 # creamos la api
@@ -88,7 +82,7 @@ async def get_peliculas():
 async def get_pelicula(id: int):
 
     # filtramos el dataframe por el id de la pelicula
-    df2 = peliculas_df.filter(df['id'] == id)
+    df2 = df.filter(df['id'] == id)
 
     df2 = df2.filter(df['overview'].cast('string').isNotNull())
 
