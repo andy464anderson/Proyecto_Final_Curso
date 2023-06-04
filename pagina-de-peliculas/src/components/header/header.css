@@ -92,3 +92,6 @@ nav {
   .dropdown:hover .dropdown-content {
     display: block;
   }
+  #react-burger-menu-btn{
+    background-color: red;
+  }

@@ -264,6 +264,50 @@ async def delete_usuario(id: int):
     return {"message": "Usuario eliminado"}
 
 
+@app.delete("/listasUsuario/{id}")
+async def delete_listas_usuario(id: int):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM lista WHERE usuario_id = %s", (id,))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return {"message": "Listas eliminadas"}
+
+
+@app.delete("/reviewsUsuario/{id}")
+async def delete_reviews_usuario(id: int):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM review WHERE id_usuario = %s", (id,))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return {"message": "Reviews eliminadas"}
+
+
+@app.delete("/seguidoresUsuario/{id}")
+async def delete_seguidores_usuario(id: int):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM seguidor WHERE id_usuario_seguidor = %s", (id,))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return {"message": "Seguidores eliminados"}
+
+
+@app.delete("/seguidosUsuario/{id}")
+async def delete_seguidos_usuario(id: int):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("DELETE FROM seguidor WHERE id_usuario_seguido = %s", (id,))
+    conn.commit()
+    conn.close()
+    cursor.close()
+    return {"message": "Seguidos eliminados"}
+
+
 # --------------------------------------------------------------------------------
 # creamos la api para los seguidores
 
@@ -380,6 +424,8 @@ async def delete_seguidor(id_usuario_seguidor: int, id_usuario_seguido: int):
     return {"message": "Seguidor eliminado"}
 
 
+
+
 @app.get("/cercanas/{id}")
 async def get_cercanas(id):
     conn = conectar()
@@ -397,6 +443,24 @@ async def get_cercanas(id):
         })
 
     return lista_seguidores
+
+@app.get("/actividad/{id}")
+async def get_actividad(id):
+    conn = conectar()
+    cursor = conn.cursor()
+    cursor.execute("SELECT r.id_pelicula, r.valoracion, u.nombre_usuario FROM review r INNER JOIN seguidor s ON r.id_usuario = s.id_usuario_seguidor INNER JOIN usuario u ON u.id = s.id_usuario_seguidor WHERE s.id_usuario_seguido = %s AND r.fecha >= CURRENT_DATE - INTERVAL '7 days' ORDER BY r.fecha DESC;", (id,))
+    seguidores = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    lista_actividad = []
+    for seguidor in seguidores:
+        lista_actividad.append({
+            "id_pelicula": seguidor[0],
+            "valoracion": seguidor[1],
+            "nombre_usuario": seguidor[2],
+        })
+
+    return lista_actividad
 
 @app.get("/populares")
 async def get_populares():
@@ -421,6 +485,8 @@ async def get_populares():
         })
 
     return lista_seguidores
+
+
 
 @app.get("/toplikes")
 async def get_toplikes():

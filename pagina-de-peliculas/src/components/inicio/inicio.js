@@ -4,6 +4,8 @@ import { HeaderContext } from "../header/headerContext";
 import Carousel from './carousel';
 import CarouselPoulares from './carousel_populares';
 import BotonSeguir from "../botonSeguir/botonSeguir";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 const Inicio = () => {
   const [usuariosPopulares, setUsuariosPopulares] = useState([]);
@@ -12,6 +14,7 @@ const Inicio = () => {
   const [topLikes, setTopLikes] = useState([]);
   const [topValoracion, setTopValoracion] = useState([]);
   const [personasCercanas, setPersonasCercanas] = useState([]);
+  const [actividadSeguidos, setActividadSeguidos] = useState([]);
   const [listaUsuarios, setUsuarios] = useState([]);
   const { userData, isLoggedIn, updateMovieData, movieData } = useContext(HeaderContext);
   const [listaObjetosPopular, setListaObjetosPopular] = useState([]);
@@ -75,6 +78,14 @@ const Inicio = () => {
         setPersonasCercanas(dataFiltrado);
       } else {
         setPersonasCercanas([]);
+      }
+      if (isLoggedIn) {
+        const actividadSeguidos = await fetch(`http://localhost:8000/actividad/${userData.id}`);
+        const dataActividadSeguidos = await actividadSeguidos.json();
+        var dataFiltradoActividad = dataActividadSeguidos.filter(data => data.id_usuario !== userData.id);
+        setActividadSeguidos(dataFiltradoActividad);
+      } else {
+        setActividadSeguidos([]);
       }
     };
     obtenerUsuariosPopulares();
@@ -144,13 +155,68 @@ const Inicio = () => {
           <div>
             <Carousel items={items} />
           </div>
+          { isLoggedIn && (
+            <div>
+              <p className='titular-inicio'>Actividad de tus amigos</p>
+              <div id="actividadSeguidores">
+              {
+                    actividadSeguidos.map((review, i) => {
+                        const pelicula = movieData.find(p => p.id === review.id_pelicula);
+                        if (pelicula){
+                          return (
+                            <div className='actividad-seguidores-hijo'>
+                              <img className='actividad-seguidores-foto' src={pelicula.poster} alt={pelicula.title}></img>
+                              <p>{review.nombre_usuario}</p>
+                              {review.valoracion === 1 ? (
+                                  <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>
+                                ) : null}
+                                {review.valoracion === 2 ? (
+                                  <div className="nota-comentario-detalle">
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                  </div>
+                                ) : null}
+                                {review.valoracion === 3 ? (
+                                  <div className="nota-comentario-detalle">
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                  </div>
+                                ) : null}
+                                {review.valoracion === 4 ? (
+                                  <div className="nota-comentario-detalle">
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                  </div>
+                                ) : null}
+                                {review.valoracion === 5 ? (
+                                  <div className="nota-comentario-detalle">
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                    <FontAwesomeIcon icon={faStar} />
+                                  </div>
+                                ) : null}
+                              
+                            </div>)
+                        }
+    
+                      }
+                    )
+                  }
+              </div>
+            </div>
+          )}
+          
           <div id='titulares-coincidentes'>
             <p className='titular-inicio titular-populares'>Usuarios populares</p>
             {isLoggedIn && personasCercanas.length > 0 && (
               <p className='titular-inicio titular-cercanas'>Personas que quizás conozcas</p>
             )}
           </div>
-
           <div>
             {cargarReviewsPopulares().length > 0 && (
               <CarouselPoulares items={cargarReviewsPopulares()} />

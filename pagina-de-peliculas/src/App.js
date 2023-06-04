@@ -14,6 +14,7 @@ import Login from './components/login/login';
 import Registrar from './components/Registrar/registrar';
 import Social from './components/perfil/social';
 import Inicio from './components/inicio/inicio';
+import MapaWeb from './components/mapaWeb/mapaWeb';
 import { ToastContainer } from 'react-toastify';
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
     location.pathname === '/' ||
     location.pathname === '/peliculas' ||
     location.pathname === '/search' ||
+    location.pathname === '/mapaWeb' ||
     location.pathname.startsWith('/detalle/') ||
     location.pathname.startsWith('/perfil/');
 
@@ -38,13 +40,14 @@ function App() {
             <Route path="/search" element={<Search />} />
             <Route path="/perfil/:nombre_usuario/*" element={<Perfil />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/mapaWeb" element={<MapaWeb />} />
             <Route path="/registrar" element={<Registrar />} />
             <Route path="/perfil/:nombre_usuario/seguidores" element={<Social />} />
             <Route path="/perfil/:nombre_usuario/seguidos" element={<Social />} />
           </Routes>
         </div>
         {showFooter && <Footer />}
-        < ToastContainer/>
+        < ToastContainer />
       </HeaderContextProvider>
     </div>
   );

@@ -10,6 +10,7 @@ import BuscadorPelisLista from "./buscadorPelisLista";
 import BotonSeguir from "../botonSeguir/botonSeguir";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import BotonEliminarUsuario from "../botonEliminarUsuario/botonEliminarUsuario";
 
 function Perfil() {
     const navigate = useNavigate();
@@ -48,7 +49,7 @@ function Perfil() {
             updateMovieData(filtradorPelis);
         };
         obtenerPeliculas();
-    }, [updateMovieData]);
+    }, []);
 
     useEffect(() => {
         const obtenerDatosUsuario = async () => {
@@ -392,6 +393,10 @@ function Perfil() {
         setNombreUsuario(nombreUsuario);
     }
 
+    const actualizar=(usuario)=>{
+        navigate("/");
+    }
+
 
     if (!usuario || !reviews || !listas || !seguidores) {
         return <div></div>;
@@ -411,6 +416,9 @@ function Perfil() {
                         <h2>{nombreCompleto}</h2>
                         <h5>{nombreUsuario}</h5>
                         <BotonSeguir usuario={usuario} actualizarDatos={actualizarDatos} />
+                        {isLoggedIn && userData.rol === "admin" && userData.id !== usuario.id && (
+                            <BotonEliminarUsuario usuario={usuario} actualizar={actualizar} />
+                        )}
                     </div>
 
                     <div className="perfil-info">
@@ -432,22 +440,6 @@ function Perfil() {
                                         {seguidos.length}
                                     </td>
                                 </tr>
-                                <tr className="seguidos">
-                                    <td>
-                                        Listas
-                                    </td>
-                                    <td>
-                                        {listaNormal.length}
-                                    </td>
-                                </tr>
-                                <tr className="seguidos">
-                                    <td>
-                                        Reseñas
-                                    </td>
-                                    <td>
-                                        {reviews.length}
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -460,7 +452,9 @@ function Perfil() {
                     </div>
                     <div className="listas-likes">
                         {listaLikes && listaLikes.peliculasLista.length > 0 ? (
+
                             <div className="lista-likes-hijo" id={listaLikes.id}>
+
                                 {listaLikes.peliculasLista.map(peli => (
                                     <div className="divPeliListaLike" key={peli.id} id={peli.id}>
                                         <img onClick={() => redireccionarPeli(peli.id)} src={peli.poster} alt="poster" />

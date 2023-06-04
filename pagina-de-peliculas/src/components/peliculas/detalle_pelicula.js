@@ -489,7 +489,7 @@ const DetallePelicula = () => {
                           </div>
                         ) : null}
 
-                        {isLoggedIn && review.id_usuario === userData.id && (
+                        {isLoggedIn && (review.id_usuario === userData.id || userData.rol === "admin") && (
                           <button id="boton-eliminar-detalle" onClick={() => eliminarReview(review.id)}>
                             Eliminar reseña
                           </button>

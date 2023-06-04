@@ -80,3 +80,64 @@
 .padre-foto-tops{
     position: relative;
 }
+#actividadSeguidores{
+    display: flex;
+    overflow-x: scroll;
+    padding: 10px;
+    background-color: #191D22;
+}
+.actividad-seguidores-hijo{
+    margin: 10px;
+}
+.actividad-seguidores-foto{
+    width: 120px;
+    height: 170px;
+
+}
+.actividad-seguidores-hijo p{
+    margin: 0;
+    color: #8595A3;
+}
+/* estilos para movil */
+@media (max-width: 767px) {
+    #central-inicio{
+        width: 350px;
+        margin: auto;
+    }
+    .titular-cercanas{
+        display: none;
+    }
+    .titular-populares{
+        width: 100%;
+    }
+    #divTopLikes, #divTopValoracion{
+        overflow-x: scroll;
+    }
+    .padre-foto-tops{
+        width: 140px;
+        height: 200px;
+        margin: 10px;
+    }
+    .imagen-top{
+        width: 100%;    
+        height: 200px;
+    }
+    .cuerpo-top-likes{
+        margin-bottom: 20px;
+    }
+    #divTopLikes::-webkit-scrollbar,
+    #divTopValoracion::-webkit-scrollbar {
+        width: 1em;
+    }
+
+    #divTopLikes::-webkit-scrollbar-track,
+    #divTopValoracion::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    }
+
+    #divTopLikes::-webkit-scrollbar-thumb,
+    #divTopValoracion::-webkit-scrollbar-thumb {
+        background-color: darkgrey;
+        outline: 1px solid slategrey;
+    }
+  }

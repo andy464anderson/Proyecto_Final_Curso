@@ -8,6 +8,7 @@ import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import $ from 'jquery';
 import { useNavigate } from "react-router-dom";
 import BotonSeguir from '../botonSeguir/botonSeguir';
+import BotonEliminarUsuario from '../botonEliminarUsuario/botonEliminarUsuario';
 
 
 const Search = () => {
@@ -116,8 +117,14 @@ const Search = () => {
         }).catch((error) => {
             console.error(error);
         });
+    }, []);
+
+    const actualizar = (usuario) => {
+        var filtro = pelisFiltradas.filter(user => user.id != usuario.id);
+        setPelisFiltradas(filtro);
     }
-        , []);
+
+
     const pintarPeliculas = () => {
         const startIndex = (currentPage - 1) * 6;
         const endIndex = startIndex + 6;
@@ -141,7 +148,12 @@ const Search = () => {
                                         <p><strong className="titulo-carta-buscador nombre-carta-buscador" onClick={() => navegarPerfil(pelicula.nombre_usuario)}>{pelicula.nombre_usuario}</strong></p>
                                         <p className="sinopsis-carta-buscador">{pelicula.nombre_completo}</p>
                                         {isLoggedIn && (
-                                            <BotonSeguir usuario={usuario} actualizarDatos={undefined} />
+                                            <>
+                                                <BotonSeguir usuario={usuario} actualizarDatos={undefined} />
+                                                {userData.rol === "admin" && (
+                                                    <BotonEliminarUsuario usuario={usuario} actualizar={actualizar} />
+                                                )}
+                                            </>
                                         )}
                                     </div>
                                 </div>

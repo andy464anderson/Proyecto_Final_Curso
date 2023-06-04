@@ -42,6 +42,7 @@
     justify-content: space-between;
     background-color: #1E2329;
 }
+
 .mensaje-usuario-review{
     font-weight: lighter;
     color: #6a747e;
@@ -95,3 +96,20 @@
     color: #8595A3;
     font-style: italic;
 }
+@media (max-width: 767px) {
+    .reviews-de-populares{
+        flex-direction: column;
+    }
+    .info-review-populares-padre{
+        width: 100%;
+    }
+    .carousel-central-populares{
+        flex-direction: column-reverse;
+    }
+    .usuarios-conocidos-inicio{
+       width: 100%;
+    }
+    .carousel-central-hijo{
+        width: 100%;
+    }
+  }
