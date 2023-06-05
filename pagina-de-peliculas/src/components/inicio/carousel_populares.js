@@ -13,6 +13,7 @@ const CarouselPoulares = ({ items }) => {
   const [personasCercanas, setPersonasCercanas] = useState([]);
   const [listaUsuarios, setUsuarios] = useState([]);
   const { userData, isLoggedIn, movieData } = useContext(HeaderContext);
+
   useEffect(() => {
     const obtenerDatosUsuario = async () => {
       const responseUsuario = await fetch(`http://localhost:8000/usuarios`, {
@@ -21,17 +22,13 @@ const CarouselPoulares = ({ items }) => {
           accept: "application/json",
         },
       });
-      var dataUsuario = await responseUsuario.json();
-
-      return dataUsuario
+      var dataUsuarios = await responseUsuario.json();
+      setUsuarios(dataUsuarios);
     };
-    var promesaUsuarios = obtenerDatosUsuario();
-    promesaUsuarios.then((data) => {
-      setUsuarios(data);
 
-    }).catch((error) => {
-      console.error(error);
-    });
+    if (!listaUsuarios || listaUsuarios.length === 0) {
+      obtenerDatosUsuario();
+    }
 
     const obtenerUsuariosPopulares = async () => {
       if (isLoggedIn) {
@@ -43,8 +40,11 @@ const CarouselPoulares = ({ items }) => {
         setPersonasCercanas([]);
       }
     };
-    obtenerUsuariosPopulares();
+    if (!personasCercanas || personasCercanas.length === 0) {
+      obtenerUsuariosPopulares();
+    }
   }, [isLoggedIn]);
+
   const handlePrev = () => {
     setActiveIndex(prevIndex => (prevIndex === 0 ? items.length - 1 : prevIndex - 1));
   };
@@ -81,7 +81,7 @@ const CarouselPoulares = ({ items }) => {
                       var usuarios = listaUsuarios.find(user => user.nombre_usuario === usuario.nombre_usuario);
                       return (
                         <div key={usuarios.id} className='usuarios-conocidos-inicio-hijo'>
-                          <span onClick={()=>navigate(`/perfil/${usuario.nombre_usuario}`)} className='nombre-usuario-sugerencias'>{usuario.nombre_usuario}</span><br />
+                          <span onClick={() => navigate(`/perfil/${usuario.nombre_usuario}`)} className='nombre-usuario-sugerencias'>{usuario.nombre_usuario}</span><br />
                           <span className='nombre-completo-sugerencias'>{usuario.nombre_completo}</span><br />
                           <BotonSeguir class="boton-seguir-populares" usuario={usuarios} actualizarDatos={undefined} />
                         </div>)

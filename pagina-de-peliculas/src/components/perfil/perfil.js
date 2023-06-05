@@ -48,7 +48,10 @@ function Perfil() {
             var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id !== 11853);
             updateMovieData(filtradorPelis);
         };
-        obtenerPeliculas();
+
+        if(!movieData){
+            obtenerPeliculas();
+        }
     }, []);
 
     useEffect(() => {
@@ -81,7 +84,10 @@ function Perfil() {
             const dataSeguidos = await responseSeguidos.json();
             setSeguidos(dataSeguidos);
         };
-        obtenerDatosUsuario();
+
+        if(!usuario || !reviews || !listas || !seguidores || !seguidos){
+            obtenerDatosUsuario();
+        }
     }, [nombre_usuario]);
 
     const pintarSeguidores = () => {
@@ -398,7 +404,7 @@ function Perfil() {
     }
 
 
-    if (!usuario || !reviews || !listas || !seguidores) {
+    if (!usuario || !reviews || !listas || !seguidores || !seguidos || !movieData) {
         return <div></div>;
     } else {
         const listaReviews = obtenerReviewsUsuarioConPeliculas(movieData, reviews, usuario.id);
