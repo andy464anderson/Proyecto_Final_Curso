@@ -9,13 +9,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from fastapi.responses import FileResponse
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import col, when
-from pyspark.sql.types import *
+# from pyspark.sql import SparkSession
+# from pyspark.sql.functions import col, when
+# from pyspark.sql.types import *
 from fastapi.responses import JSONResponse
-from pyspark.sql.types import *
-from pyspark.sql.functions import *
+# from pyspark.sql.types import *
+# from pyspark.sql.functions import *
 from typing import List
+import pandas as pd
 import ast
 import json
 # import imdb
@@ -37,14 +38,15 @@ class Pelicula(BaseModel):
     poster: str
 
 
-# creamos la sesión de Spark
-spark = SparkSession.builder.appName("Api_De_Peliculas").getOrCreate()
+# # creamos la sesión de Spark
+# spark = SparkSession.builder.appName("Api_De_Peliculas").getOrCreate()
 
 # leemos el archivo csv
-df = spark.read.parquet("peliculas.parquet")
+df = pd.read_parquet("peliculas.parquet")
 
-# convertimos el dataframe a una lista de diccionarios
-lista = [Pelicula(**row.asDict()) for row in df.collect()]
+# convertimos el dataframe de pandas a una lista de diccionarios de la clase Pelicula
+lista = [Pelicula(**row) for row in df.to_dict("records")]
+
 
 
 # creamos la api
@@ -80,41 +82,35 @@ async def get_peliculas():
 # creamos la ruta para acceder a una pelicula en concreto
 @app.get("/peliculas/{id}")
 async def get_pelicula(id: int):
-
-    # filtramos el dataframe por el id de la pelicula
-    df2 = df.filter(df['id'] == id)
-
-    df2 = df2.filter(df['overview'].cast('string').isNotNull())
-
+    dfIdPelicula = df.loc[lambda df: df['id'] == id]
     # convertimos el dataframe a una lista de diccionarios
-    lista = [Pelicula(**row.asDict()) for row in df2.collect()]
-
+    if dfIdPelicula.empty:
+        return JSONResponse(content={"message": "No existe la pelicula"})
     # devolvemos la pelicula en formato json
-    return lista
+    return [Pelicula(**row) for row in dfIdPelicula.to_dict("records")]
+
 
 
 # creamos la ruta para acceder a las peliculas de un genero en concreto
 @app.get("/peliculas/genero/{genero}")
 async def get_peliculas_genero(genero: str):
-    # filtramos el dataframe por el genero de la pelicula pero el genero es una lista
+    # filtramos el dataframe de pandas por el genero de la pelicula pero el genero es una lista
     # por lo que tenemos que filtrar por cada elemento de la lista y covertir en mayusculas
-    df2 = df.filter(when(col("genres").contains(
-        genero.title()), True).otherwise(False))
-    df2 = df2.filter(df['overview'].cast('string').isNotNull())
+    df2 = df[df['genres'].apply(
+        lambda x: genero.upper() in x.upper())]
     # convertimos el dataframe a una lista de diccionarios
-    lista = [Pelicula(**row.asDict()) for row in df2.collect()]
-
+    lista = [Pelicula(**row) for row in df2.to_dict("records")]
     # devolvemos las peliculas en formato json
     return lista
 
 
 # creamos la ruta para acceder a las peliculas de un año en concreto
 @app.get("/peliculas/fecha/{fecha}")
-async def get_peliculas_fecha(fecha: str):
+async def get_peliculas_fecha(fecha: date):
     # filtramos el dataframe por el año de la pelicula
-    df2 = df.filter(df.release_date == fecha)
+    df2 = df.loc(df.release_date == fecha)
     # devolvemos las peliculas en formato json
-    return df2.toJSON().collect()
+    return [Pelicula(**row) for row in df2.to_dict("records")]
 
 # -------------------------------------------------------------------------------
 # creamos al api para los usuarios
