@@ -119,14 +119,14 @@ const Inicio = () => {
 
   const items = [
     {
-      imageUrl: 'bergman.jpg',
-      titulo: 'Top 50 películas de la historia',
-      contenido: 'Explora una selección de las películas más aclamadas y memorables en la historia del cine'
-    },
-    {
       imageUrl: 'cannes.jpg',
       titulo: 'Todo sobre el festival de Cannes',
       contenido: 'Sumérgete en el prestigioso festival de Cannes y conoce las últimas noticias'
+    },
+    {
+      imageUrl: '100-Greatest-Movies-Variety.jpg',
+      titulo: 'Top 50 películas de la historia',
+      contenido: 'Explora una selección de las películas más aclamadas y memorables en la historia del cine'
     },
     {
       imageUrl: 'estrenos.jpeg',
