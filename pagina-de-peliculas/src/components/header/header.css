@@ -95,3 +95,38 @@ nav {
   #react-burger-menu-btn{
     background-color: red;
   }
+  #menu-burger{
+    position: fixed;
+    width: 200px;
+    height: 100%;
+    background-color: #282f36;
+    top: 60px;
+    left: -200px;
+    transition: 0.2s ease-in-out;
+  }
+  .menu-right button{
+    background-color: transparent;
+    border: 0;
+    margin-right: 20px;
+  }
+  #burger-icono{
+    color: aliceblue;
+    font-size: 18px;
+  }
+  #menu-burger ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    padding-top: 20px;
+  }
+  #menu-burger li{
+    padding: 4px;
+    padding-left: 20px;
+  }
+  #menu-burger a{
+    text-decoration: none;
+    color: aliceblue;
+  }
+  #menu-burger li:hover{
+    background-color: #5c666d;
+  }

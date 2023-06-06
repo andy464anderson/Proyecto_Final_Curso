@@ -3,7 +3,9 @@ import { Link, useLocation } from "react-router-dom";
 import { useContext, useState, useEffect, React } from "react";
 import { HeaderContext } from "./headerContext";
 import { useNavigate } from "react-router-dom";
-import Hamburguesa from './hamburguesa'; // Ruta al archivo del componente Hamburguesa
+import $ from 'jquery';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBars } from '@fortawesome/free-solid-svg-icons';
 
 
 function Header({ children }) {
@@ -53,22 +55,63 @@ function Header({ children }) {
     setShowDropdown(!showDropdown);
   };
 
-  const toggleAbierto = () => {
-    setAbierto(!abierto);
-  };
+  const toggleMenuBurger = () => {
+    var top = $("#menu-burger").css("left");
+    if(top === "0px"){
+      $("#menu-burger").css({
+        "left": "-200px"
+      });
+    }else{
+      $("#menu-burger").css({
+        "left": "0px"
+      });
+    }
+  }
 
   return (
     <div>
-      {window.innerWidth <= 767 ? (
+
         <div>
-          {/* <Hamburguesa /> */}
-        </div>
-      ) : (
+          
         <nav>
+        <div id="menu-burger">
+              <ul>
+                    <li>
+                      <Link onClick={toggleMenuBurger} to="/">Inicio</Link>
+                    </li>
+                    <li>
+                      <Link onClick={toggleMenuBurger} to="/peliculas">Peliculas</Link>
+                    </li>
+                    <li>
+                      <Link onClick={toggleMenuBurger} to="/mapaWeb">Mapa Web</Link>
+                    </li>
+                    {!isLoggedIn && (
+                      <li>
+                          <Link onClick={toggleMenuBurger} to="/login">Iniciar sesión</Link>
+                      </li>
+                    )}
+                    {!isLoggedIn && (
+                      <li>
+                          <Link onClick={toggleMenuBurger} to="/registrar">Registrarse</Link>
+                      </li>
+                    )}
+                    {isLoggedIn && (
+                      <li>
+                          <Link onClick={toggleMenuBurger} to={"/perfil/"+userData.nombre_usuario}>Ver perfil</Link>
+                      </li>
+                    )}
+                    {isLoggedIn && (
+                      <li>
+                          <Link onClick={toggleMenuBurger} to="#" onClick={handleLogout}>Cerrar sesión</Link>
+                      </li>
+                    )}
+                  </ul>
+            </div>
           <div className="menu-left">
             <img src="logo.svg" alt="Logo" />
           </div>
           <div className="menu-middle">
+          {window.innerWidth > 767 && (
             <ul>
               <li>
                 <Link to="/">Inicio</Link>
@@ -106,16 +149,25 @@ function Header({ children }) {
                 </li>
               )}
             </ul>
+            )}
           </div>
           <div className="menu-right">
+            {window.innerWidth <= 767 &&(
+                          <button onClick={toggleMenuBurger}>
+                          <FontAwesomeIcon id="burger-icono" icon={faBars} />
+                        </button>
+            )}
             {location.pathname !== "/search" && (
               <Link to="/search">
                 <input type="text" placeholder="Buscar" />
               </Link>
             )}
           </div>
+
         </nav>
-      )}
+        </div>
+        
+      
 
       <div id="separador-header">
       </div>
