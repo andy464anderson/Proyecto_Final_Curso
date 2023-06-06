@@ -50,3 +50,22 @@
     background-color: #262d34;
     cursor: pointer;
 }
+/* estilos para movil */
+@media (max-width: 767px) {
+    .imagen-pelicula-buscador{
+        margin: 0;
+    }
+    .sinopsis-carta-buscador{
+        display: none;
+    }
+    .titulo-carta-buscador{
+        font-size: 20px;
+        text-align: left;
+    }
+    .year-carta-buscador{
+        font-size: 18px;
+    }
+    .info-usuario-buscador{
+        margin-left: 20px;
+    }
+  }

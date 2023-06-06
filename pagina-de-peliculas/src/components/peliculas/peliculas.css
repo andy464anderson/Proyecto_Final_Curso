@@ -12,17 +12,6 @@ body {
   align-items: center;
   text-align: center;
 }
-/* estilos para movil */
-@media (max-width: 767px) {
-  .container-peliculas{
-    width: 90%;
-    margin-top: 200px;
-    margin-left: 30px;
-  }
-  .filtros-fixed {
-    flex-direction: column;
-  }
-}
 #boton-ver-mas-pelis {
   color: aliceblue;
   background-color: #2771945b;
@@ -118,4 +107,25 @@ select:focus {
 
 #ultimo-boton button:hover {
   background-color: #38a5d8;
+}
+/* estilos para movil */
+@media (max-width: 767px) {
+  .container-peliculas{
+    width: 90%;
+    margin-top: 160px;
+  }
+  .filtros-fixed {
+    flex-direction: column;
+    width: 350px;
+    border: 0;
+  }
+  .select-filtro{
+    padding: 3px;
+  }
+  .peliculas{
+    width: 350px;
+  }
+  #boton-ver-mas-pelis{
+    width: 350px;
+  }
 }

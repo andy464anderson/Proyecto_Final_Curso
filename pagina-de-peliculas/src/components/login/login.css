@@ -1,7 +1,8 @@
 .carta-login {
-    width: 40%;
+    width: 400px;
     margin: 0 auto;
-    margin-top: 100px;
+    margin-top: 50px;
+    margin-bottom: 50px;
     padding: 20px;
     border: 1px solid #1E2329;
     border-radius: 5px;
@@ -77,3 +78,10 @@
 .link {
     cursor: pointer;
 }
+@media (max-width: 767px) {
+    .carta-login{
+        width: 350px;
+        margin: 10px;
+        margin-top: 0;
+    }
+  }

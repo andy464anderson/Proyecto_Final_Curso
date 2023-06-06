@@ -102,9 +102,12 @@ function Header({ children }) {
                     )}
                     {isLoggedIn && (
                       <li>
-                          <Link onClick={toggleMenuBurger} to="#" onClick={handleLogout}>Cerrar sesión</Link>
+                          <Link to="#" onClick={handleLogout}>Cerrar sesión</Link>
                       </li>
                     )}
+                    <li>
+                      <Link onClick={toggleMenuBurger} to="/search">Buscador</Link>
+                    </li>
                   </ul>
             </div>
           <div className="menu-left">
@@ -157,7 +160,7 @@ function Header({ children }) {
                           <FontAwesomeIcon id="burger-icono" icon={faBars} />
                         </button>
             )}
-            {location.pathname !== "/search" && (
+            {location.pathname !== "/search" && window.innerWidth > 767 && (
               <Link to="/search">
                 <input type="text" placeholder="Buscar" />
               </Link>

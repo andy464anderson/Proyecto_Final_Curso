@@ -188,7 +188,7 @@ const Search = () => {
     return (
         <div>
             <div id='div-buscador'>
-                <input onKeyUp={buscarPeliculas} id="buscador" placeholder="Busca peliculas..." autoFocus></input>
+                <input onKeyUp={buscarPeliculas} id="buscador" placeholder="Busca peliculas o usuarios..." autoFocus></input>
             </div>
             <div id='div-dentro'>
                 {pintarPeliculas()}

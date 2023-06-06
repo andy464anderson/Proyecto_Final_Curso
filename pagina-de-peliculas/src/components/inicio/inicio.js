@@ -61,12 +61,13 @@ const Inicio = () => {
       });
       const dataSeguidos = await responseSiguiendo.json();
       setSeguidos(dataSeguidos);
+
     };
 
-    if (!seguidos) {
+    if (!seguidos || seguidos.length === 0) {
       obtenerDatosSeguidos();
     }
-
+    
     const obtenerUsuariosPopulares = async () => {
       if (!usuariosPopulares || usuariosPopulares.length === 0) {
         const usuariosPopulares = await fetch(`http://localhost:8000/populares`);
@@ -179,11 +180,11 @@ const Inicio = () => {
           <div>
             <Carousel items={items} />
           </div>
-          {isLoggedIn && (
+          {isLoggedIn && actividadSeguidos && seguidos.length > 0 && (
             <div>
               <p className='titular-inicio'>Actividad de tus amigos</p>
               <div id="actividadSeguidores">
-                {actividadSeguidos && seguidos && seguidos.length > 0 && (
+                {actividadSeguidos && seguidos.length > 0 && (
                   actividadSeguidos.map((review, i) => {
                     const pelicula = movieData.find(p => p.id === review.id_pelicula);
                     if (pelicula) {
