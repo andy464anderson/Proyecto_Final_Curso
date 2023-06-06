@@ -325,7 +325,7 @@ const DetallePelicula = () => {
   }
   else {
     return (
-      <div className="container">
+      <div className="detalle-pelicula-cuerpo">
         <div className="detalle-pelicula">
           <div className="boton-volver">
             <button onClick={volver}><FontAwesomeIcon icon={faArrowLeft} /></button>
@@ -367,7 +367,7 @@ const DetallePelicula = () => {
         </div>
         <div id="resena-form">
           <div id="resena-form-hijo">
-            <div>
+            <div id="poster-comentario-padre">
               <img id="poster-comentario" src={pelicula.poster} alt={pelicula.title} />
             </div>
             <div>

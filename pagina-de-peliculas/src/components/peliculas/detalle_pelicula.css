@@ -1,3 +1,7 @@
+.detalle-pelicula-cuerpo{
+  width: 1000px;
+  margin: auto;
+}
 table{
   color: #8595A3;
   width: 100%;
@@ -269,6 +273,7 @@ tr:nth-child(even) {
   background-color: #2771945b;
   border: 1px solid #40BCF4;
   padding: 5px;
+  margin: 20px;
 }
 #boton-eliminar-detalle{
   color: rgb(255, 60, 0);
@@ -294,4 +299,51 @@ tr:nth-child(even) {
 .boton-volver button:hover{
   background-color: #262d34;
   cursor: pointer;
+}
+/* estilos para movil */
+@media (max-width: 767px) {
+  .detalle-pelicula-cuerpo{
+    width: 350px;
+  }
+  .detalle-pelicula{
+    flex-direction: column;
+  }
+  .poster-detalle{
+    margin: auto;
+  }
+  #grafico-detalle{
+    flex-direction: column;
+    width: 320px;
+    height: 230px;
+  }
+  #subReviewsDetalle{
+    flex-direction: column;
+    margin-left: 0;
+    width: 90%;
+  }
+  #opcionesReviews{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    border: 0;
+    border-bottom: 1px solid #8595A3;
+    padding-bottom: 10px;
+  }
+  #opcionesReviews p{
+    display: none;
+  }
+  #opcionesReviews button{
+    text-align: center;
+    padding: 0;
+    color: aliceblue;
+  }
+  #resena-form-hijo{
+    width: 350px;
+  }
+  #poster-comentario-padre{
+    display: none;
+  }
+  #comentario{
+    width: 300px;
+  }
 }
