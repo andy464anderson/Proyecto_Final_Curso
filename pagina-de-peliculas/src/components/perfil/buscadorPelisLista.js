@@ -9,22 +9,25 @@ import { toast, ToastContainer } from "react-toastify";
 
 const BuscadorPelisLista = ({ peliculasEnLista, anadirPeliculas, idLista, searchAbierto }) => {
     const { movieData } = useContext(HeaderContext);
-    const peliculasFiltradas = movieData.filter(pelicula => !peliculasEnLista.includes(pelicula.id));
+    var peliculasFiltradas = [];
     const [pelisFiltradas, setPelisFiltradas] = useState(peliculasFiltradas);
 
     const [pelisSeleccionadas, setPelisSeleccionadas] = useState([]);
 
 
     const buscarPeliculas = () => {
+        peliculasFiltradas = movieData.filter(pelicula => !peliculasEnLista.includes(pelicula.id));
         var textoBuscador = document.getElementById("buscador").value.toLowerCase();
         var listaFiltrada = peliculasFiltradas.filter((peli) => peli.title.toLowerCase().includes(textoBuscador));
-        if (textoBuscador == "") {
+        if (textoBuscador === "") {
+            peliculasFiltradas = [];
             listaFiltrada = peliculasFiltradas;
         }
         listaFiltrada = listaFiltrada.sort((a, b) => {
             if (a.title < b.title) return -1;
             else return 1;
         });
+        listaFiltrada = listaFiltrada.slice(0, 10);
         setPelisFiltradas(listaFiltrada);
     }
 
