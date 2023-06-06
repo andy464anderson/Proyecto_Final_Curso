@@ -41,8 +41,8 @@ const Registrar = () => {
         const responseUsuarios = await fetch(`http://localhost:8000/usuarios`);
         const dataUsuarios = await responseUsuarios.json();
 
-        const listaExisteUsuario = dataUsuarios.filter(usuario => usuario.nombre_usuario == nombreUsuario);
-        const listaExisteCorreo = dataUsuarios.filter(usuario => usuario.correo == email);
+        const listaExisteUsuario = dataUsuarios.filter(usuario => usuario.nombre_usuario === nombreUsuario);
+        const listaExisteCorreo = dataUsuarios.filter(usuario => usuario.correo === email);
 
         if (listaExisteUsuario.length > 0) {
             $("#nombreUsuario").css("border", "2px solid red");
@@ -89,8 +89,8 @@ const Registrar = () => {
     }
 
     const registrarUsuario = async () => {
-        if (envioRegistro == true) {
-            if (error == false) {
+        if (envioRegistro === true) {
+            if (error === false) {
                 const Usuario = {
                     id: 0,
                     correo: email,

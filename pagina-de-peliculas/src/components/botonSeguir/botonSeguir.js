@@ -40,7 +40,7 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
             if (userData && !seguidosCargados) {
                 const responseSiguiendo = await fetch(`http://localhost:8000/seguidos/${userData.id}`);
                 const dataSiguiendo = await responseSiguiendo.json();
-                if (dataSiguiendo.find(user => user.id_usuario_seguido == usuario.id)) {
+                if (dataSiguiendo.find(user => user.id_usuario_seguido === usuario.id)) {
                     setSiguiendo(true);
                 } else {
                     setSiguiendo(false);
@@ -100,7 +100,7 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
 
     const editarPerfil = async () => {
         if (envioEditar) {
-            if (error == false) {
+            if (error === false) {
                 const Usuario = {
                     id: userData.id,
                     correo: correo,
@@ -135,7 +135,7 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
     }
 
     const comprobarEditarPerfil = async () => {
-        if (correo != userData.correo || nombreCompleto != userData.nombre_completo || nombreUsuario != userData.nombre_usuario) {
+        if (correo !== userData.correo || nombreCompleto !== userData.nombre_completo || nombreUsuario !== userData.nombre_usuario) {
             setNameError("");
             setNombreUsuarioError("");
             setEmailError("");
@@ -143,8 +143,8 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
             const responseUsuarios = await fetch(`http://localhost:8000/usuarios`);
             const dataUsuarios = await responseUsuarios.json();
 
-            const listaExisteUsuario = dataUsuarios.filter(usuario => usuario.nombre_usuario == nombreUsuario && userData.nombre_usuario != nombreUsuario);
-            const listaExisteCorreo = dataUsuarios.filter(usuario => usuario.correo == correo && userData.correo != correo);
+            const listaExisteUsuario = dataUsuarios.filter(usuario => usuario.nombre_usuario === nombreUsuario && userData.nombre_usuario !== nombreUsuario);
+            const listaExisteCorreo = dataUsuarios.filter(usuario => usuario.correo === correo && userData.correo !== correo);
 
             if (listaExisteUsuario.length > 0) {
                 setNombreUsuarioError("El nombre de usuario ya existe");

@@ -38,7 +38,7 @@ const Search = () => {
                 }
             })
             var peliculas = await data.json();
-            var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id != 11853);
+            var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id !== 11853);
             updateMovieData(filtradorPelis);
         };
         obtenerPeliculas();
@@ -69,7 +69,7 @@ const Search = () => {
         var pelisFiltradas1 = movieData.filter((peli) => peli.title.toLowerCase().includes(textoBuscador));
         var usuariosFiltrados = [];
         if (isLoggedIn) {
-            usuariosFiltrados = listaUsuarios.filter((user) => user.nombre_usuario.toLowerCase().includes(textoBuscador) && user.id != userData.id);
+            usuariosFiltrados = listaUsuarios.filter((user) => user.nombre_usuario.toLowerCase().includes(textoBuscador) && user.id !== userData.id);
         } else {
             usuariosFiltrados = listaUsuarios.filter((user) => user.nombre_usuario.toLowerCase().includes(textoBuscador));
         }
@@ -120,7 +120,7 @@ const Search = () => {
     }, []);
 
     const actualizar = (usuario) => {
-        var filtro = pelisFiltradas.filter(user => user.id != usuario.id);
+        var filtro = pelisFiltradas.filter(user => user.id !== usuario.id);
         setPelisFiltradas(filtro);
     }
 

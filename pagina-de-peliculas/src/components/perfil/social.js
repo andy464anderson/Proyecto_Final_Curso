@@ -47,7 +47,7 @@ function Social() {
     if (!usuario || !seguidores || !seguidos) {
         return <div></div>
     } else {
-        if (seg == "seguidores") {
+        if (seg === "seguidores") {
             return (
                 <div className="social">
                     <div className="titulo-social">

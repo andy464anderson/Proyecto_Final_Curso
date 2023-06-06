@@ -3,13 +3,11 @@ import './inicio.css';
 import { HeaderContext } from "../header/headerContext";
 import Carousel from './carousel';
 import CarouselPoulares from './carousel_populares';
-import BotonSeguir from "../botonSeguir/botonSeguir";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 const Inicio = () => {
   const [usuariosPopulares, setUsuariosPopulares] = useState([]);
-  const [listaReviews, setListaReviews] = useState([]);
   const [ultimasReviews, setReviews] = useState([]);
   const [topLikes, setTopLikes] = useState([]);
   const [topValoracion, setTopValoracion] = useState([]);
@@ -18,7 +16,6 @@ const Inicio = () => {
   const [listaUsuarios, setUsuarios] = useState([]);
   const [seguidos, setSeguidos] = useState([]);
   const { userData, isLoggedIn, updateMovieData, movieData } = useContext(HeaderContext);
-  const [listaObjetosPopular, setListaObjetosPopular] = useState([]);
 
   useEffect(() => {
     const obtenerPeliculas = async () => {
@@ -29,7 +26,7 @@ const Inicio = () => {
         }
       })
       var peliculas = await data.json();
-      var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id != 11853);
+      var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id !== 11853);
       updateMovieData(filtradorPelis);
     };
 

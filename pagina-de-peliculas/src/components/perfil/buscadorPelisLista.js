@@ -4,7 +4,7 @@ import React from 'react';
 import { HeaderContext } from '../header/headerContext';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 
 const BuscadorPelisLista = ({ peliculasEnLista, anadirPeliculas, idLista, searchAbierto }) => {

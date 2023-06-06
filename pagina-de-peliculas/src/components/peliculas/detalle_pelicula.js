@@ -206,7 +206,7 @@ const DetallePelicula = () => {
   const enviarReview = async () => {
     if (isLoggedIn) {
 
-      if ((calificacion == "-1" || calificacion == "") && contenido == "") {
+      if ((calificacion === "-1" || calificacion === "") && contenido === "") {
         toast.warning("Tienes que rellenar al menos un campo de la reseña", { autoClose: 2500 });
       } else {
         const fechaActual = new Date();
@@ -215,7 +215,7 @@ const DetallePelicula = () => {
         const dia = fechaActual.getDate().toString().padStart(2, "0");
         const fecha = `${anio}-${mes}-${dia}`;
         var valoracion = parseInt(calificacion);
-        if (calificacion == "") {
+        if (calificacion === "") {
           valoracion = -1;
         }
 
@@ -299,10 +299,10 @@ const DetallePelicula = () => {
 
   const seleccionarOpcionReview = async (opcion) => {
     var listaFiltrada = [];
-    if (opcion == "general") {
+    if (opcion === "general") {
       setListaReviewsFiltrada(reviews);
 
-    } else if (opcion == "amigos") {
+    } else if (opcion === "amigos") {
       const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${userData.id}`);
       const dataSeguidos = await responseSeguidos.json();
       listaFiltrada = reviews.filter(review => {
@@ -311,7 +311,7 @@ const DetallePelicula = () => {
       setListaReviewsFiltrada(listaFiltrada);
 
     } else {
-      listaFiltrada = reviews.filter(review => review.id_usuario == userData.id);
+      listaFiltrada = reviews.filter(review => review.id_usuario === userData.id);
       setListaReviewsFiltrada(listaFiltrada);
     }
   }

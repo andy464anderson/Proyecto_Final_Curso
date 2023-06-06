@@ -1,11 +1,6 @@
 import "./botonEliminarUsuario.css";
 import React from "react";
-import { HeaderContext } from "../header/headerContext";
-import { useEffect, useState, useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import "react-tippy/dist/tippy.css";
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 

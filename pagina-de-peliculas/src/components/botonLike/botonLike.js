@@ -28,9 +28,9 @@ const BotonLike = ({ idPeli }) => {
     const darLike = async () => {
         const verListas = await fetch(`http://localhost:8000/listas/${userData.id}`);
         const dataVerListas = await verListas.json();
-        const listaFiltrada = dataVerListas.filter((lista) => lista.tipo.toLowerCase() == "likes");
+        const listaFiltrada = dataVerListas.filter((lista) => lista.tipo.toLowerCase() === "likes");
 
-        if (listaFiltrada.length == 0) {
+        if (listaFiltrada.length === 0) {
             const lista = {
                 id: 0,
                 tipo: "likes",
@@ -52,7 +52,7 @@ const BotonLike = ({ idPeli }) => {
 
         const verListasActualizadas = await fetch(`http://localhost:8000/listas/${userData.id}`);
         const dataVerListasActualizadas = await verListasActualizadas.json();
-        const listaFiltradaAct = dataVerListasActualizadas.filter((lista) => lista.tipo.toLowerCase() == "likes");
+        const listaFiltradaAct = dataVerListasActualizadas.filter((lista) => lista.tipo.toLowerCase() === "likes");
         var pelis = listaFiltradaAct[0].peliculas;
         pelis.push(idPeli);
         const lista = {

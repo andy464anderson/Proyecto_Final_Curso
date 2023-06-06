@@ -49,7 +49,7 @@ function Perfil() {
             updateMovieData(filtradorPelis);
         };
 
-        if(!movieData){
+        if (!movieData) {
             obtenerPeliculas();
         }
     }, []);
@@ -85,9 +85,8 @@ function Perfil() {
             setSeguidos(dataSeguidos);
         };
 
-        if(!usuario || !reviews || !listas || !seguidores || !seguidos){
             obtenerDatosUsuario();
-        }
+        
     }, [nombre_usuario]);
 
     const pintarSeguidores = () => {
@@ -284,7 +283,7 @@ function Perfil() {
         if (Object.keys(listaActual).length > 0 && $("#infoListasNormales").is(":visible")) {
             verLista(listaActual);
         }
-    }, [listaActual, verLista]);
+    }, [listaActual]);
 
     const cerrarSearch = (cerrar) => {
         setShowSearch(cerrar);
@@ -399,7 +398,7 @@ function Perfil() {
         setNombreUsuario(nombreUsuario);
     }
 
-    const actualizar=(usuario)=>{
+    const actualizar = (usuario) => {
         navigate("/");
     }
 
@@ -461,11 +460,13 @@ function Perfil() {
 
                             <div className="lista-likes-hijo" id={listaLikes.id}>
 
-                                {listaLikes.peliculasLista.map(peli => (
-                                    <div className="divPeliListaLike" key={peli.id} id={peli.id}>
-                                        <img onClick={() => redireccionarPeli(peli.id)} src={peli.poster} alt="poster" />
-                                    </div>
-                                ))}
+                                {listaLikes.peliculasLista.map(peli => {
+                                    return (
+                                        <div className="divPeliListaLike" key={peli.id} id={peli.id}>
+                                            <img onClick={() => redireccionarPeli(peli.id)} src={peli.poster} alt="poster" />
+                                        </div>
+                                    )
+                                })}
                             </div>
                         ) : (
                             <div id='noPelis'>
