@@ -444,7 +444,7 @@ async def get_cercanas(id):
 async def get_actividad(id):
     conn = conectar()
     cursor = conn.cursor()
-    cursor.execute("SELECT r.id_pelicula, r.valoracion, u.nombre_usuario FROM review r INNER JOIN seguidor s ON r.id_usuario = s.id_usuario_seguidor INNER JOIN usuario u ON u.id = s.id_usuario_seguidor WHERE s.id_usuario_seguido = %s AND r.fecha >= CURRENT_DATE - INTERVAL '7 days' ORDER BY r.fecha DESC;", (id,))
+    cursor.execute("SELECT r.id_pelicula, r.valoracion, u.nombre_usuario FROM review r INNER JOIN seguidor s ON r.id_usuario = s.id_usuario_seguido INNER JOIN usuario u ON u.id = s.id_usuario_seguido WHERE s.id_usuario_seguidor = %s AND r.fecha >= CURRENT_DATE - INTERVAL '7 days' ORDER BY r.fecha DESC;", (id,))
     seguidores = cursor.fetchall()
     conn.close()
     cursor.close()
