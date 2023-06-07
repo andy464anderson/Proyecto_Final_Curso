@@ -1,6 +1,13 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300&family=Lora:wght@700&display=swap');
+
 body {
   padding: 0;
   margin: 0;
+  font-family: 'Lato', sans-serif;
+}
+#titulo-inicio, .info-review-populares-titulo, .detalle-completo-pelicula h2, .titulo-carta-buscador, .nombreListaNormal h5, #tituloDivListasNormales, .review-info h3, .perfil-avatar h2{
+  font-family: 'Lora', serif;
 }
 .container-peliculas {
   width: 1000px;
