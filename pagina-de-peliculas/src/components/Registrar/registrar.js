@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import "./registrar.css";
 import $ from 'jquery';
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
+import { HeaderContext } from "../header/headerContext";
 
 const Registrar = () => {
 
@@ -18,7 +19,15 @@ const Registrar = () => {
     const [nombreUsuarioError, setNombreUsuarioError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const { isLoggedIn } = useContext(HeaderContext);
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate("/");
+            toast.warning("No puedes acceder a esa página si ya has iniciado sesión", { autoClose: 2500 });
+        }
+    }, [isLoggedIn, navigate]);
 
     useEffect(() => {
         registrarUsuario();

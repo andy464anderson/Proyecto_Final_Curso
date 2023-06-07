@@ -177,6 +177,9 @@ const Search = () => {
     const handleNextClick = () => {
         setCurrentPage(currentPage + 1);
     }
+    if (!movieData || movieData.length === 0) {
+        return null;
+    }
 
     return (
         <div>

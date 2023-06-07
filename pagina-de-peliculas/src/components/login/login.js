@@ -2,12 +2,20 @@ import React, { useState, useContext, useEffect } from "react";
 import './login.css';
 import { HeaderContext } from "../header/headerContext"; // Asegúrate de que la importación coincida con la ruta correcta
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 
 function Login() {
     const [error, setError] = useState(false);
-    const { updateHeader } = useContext(HeaderContext);
+    const { updateHeader, isLoggedIn } = useContext(HeaderContext);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        if (isLoggedIn) {
+            navigate("/");
+            toast.warning("No puedes acceder a esa página si ya has iniciado sesión", { autoClose: 2500 });
+        }
+    }, [isLoggedIn, navigate]);
 
 
     const handleLogin = async () => {
