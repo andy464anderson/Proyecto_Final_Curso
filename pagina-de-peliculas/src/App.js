@@ -4,8 +4,6 @@ import './App.css';
 import Header from './components/header/header';
 import Footer from './components/footer/footer';
 import { HeaderContextProvider } from './components/header/headerContext';
-import 'bootstrap/dist/js/bootstrap.min.js';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Search from './components/search/search';
 import DetallePelicula from './components/peliculas/detalle_pelicula';
 import Peliculas from './components/peliculas/peliculas';

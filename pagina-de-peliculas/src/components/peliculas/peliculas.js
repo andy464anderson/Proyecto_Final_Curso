@@ -4,7 +4,6 @@ import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CartaPelicula from "./carta_pelicula";
 import { HeaderContext } from "../header/headerContext";
-import { SlSpinner } from 'https://cdn.skypack.dev/@shoelace-style/shoelace@2.4.0/dist/react/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import $ from 'jquery';
@@ -136,7 +135,7 @@ const Peliculas = () => {
       <div className="container-peliculas">
         <p className='breadcrumb'><span><Link class="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Peliculas</span></p>
         <div className="spinner">
-          {
+          {/* {
             (peliculas.length === 0 || mostrarSpinner) && <SlSpinner
               style={{
                 'fontSize': '2rem',
@@ -145,7 +144,7 @@ const Peliculas = () => {
                 'marginTop': '20px',
               }}
             />
-          }
+          } */}
         </div>
         {mostrarSpinner === false && (
           <>
