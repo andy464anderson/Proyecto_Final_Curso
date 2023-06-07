@@ -418,7 +418,7 @@ function Perfil() {
         const listaLikes = listaListas.find((lista) => lista.tipo === "likes");
         return (
             <div className="perfil-container">
-                <p className='breadcrumb'><span><Link className="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Perfil</span><span className='separador-breadcrumb'>&gt;</span><span>{ultimaPosicion}</span></p>
+                <p className='breadcrumb'><span><Link class="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Perfil</span><span className='separador-breadcrumb'>&gt;</span><span>{ultimaPosicion}</span></p>
                 <div className="perfil-header">
                     
                     <div className="perfil-avatar">
