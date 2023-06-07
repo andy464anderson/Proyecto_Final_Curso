@@ -192,8 +192,8 @@
 
 .divPeliListaLike,
 .imagenLista {
-    width: 130px;
-    height: 185px;
+    width: 100px;
+    height: 140px;
     margin: 15px;
     border: 1px solid #8595A3;
     border-radius: 4px;
@@ -397,7 +397,7 @@ body::-webkit-scrollbar-thumb,
 }
 
 .editar-lista {
-    color: rgb(159, 46, 252);
+    color: #40BCF4;
     background-color: #14181C;
     border: 0;
     border-bottom: 1px solid #14181C;
@@ -473,4 +473,22 @@ body::-webkit-scrollbar-thumb,
 }
 .buscador-pelis-perfil{
     height: 80%;
+}
+/* estilos para movil */
+@media (max-width: 767px) {
+    .perfil-container {
+    width: 350px;
+    }
+    #infoListasNormalesHijo{
+        width: 350px;
+    }
+    .imagenLista {
+        width: 100px;
+        height: 140px;
+    }
+    .seguidores, .seguidos{
+        display: flex;
+        flex-direction: column;
+    }
+    
 }
