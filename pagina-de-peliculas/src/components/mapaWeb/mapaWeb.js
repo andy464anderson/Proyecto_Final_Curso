@@ -9,7 +9,7 @@ function MapaWeb() {
 
   return (
       <div className="mapa-web">
-        <p className='breadcrumb'><span><Link class="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Mapa Web</span></p>
+        <p className='breadcrumb'><span><Link className="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Mapa Web</span></p>
         <ul className='ul-mapaWeb'>
           <li className='li-mapaWeb'>
             <Link to="/">Inicio</Link>

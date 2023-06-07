@@ -63,7 +63,7 @@ const Inicio = () => {
       setSeguidos(dataSeguidos);
 
     };
-    
+
     if (isLoggedIn && (!seguidos || seguidos.length === 0)) {
       obtenerDatosSeguidos();
     }
@@ -167,6 +167,7 @@ const Inicio = () => {
     });
     return lista;
   }
+  console.log(actividadSeguidos);
 
   if (movieData) {
     return (
@@ -181,7 +182,7 @@ const Inicio = () => {
           <div>
             <Carousel items={items} />
           </div>
-          {isLoggedIn && actividadSeguidos && seguidos.length > 0 && (
+          {isLoggedIn && actividadSeguidos && actividadSeguidos.length > 0 && seguidos.length > 0 && (
             <div>
               <p className='titular-inicio'>Actividad de tus amigos</p>
               <div id="actividadSeguidores">
