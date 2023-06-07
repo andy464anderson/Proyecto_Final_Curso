@@ -1,6 +1,6 @@
 import React from "react";
 import "./perfil.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useEffect, useState, useContext } from "react";
 import { HeaderContext } from "../header/headerContext";
 import $ from 'jquery';
@@ -402,7 +402,9 @@ function Perfil() {
         navigate("/");
     }
 
-
+    var urlCompleta = window.location.href;
+    var arrayUrl = urlCompleta.split("/");
+    var ultimaPosicion = arrayUrl[arrayUrl.length - 1];
     if (!usuario || !reviews || !listas || !seguidores || !seguidos || !movieData) {
         return <div></div>;
     } else {
@@ -416,7 +418,9 @@ function Perfil() {
         const listaLikes = listaListas.find((lista) => lista.tipo === "likes");
         return (
             <div className="perfil-container">
+                <p className='breadcrumb'><span><Link class="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Perfil</span><span className='separador-breadcrumb'>&gt;</span><span>{ultimaPosicion}</span></p>
                 <div className="perfil-header">
+                    
                     <div className="perfil-avatar">
                         <h2>{nombreCompleto}</h2>
                         <h5>{nombreUsuario}</h5>

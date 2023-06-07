@@ -5,10 +5,11 @@ import { useContext } from 'react';
 import './mapaWeb.css'; // Importa el archivo CSS
 
 function MapaWeb() {
-  const { isLoggedIn } = useContext(HeaderContext);
+  const { isLoggedIn, userData } = useContext(HeaderContext);
 
   return (
       <div className="mapa-web">
+        <p className='breadcrumb'><span><Link class="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Mapa Web</span></p>
         <ul className='ul-mapaWeb'>
           <li className='li-mapaWeb'>
             <Link to="/">Inicio</Link>
@@ -18,7 +19,7 @@ function MapaWeb() {
           </li>
           {isLoggedIn && (
             <li className='li-mapaWeb'>
-              <Link to="/perfil">Perfil</Link>
+              <Link to={"/perfil/" + userData.nombre_usuario}>Perfil</Link>
             </li>
           )}
           {!isLoggedIn && (

@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import './peliculas.css';
+import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CartaPelicula from "./carta_pelicula";
 import { HeaderContext } from "../header/headerContext";
@@ -26,7 +27,7 @@ const Peliculas = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setMostrarSpinner(false);
-    }, 1500)
+    }, 500)
 
     return () => clearTimeout(timer);
   }, []);
@@ -133,6 +134,7 @@ const Peliculas = () => {
   return (
     <div>
       <div className="container-peliculas">
+        <p className='breadcrumb'><span><Link class="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Peliculas</span></p>
         <div className="spinner">
           {
             (peliculas.length === 0 || mostrarSpinner) && <SlSpinner

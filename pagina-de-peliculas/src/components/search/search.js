@@ -1,6 +1,7 @@
 import './search.css';
 import { useEffect, useState, useContext } from "react";
 import React from 'react';
+import { Link } from "react-router-dom";
 import { HeaderContext } from '../header/headerContext';
 import CartaBucador from './carta_buscador';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -183,6 +184,7 @@ const Search = () => {
 
     return (
         <div>
+            <p className='breadcrumb'><span><Link class="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Buscador</span></p>
             <div id='div-buscador'>
                 <input onKeyUp={buscarPeliculas} id="buscador" placeholder="Busca peliculas o usuarios..." autoFocus></input>
             </div>

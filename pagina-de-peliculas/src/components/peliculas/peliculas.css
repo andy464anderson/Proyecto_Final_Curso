@@ -6,7 +6,24 @@ body {
   margin: 0;
   font-family: 'Lato', sans-serif;
 }
-#titulo-inicio, .info-review-populares-titulo, .detalle-completo-pelicula h2, .titulo-carta-buscador, .nombreListaNormal h5, #tituloDivListasNormales, .review-info h3, .perfil-avatar h2{
+.breadcrumb{
+  color: #8595A3;
+  width: 1000px;
+  text-align: left;
+  margin: auto;
+  margin-bottom: 20px;
+}
+.link-breadcrumb{
+  color: #40BCF4;
+}
+.link-breadcrumb:hover{
+  color: #3790b9;
+}
+.separador-breadcrumb{
+  margin-left: 5px;
+  margin-right: 5px;
+}
+#titulo-inicio, .info-review-populares-titulo, .detalle-completo-pelicula h2, .titulo-carta-buscador, .nombreListaNormal h5, #tituloDivListasNormales, .review-info h3, .perfil-avatar h2, .puntuacion-general, .posicion-top{
   font-family: 'Lora', serif;
 }
 .container-peliculas {

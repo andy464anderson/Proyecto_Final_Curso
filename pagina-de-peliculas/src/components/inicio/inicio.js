@@ -172,6 +172,7 @@ const Inicio = () => {
     return (
       <div>
         <div id='central-inicio'>
+          <p className='breadcrumb'><span>Inicio</span></p>
           <h1 id='titulo-inicio'>Movie Social Media</h1>
           {isLoggedIn && (
             <h4 id='subtitulo-inicio'>Bienvenido {userData.nombre_usuario}</h4>
