@@ -152,4 +152,7 @@ select:focus {
   #boton-ver-mas-pelis{
     width: 350px;
   }
+  .breadcrumb{
+    width: 350px;
+  }
 }
