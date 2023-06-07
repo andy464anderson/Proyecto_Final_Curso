@@ -13,16 +13,6 @@ import BotonEliminarUsuario from '../botonEliminarUsuario/botonEliminarUsuario';
 
 const Search = () => {
     const navigate = useNavigate();
-
-
-    /*     promesaUsuarios.then(function(usuarios) {
-            
-            var arregloUsuarios = usuarios;
-            
-            for (var i = 0; i < arregloUsuarios.length; i++) {
-              console.log(arregloUsuarios[i].nombre_usuario);
-            }
-        }); */
     const { movieData, updateMovieData, userData, isLoggedIn } = useContext(HeaderContext);
 
     const [pelisFiltradas, setPelisFiltradas] = useState([]);
@@ -61,43 +51,46 @@ const Search = () => {
         })
         buscarPeliculas();
     }
+
     function navegarPerfil(usuario) {
         navigate(`/perfil/${usuario}`);
     }
+
     const buscarPeliculas = () => {
         var textoBuscador = document.getElementById("buscador").value.toLowerCase();
-        var pelisFiltradas1 = movieData.filter((peli) => peli.title.toLowerCase().includes(textoBuscador));
-        var usuariosFiltrados = [];
-        if (isLoggedIn) {
-            usuariosFiltrados = listaUsuarios.filter((user) => user.nombre_usuario.toLowerCase().includes(textoBuscador) && user.id !== userData.id);
-        } else {
-            usuariosFiltrados = listaUsuarios.filter((user) => user.nombre_usuario.toLowerCase().includes(textoBuscador));
-        }
-        /*         console.log(pelisFiltradas1);
-                console.log(usuariosFiltrados); */
-        var listaFiltrada = [...usuariosFiltrados, ...pelisFiltradas1];
-
-        listaFiltrada.sort((a, b) => {
-            if ('title' in a && 'title' in b) {
-                return a.title.localeCompare(b.title);
-            } else if ('nombre_usuario' in a && 'nombre_usuario' in b) {
-                return a.nombre_usuario.localeCompare(b.nombre_usuario);
+        if (textoBuscador !== "") {
+            var pelisFiltradas1 = movieData.filter((peli) => peli.title.toLowerCase().includes(textoBuscador));
+            var usuariosFiltrados = [];
+            if (isLoggedIn) {
+                usuariosFiltrados = listaUsuarios.filter((user) => user.nombre_usuario.toLowerCase().includes(textoBuscador) && user.id !== userData.id);
+            } else {
+                usuariosFiltrados = listaUsuarios.filter((user) => user.nombre_usuario.toLowerCase().includes(textoBuscador));
             }
-        });
-        var valorSelect = $("#select-tipo-buscador").val();
-        if (valorSelect === "pelis") {
-            listaFiltrada = listaFiltrada.filter(lista => 'title' in lista);
+            var listaFiltrada = [...usuariosFiltrados, ...pelisFiltradas1];
+
+            listaFiltrada.sort((a, b) => {
+                if ('title' in a && 'title' in b) {
+                    return a.title.localeCompare(b.title);
+                } else if ('nombre_usuario' in a && 'nombre_usuario' in b) {
+                    return a.nombre_usuario.localeCompare(b.nombre_usuario);
+                }
+            });
+            var valorSelect = $("#select-tipo-buscador").val();
+            if (valorSelect === "pelis") {
+                listaFiltrada = listaFiltrada.filter(lista => 'title' in lista);
+            }
+            if (valorSelect === "users") {
+                listaFiltrada = listaFiltrada.filter(lista => 'nombre_usuario' in lista);
+            }
+            setPelisFiltradas(listaFiltrada);
+            setCurrentPage(1);
+        } else {
+            setPelisFiltradas([]);
+            setCurrentPage(1);
         }
-        if (valorSelect === "users") {
-            listaFiltrada = listaFiltrada.filter(lista => 'nombre_usuario' in lista);
-        }
-        /* listaFiltrada = listaFiltrada.sort((a, b)=>{
-            if(a.title < b.title) return -1;
-            else return 1;
-        }); */
-        setPelisFiltradas(listaFiltrada);
-        setCurrentPage(1);
+
     }
+
     useEffect(() => {
         const obtenerDatosUsuario = async () => {
             const responseUsuario = await fetch(`http://localhost:8000/usuarios`, {

@@ -53,7 +53,7 @@ const CarouselPoulares = ({ items }) => {
     setActiveIndex(prevIndex => (prevIndex === items.length - 1 ? 0 : prevIndex + 1));
   };
 
-  if (listaUsuarios.length === 0 && !movieData && personasCercanas.length===0 && !items) {
+  if (listaUsuarios.length === 0 && !movieData && personasCercanas.length === 0 && !items) {
     return null
   } else {
     return (
@@ -79,16 +79,14 @@ const CarouselPoulares = ({ items }) => {
                   {personasCercanas.length > 0 && listaUsuarios.length > 0 && (
                     personasCercanas.map((usuario) => {
                       var usuarios = listaUsuarios.find(user => user.nombre_usuario === usuario.nombre_usuario);
-                      console.log(usuarios);
                       return (
                         <div key={usuarios.id} className='usuarios-conocidos-inicio-hijo'>
                           <span onClick={() => navigate(`/perfil/${usuario.nombre_usuario}`)} className='nombre-usuario-sugerencias'>{usuario.nombre_usuario}</span><br />
                           <span className='nombre-completo-sugerencias'>{usuario.nombre_completo}</span><br />
                           <BotonSeguir class="boton-seguir-populares" usuario={usuarios} actualizarDatos={undefined} />
-                        </div>)
-
-                    }
-                    )
+                        </div>
+                      )
+                    })
                   )}
                 </div>
               </div>
