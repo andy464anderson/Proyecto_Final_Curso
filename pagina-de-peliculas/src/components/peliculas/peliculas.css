@@ -133,6 +133,14 @@ select:focus {
   background-color: #38a5d8;
 }
 /* estilos para movil */
+@media (max-width: 1050px) {
+  
+  .breadcrumb{
+    width: 740px;
+  }
+
+}
+/* estilos para movil */
 @media (max-width: 767px) {
   .container-peliculas{
     width: 90%;
