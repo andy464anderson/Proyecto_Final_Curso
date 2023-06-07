@@ -31,7 +31,6 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
 
     useEffect(() => {
         const obtenerDatosUsuario = async () => {
-            console.log("pepe");
             setNombreCompleto(usuario.nombre_completo);
             setNombreUsuario(usuario.nombre_usuario);
             setCorreo(usuario.correo);

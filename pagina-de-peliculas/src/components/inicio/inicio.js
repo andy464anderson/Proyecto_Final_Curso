@@ -61,11 +61,31 @@ const Inicio = () => {
       });
       const dataSeguidos = await responseSiguiendo.json();
       setSeguidos(dataSeguidos);
+      console.log(dataSeguidos);
 
     };
-    
-    if (isLoggedIn && (!seguidos || seguidos.length === 0)) {
+
+    if (isLoggedIn) {
       obtenerDatosSeguidos();
+    }
+
+    const obtenerDatosActividad = async () => {
+      const responseActividad = await fetch(`http://localhost:8000/actividad/${userData.id}`, {
+        method: "GET",
+        headers: {
+          accept: "application/json",
+        },
+      });
+      const dataActividad = await responseActividad.json();
+      console.log(dataActividad);
+      setActividadSeguidos(dataActividad);
+
+    };
+
+    if (isLoggedIn) {
+      obtenerDatosActividad();
+    } else if (!actividadSeguidos && !isLoggedIn) {
+      setActividadSeguidos([]);
     }
 
     const obtenerUsuariosPopulares = async () => {
@@ -100,15 +120,6 @@ const Inicio = () => {
         setPersonasCercanas(dataFiltrado);
       } else if (!personasCercanas && !isLoggedIn) {
         setPersonasCercanas([]);
-      }
-
-      if ((!actividadSeguidos || actividadSeguidos.length === 0) && isLoggedIn) {
-        const actividadSeguidos = await fetch(`http://localhost:8000/actividad/${userData.id}`);
-        const dataActividadSeguidos = await actividadSeguidos.json();
-        var dataFiltradoActividad = dataActividadSeguidos.filter((data) => data.id_usuario !== userData.id);
-        setActividadSeguidos(dataFiltradoActividad);
-      } else if (!actividadSeguidos && !isLoggedIn) {
-        setActividadSeguidos([]);
       }
     };
 
@@ -181,57 +192,56 @@ const Inicio = () => {
           <div>
             <Carousel items={items} />
           </div>
-          {isLoggedIn && actividadSeguidos && seguidos.length > 0 && (
+          {isLoggedIn && actividadSeguidos && actividadSeguidos.length > 0 && seguidos && seguidos.length > 0 && (
             <div>
               <p className='titular-inicio'>Actividad de tus amigos</p>
               <div id="actividadSeguidores">
-                {actividadSeguidos && seguidos.length > 0 && (
-                  actividadSeguidos.map((review, i) => {
-                    const pelicula = movieData.find(p => p.id === review.id_pelicula);
-                    if (pelicula) {
-                      return (
-                        <div className='actividad-seguidores-hijo'>
-                          <img className='actividad-seguidores-foto' src={pelicula.poster} alt={pelicula.title}></img>
-                          <p>{review.nombre_usuario}</p>
-                          {review.valoracion === 1 ? (
-                            <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>
-                          ) : null}
-                          {review.valoracion === 2 ? (
-                            <div className="nota-comentario-detalle">
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                            </div>
-                          ) : null}
-                          {review.valoracion === 3 ? (
-                            <div className="nota-comentario-detalle">
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                            </div>
-                          ) : null}
-                          {review.valoracion === 4 ? (
-                            <div className="nota-comentario-detalle">
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                            </div>
-                          ) : null}
-                          {review.valoracion === 5 ? (
-                            <div className="nota-comentario-detalle">
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                              <FontAwesomeIcon icon={faStar} />
-                            </div>
-                          ) : null}
+                {actividadSeguidos.map((review, i) => {
+                  const pelicula = movieData.find(p => p.id === review.id_pelicula);
+                  if (pelicula) {
+                    return (
+                      <div key={review.id} className='actividad-seguidores-hijo'>
+                        <img className='actividad-seguidores-foto' src={pelicula.poster} alt={pelicula.title}></img>
+                        <p>{review.nombre_usuario}</p>
+                        {review.valoracion === 1 ? (
+                          <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>
+                        ) : null}
+                        {review.valoracion === 2 ? (
+                          <div className="nota-comentario-detalle">
+                            <FontAwesomeIcon icon={faStar} />
+                            <FontAwesomeIcon icon={faStar} />
+                          </div>
+                        ) : null}
+                        {review.valoracion === 3 ? (
+                          <div className="nota-comentario-detalle">
+                            <FontAwesomeIcon icon={faStar} />
+                            <FontAwesomeIcon icon={faStar} />
+                            <FontAwesomeIcon icon={faStar} />
+                          </div>
+                        ) : null}
+                        {review.valoracion === 4 ? (
+                          <div className="nota-comentario-detalle">
+                            <FontAwesomeIcon icon={faStar} />
+                            <FontAwesomeIcon icon={faStar} />
+                            <FontAwesomeIcon icon={faStar} />
+                            <FontAwesomeIcon icon={faStar} />
+                          </div>
+                        ) : null}
+                        {review.valoracion === 5 ? (
+                          <div className="nota-comentario-detalle">
+                            <FontAwesomeIcon icon={faStar} />
+                            <FontAwesomeIcon icon={faStar} />
+                            <FontAwesomeIcon icon={faStar} />
+                            <FontAwesomeIcon icon={faStar} />
+                            <FontAwesomeIcon icon={faStar} />
+                          </div>
+                        ) : null}
 
-                        </div>)
-                    }
+                      </div>)
+                  }
 
-                  })
-                )
+                })
+
                 }
 
 
