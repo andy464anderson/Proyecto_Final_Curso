@@ -265,7 +265,7 @@ const Inicio = () => {
                           <span className='puntuacion-general'>{peli.total_likes} likes</span>
                         </div>
                         <span className='posicion-top'>{i + 1}</span>
-                        <span>{pelicula.title}</span>
+                        <span className='top-titulo'>{pelicula.title}</span>
                       </div>)
                   }
                 })
@@ -286,7 +286,7 @@ const Inicio = () => {
                           <span className='puntuacion-general'>{valoracion}/5</span>
                         </div>
                         <span className='posicion-top'>{i + 1}</span>
-                        <span>{pelicula.title}</span>
+                        <span className='top-titulo'>{pelicula.title}</span>
                       </div>
                     );
                   }

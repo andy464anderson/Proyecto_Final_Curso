@@ -99,6 +99,27 @@
     color: #8595A3;
 }
 /* estilos para movil */
+@media (max-width: 1050px) {
+    #central-inicio{
+        width: 740px;
+        margin: auto;
+    }
+    .padre-foto-tops{
+        width: 120px;
+        height: 170px;
+        margin: 10px;
+    }
+    .imagen-top{
+        width: 100%;    
+        height: 170px;
+    }
+    .top-titulo {
+        width: 140px;
+        text-align: center;
+    }
+
+  }
+/* estilos para movil */
 @media (max-width: 767px) {
     #central-inicio{
         width: 350px;
