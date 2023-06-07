@@ -30,7 +30,7 @@ const Inicio = () => {
       updateMovieData(filtradorPelis);
     };
 
-    if (!movieData) {
+    if (!movieData || movieData.length === 0) {
       obtenerPeliculas();
     }
 
@@ -48,7 +48,7 @@ const Inicio = () => {
       setUsuarios(dataUsuarios);
     };
 
-    if (!listaUsuarios) {
+    if (listaUsuarios.length === 0) {
       obtenerDatosUsuario();
     }
 
@@ -63,11 +63,11 @@ const Inicio = () => {
       setSeguidos(dataSeguidos);
 
     };
-
-    if (!seguidos || seguidos.length === 0) {
+    
+    if (isLoggedIn && (!seguidos || seguidos.length === 0)) {
       obtenerDatosSeguidos();
     }
-    
+
     const obtenerUsuariosPopulares = async () => {
       if (!usuariosPopulares || usuariosPopulares.length === 0) {
         const usuariosPopulares = await fetch(`http://localhost:8000/populares`);

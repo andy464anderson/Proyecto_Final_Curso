@@ -14,7 +14,6 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
     const [error, setError] = useState(false);
     const [envioEditar, setEnvioEditar] = useState(false);
     const [verEditarPerfil, setVerEditarPerfil] = useState(false);
-    const [seguidosCargados, setSeguidosCargados] = useState(false);
     const { isLoggedIn, userData, updateHeader } = useContext(HeaderContext);
     const [siguiendo, setSiguiendo] = useState(null);
     const [seguidores, setSeguidores] = useState([]);
@@ -32,12 +31,12 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
 
     useEffect(() => {
         const obtenerDatosUsuario = async () => {
-            setSeguidosCargados(false);
+            console.log("pepe");
             setNombreCompleto(usuario.nombre_completo);
             setNombreUsuario(usuario.nombre_usuario);
             setCorreo(usuario.correo);
 
-            if (userData && !seguidosCargados) {
+            if (userData) {
                 const responseSiguiendo = await fetch(`http://localhost:8000/seguidos/${userData.id}`);
                 const dataSiguiendo = await responseSiguiendo.json();
                 if (dataSiguiendo.find(user => user.id_usuario_seguido === usuario.id)) {
@@ -45,7 +44,6 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
                 } else {
                     setSiguiendo(false);
                 }
-                setSeguidosCargados(true);
             }
         };
 

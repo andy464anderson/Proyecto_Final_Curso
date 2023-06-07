@@ -31,7 +31,7 @@ const CarouselPoulares = ({ items }) => {
     }
 
     const obtenerUsuariosPopulares = async () => {
-      if (isLoggedIn) {
+      if (isLoggedIn && userData) {
         const personasCercanas = await fetch(`http://localhost:8000/cercanas/${userData.id}`);
         const dataPersonasCercanas = await personasCercanas.json();
         var dataFiltrado = dataPersonasCercanas.filter(data => data.id_usuario !== userData.id);
@@ -53,7 +53,7 @@ const CarouselPoulares = ({ items }) => {
     setActiveIndex(prevIndex => (prevIndex === items.length - 1 ? 0 : prevIndex + 1));
   };
 
-  if (listaUsuarios.length === 0 && !movieData && !personasCercanas && !items) {
+  if (listaUsuarios.length === 0 && !movieData && personasCercanas.length===0 && !items) {
     return null
   } else {
     return (
@@ -79,7 +79,7 @@ const CarouselPoulares = ({ items }) => {
                   {personasCercanas.length > 0 && listaUsuarios.length > 0 && (
                     personasCercanas.map((usuario) => {
                       var usuarios = listaUsuarios.find(user => user.nombre_usuario === usuario.nombre_usuario);
-                      console.log(personasCercanas.length);
+                      console.log(usuarios);
                       return (
                         <div key={usuarios.id} className='usuarios-conocidos-inicio-hijo'>
                           <span onClick={() => navigate(`/perfil/${usuario.nombre_usuario}`)} className='nombre-usuario-sugerencias'>{usuario.nombre_usuario}</span><br />
