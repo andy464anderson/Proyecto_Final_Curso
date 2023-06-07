@@ -34,7 +34,7 @@
 
 
 .mapa-web {
-    width: 25%;
+    width: 740px;
     margin: 0 auto;
     margin-top: 100px;
     padding: 20px;
@@ -44,7 +44,6 @@
 }
 
 .ul-mapaWeb {
-    list-style: none;
     padding: 0;
     margin: 0;
 }
@@ -53,6 +52,7 @@
     margin-bottom: 10px;
     list-style: disc;
     color: aliceblue;
+    margin-left: 20px;
 }
 
 .ul-mapaWeb a {
@@ -60,10 +60,16 @@
     text-decoration: none;
     font-size: 16px;
     padding: 5px;
-    border-radius: 5px;
     transition: background-color 0.3s ease;
 }
 
 .ul-mapaWeb a:hover {
-    background-color: gray;
+  color: #40BCF4;
+  text-decoration: underline;
 }
+/* estilos para movil */
+@media (max-width: 767px) {
+    .mapa-web{
+      width: 350px;
+    }
+  }
