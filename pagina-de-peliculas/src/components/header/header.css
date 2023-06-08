@@ -104,12 +104,12 @@ nav {
     left: -200px;
     transition: 0.2s ease-in-out;
   }
-  .menu-right button{
+  .burger-icono-boton{
     background-color: transparent;
     border: 0;
     margin-right: 20px;
   }
-  #burger-icono{
+  .burger-icono{
     color: aliceblue;
     font-size: 18px;
   }

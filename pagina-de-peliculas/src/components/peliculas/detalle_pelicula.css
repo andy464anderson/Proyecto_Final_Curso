@@ -300,6 +300,24 @@ tr:nth-child(even) {
 .boton-volver button:hover{
   background-color: #262d34;
   cursor: pointer;
+}/* estilos para tablet */
+@media (max-width: 1050px) {
+  #sinopsis-detalle{
+    width: 350px;
+  }
+  #grafico-detalle{
+    flex-direction: column;
+    width: 350px;
+  }
+  #datos-puntuacion-grafico{
+    margin-top: 5px;
+    flex-direction: row;
+    justify-content: space-around;
+    width: 200px;
+  }
+  .detalle-pelicula-cuerpo{
+    width: 750px;
+  }
 }
 /* estilos para movil */
 @media (max-width: 767px) {

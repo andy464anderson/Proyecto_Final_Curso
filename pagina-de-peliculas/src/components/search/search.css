@@ -91,19 +91,21 @@ body{
 #divCentralSearch{
     width: 1000px;
     display: flex;
+    flex-direction: column-reverse;
     justify-content: center;
     margin: auto;
 }
 #divBotonesSearch{
-    width: 40%;
+    width: 100%;
     display: flex;
-    flex-direction: column;    
+    flex-direction: row;    
     padding: 10px;
+    justify-content: center;
 }
 #divBotonesSearch button{
     width: 100%;
     margin: 3px;
-    text-align: left;
+    text-align: center;
     padding: 5px;
     background: #14181C;
     color: #8595A3;
@@ -116,7 +118,18 @@ body{
 }
 #select-tipo-buscador{
     display: none;
-}
+}/* estilos para tablet */
+@media (max-width: 1050px) {
+    #buscador{
+        width: 750px;
+    }
+    #divCentralSearch{
+        width: 750px;
+    }
+    .pagination{
+        width: 750px;
+    }
+  }
 /* estilos para movil */
 @media (max-width: 767px) {
     #buscador{

@@ -475,6 +475,20 @@ body::-webkit-scrollbar-thumb,
     height: 80%;
 }
 /* estilos para movil */
+@media (max-width: 1050px) {
+    .perfil-container {
+    width: 750px;
+    }
+    #infoListasNormalesHijo{
+        width: 750px;
+    }
+    .imagenLista {
+        width: 100px;
+        height: 140px;
+    }
+    
+}
+/* estilos para movil */
 @media (max-width: 767px) {
     .perfil-container {
     width: 350px;

@@ -5,7 +5,7 @@ import { HeaderContext } from "./headerContext";
 import { useNavigate } from "react-router-dom";
 import $ from 'jquery';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 
 function Header({ children }) {
@@ -122,6 +122,11 @@ function Header({ children }) {
                   <Link onClick={toggleMenuBurger} to="/search">Buscador</Link>
                 </li>
               )}
+                <li>
+                  <button className="burger-icono-boton" onClick={toggleMenuBurger}>
+                    <FontAwesomeIcon className="burger-icono" icon={faArrowLeft} />
+                  </button>
+                </li>
             </ul>
           </div>
           <div className="menu-left">
@@ -170,8 +175,8 @@ function Header({ children }) {
           </div>
           <div className="menu-right">
             {(windowWidth <= 767 || abierto) && (
-              <button onClick={toggleMenuBurger}>
-                <FontAwesomeIcon id="burger-icono" icon={faBars} />
+              <button className="burger-icono-boton" onClick={toggleMenuBurger}>
+                <FontAwesomeIcon className="burger-icono" icon={faBars} />
               </button>
             )}
             {location.pathname !== "/search" && windowWidth > 767 && (
