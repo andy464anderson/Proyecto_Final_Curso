@@ -1,48 +1,71 @@
-#divPersonasCercanas, #divUsuariosPopulares, #divUltimasReviews, #divTopLikes, #divTopValoracion{
+#divPersonasCercanas,
+#divUsuariosPopulares,
+#divUltimasReviews,
+#divTopLikes,
+#divTopValoracion {
     color: aliceblue;
 }
-#central-inicio{
+
+#central-inicio {
     width: 1000px;
     margin: auto;
 }
-#titulo-inicio{
+
+#titulo-inicio {
     color: aliceblue;
     margin-bottom: 0;
 
 }
-#divPersonasCercanas{
+
+.nombrePersonaActividad:hover {
+    cursor: pointer;
+    color: #38a5d8;
+    text-decoration: underline;
+}
+
+#divPersonasCercanas {
     border: 2px solid black;
     display: flex;
     justify-content: space-around;
 }
-.titular-inicio{
+
+.titular-inicio {
     margin-top: 50px;
     border-bottom: 1px solid #8595A3;
     color: #8595A3;
 }
-.usuarios-conocidos-inicio{
+
+.usuarios-conocidos-inicio {
     margin: 0;
     text-align: center;
 }
-.cuerpo-top-likes, .cuerpo-top-valoracion{
+
+.cuerpo-top-likes,
+.cuerpo-top-valoracion {
     display: flex;
     flex-direction: column;
 }
-.imagen-top{
+
+.imagen-top {
     width: 180px;
     height: 260px;
     margin-bottom: 8px;
     border: 1px solid #8595A3;
     border-radius: 3px;
 }
-.cuerpo-top-likes span, .cuerpo-top-valoracion span{
+
+.cuerpo-top-likes span,
+.cuerpo-top-valoracion span {
     text-align: center;
 }
-#divTopLikes, #divTopValoracion{
+
+#divTopLikes,
+#divTopValoracion {
     display: flex;
     justify-content: space-between;
 }
-.posicion-top{
+
+.posicion-top {
     background-color: #282f36;
     padding-left: 7px;
     padding-right: 7px;
@@ -51,104 +74,135 @@
     font-weight: bold;
     color: #40BCF4;
 }
-#subtitulo-inicio, #titulo-inicio{
+
+#subtitulo-inicio,
+#titulo-inicio {
     margin-left: 30px;
 }
-#subtitulo-inicio{
+
+#subtitulo-inicio {
     margin-top: 0;
     margin-bottom: 30px;
     color: #8595A3;
     font-weight: lighter;
 }
-#titulares-coincidentes{
+
+#titulares-coincidentes {
     display: flex;
     justify-content: space-between;
 }
-.titular-populares{
+
+.titular-populares {
     width: 28%;
 }
-.titular-cercanas{
+
+.titular-cercanas {
     width: 70%;
 }
-.puntuacion-general{
-    background-image: linear-gradient(#051922e0, #051922c0, #051922a9,#0c314242, #0c314209);
+
+.puntuacion-general {
+    background-image: linear-gradient(#051922e0, #051922c0, #051922a9, #0c314242, #0c314209);
     position: absolute;
     width: 100%;
     left: 0;
     font-weight: bolder;
 }
-.padre-foto-tops{
+
+.padre-foto-tops {
     position: relative;
 }
-#actividadSeguidores{
+
+#actividadSeguidores {
     display: flex;
     overflow-x: scroll;
     padding: 10px;
     background-color: #191D22;
 }
-.actividad-seguidores-hijo{
+
+.actividad-seguidores-hijo {
     margin: 10px;
 }
-.actividad-seguidores-foto{
+
+.actividad-seguidores-foto {
     width: 120px;
     height: 170px;
 
 }
-.actividad-seguidores-hijo p{
+
+.top-titulo:hover {
+    cursor: pointer;
+    color: #38a5d8;
+}
+
+.actividad-seguidores-hijo p {
     margin: 0;
     color: #8595A3;
 }
+
 .top-titulo {
     margin-bottom: 20px;
 }
+
 /* estilos para movil */
 @media (max-width: 1050px) {
-    #central-inicio{
+    #central-inicio {
         width: 740px;
         margin: auto;
     }
-    .padre-foto-tops{
+
+    .padre-foto-tops {
         width: 120px;
         height: 170px;
         margin: 10px;
     }
-    .imagen-top{
-        width: 100%;    
+
+    .imagen-top {
+        width: 100%;
         height: 170px;
     }
+
     .top-titulo {
         width: 140px;
         text-align: center;
     }
 
-  }
+}
+
 /* estilos para movil */
 @media (max-width: 767px) {
-    #central-inicio{
+    #central-inicio {
         width: 350px;
         margin: auto;
     }
-    .titular-cercanas{
+
+    .titular-cercanas {
         display: none;
     }
-    .titular-populares{
+
+    .titular-populares {
         width: 100%;
     }
-    #divTopLikes, #divTopValoracion{
+
+    #divTopLikes,
+    #divTopValoracion {
         overflow-x: scroll;
     }
-    .padre-foto-tops{
+
+    .padre-foto-tops {
         width: 140px;
         height: 200px;
         margin: 10px;
     }
-    .imagen-top{
-        width: 100%;    
+
+    .imagen-top {
+        width: 100%;
         height: 200px;
     }
-    .cuerpo-top-likes{
+
+    .cuerpo-top-likes {
         margin-bottom: 20px;
     }
+
     #divTopLikes::-webkit-scrollbar,
     #divTopValoracion::-webkit-scrollbar {
         width: 1em;
@@ -164,4 +218,4 @@
         background-color: darkgrey;
         outline: 1px solid slategrey;
     }
-  }
+}

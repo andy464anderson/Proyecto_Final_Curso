@@ -69,7 +69,7 @@ const CarouselPoulares = ({ items }) => {
                   <button className="carousel-button" onClick={handlePrev}>
                     <FontAwesomeIcon icon={faAnglesLeft} />
                   </button>
-                  <h5 className='usuario-top'>{item.usuario}</h5>
+                  <h5 onClick={() => navigate(`/perfil/${item.usuario}`)} className='usuario-top'>{item.usuario}</h5>
 
                   <button className="carousel-button" onClick={handleNext}>
                     <FontAwesomeIcon icon={faAnglesRight} />
@@ -83,7 +83,7 @@ const CarouselPoulares = ({ items }) => {
                         <div key={usuarios.id} className='usuarios-conocidos-inicio-hijo'>
                           <span onClick={() => navigate(`/perfil/${usuario.nombre_usuario}`)} className='nombre-usuario-sugerencias'>{usuario.nombre_usuario}</span><br />
                           <span className='nombre-completo-sugerencias'>{usuario.nombre_completo}</span><br />
-                          <BotonSeguir class="boton-seguir-populares" usuario={usuarios} actualizarDatos={undefined} />
+                          <BotonSeguir className="boton-seguir-populares" usuario={usuarios} actualizarDatos={undefined} />
                         </div>
                       )
                     })
@@ -99,7 +99,7 @@ const CarouselPoulares = ({ items }) => {
                       <div key={index} className='info-review-populares-padre'>
                         <img className='info-review-populares-poster' src={peli.poster} alt={peli.title} />
                         <div className='info-review-populares'>
-                          <h3 className='info-review-populares-titulo'>{peli.title}</h3>
+                          <h3 onClick={() => navigate(`/detalle/${peli.id}`)} className='info-review-populares-titulo'>{peli.title}</h3>
                           <div>
                             {review.valoracion === 1 ? (
                               <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>

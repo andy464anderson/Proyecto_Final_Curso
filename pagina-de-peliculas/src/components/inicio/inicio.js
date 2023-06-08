@@ -5,8 +5,10 @@ import Carousel from './carousel';
 import CarouselPoulares from './carousel_populares';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
+import { useNavigate } from 'react-router-dom';
 
 const Inicio = () => {
+  const navigate = useNavigate();
   const [usuariosPopulares, setUsuariosPopulares] = useState([]);
   const [ultimasReviews, setReviews] = useState([]);
   const [topLikes, setTopLikes] = useState([]);
@@ -61,7 +63,6 @@ const Inicio = () => {
       });
       const dataSeguidos = await responseSiguiendo.json();
       setSeguidos(dataSeguidos);
-      console.log(dataSeguidos);
 
     };
 
@@ -77,7 +78,6 @@ const Inicio = () => {
         },
       });
       const dataActividad = await responseActividad.json();
-      console.log(dataActividad);
       setActividadSeguidos(dataActividad);
 
     };
@@ -142,7 +142,6 @@ const Inicio = () => {
       titulo: 'Próximos estrenos de 2023',
       contenido: 'Echa un vistazo a los próximos estrenos cinematográficos de este año'
     },
-    // Agrega más elementos aquí
   ];
 
 
@@ -201,8 +200,8 @@ const Inicio = () => {
                   if (pelicula) {
                     return (
                       <div key={review.id} className='actividad-seguidores-hijo'>
-                        <img className='actividad-seguidores-foto' src={pelicula.poster} alt={pelicula.title}></img>
-                        <p>{review.nombre_usuario}</p>
+                        <img onClick={() => navigate(`/detalle/${review.id_pelicula}`)} style={{ cursor: "pointer" }} className='actividad-seguidores-foto' src={pelicula.poster} alt={pelicula.title}></img>
+                        <p onClick={() => navigate(`/perfil/${review.nombre_usuario}`)} className='nombrePersonaActividad'>{review.nombre_usuario}</p>
                         {review.valoracion === 1 ? (
                           <div className="nota-comentario-detalle"><FontAwesomeIcon icon={faStar} /></div>
                         ) : null}
@@ -275,7 +274,7 @@ const Inicio = () => {
                           <span className='puntuacion-general'>{peli.total_likes} likes</span>
                         </div>
                         <span className='posicion-top'>{i + 1}</span>
-                        <span className='top-titulo'>{pelicula.title}</span>
+                        <span onClick={() => navigate(`/detalle/${pelicula.id}`)} className='top-titulo'>{pelicula.title}</span>
                       </div>)
                   }
                 })
@@ -296,7 +295,7 @@ const Inicio = () => {
                           <span className='puntuacion-general'>{valoracion}/5</span>
                         </div>
                         <span className='posicion-top'>{i + 1}</span>
-                        <span className='top-titulo'>{pelicula.title}</span>
+                        <span onClick={() => navigate(`/detalle/${pelicula.id}`)} className='top-titulo'>{pelicula.title}</span>
                       </div>
                     );
                   }

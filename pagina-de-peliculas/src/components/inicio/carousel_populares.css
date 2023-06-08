@@ -1,9 +1,10 @@
-.usuarios-conocidos-inicio{
+.usuarios-conocidos-inicio {
     display: flex;
     width: 70%;
     overflow-x: scroll;
     background-color: #191D22;
 }
+
 .usuarios-conocidos-inicio::-webkit-scrollbar,
 #infoListasNormalesCuerpo::-webkit-scrollbar {
     width: 1em;
@@ -19,65 +20,83 @@
     background-color: darkgrey;
     outline: 1px solid slategrey;
 }
-.carousel-central-hijo{
+
+.carousel-central-hijo {
     display: flex;
     width: 30%;
     justify-content: space-around;
     background-color: #1E2329;
 }
-.carousel-central-populares{
+
+.carousel-central-populares {
     display: flex;
 }
-.usuarios-conocidos-inicio-hijo{
+
+.usuarios-conocidos-inicio-hijo {
     margin-left: 20px;
     margin-right: 20px;
 }
-.carousel-central-hijo h5{
+
+.carousel-central-hijo h5 {
     width: 200px;
     margin: auto;
 }
-.reviews-de-populares{
+
+.reviews-de-populares {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     background-color: #1E2329;
 }
 
-.mensaje-usuario-review{
+.mensaje-usuario-review {
     font-weight: lighter;
     color: #6a747e;
     font-style: italic;
     font-size: 15px;
 }
-.usuario-top{
+
+.usuario-top {
     color: aliceblue;
+    cursor: pointer;
 }
-.nombre-usuario-sugerencias{
+
+.usuario-top:hover {
+    color: #38a5d8;
+    text-decoration: underline;
+}
+
+.nombre-usuario-sugerencias {
     color: aliceblue;
     font-weight: bolder;
     cursor: pointer;
 }
-.nombre-usuario-sugerencias:hover{
+
+.nombre-usuario-sugerencias:hover {
     color: #38a5d8;
     text-decoration: underline;
 }
-.nombre-completo-sugerencias{
+
+.nombre-completo-sugerencias {
     color: #8595A3;
     font-weight: lighter;
     font-style: italic;
 }
-.reviews-de-populares-padre{
+
+.reviews-de-populares-padre {
     background-color: #1E2329;
     margin-top: 0;
     padding: 10px;
 }
-.info-review-populares-padre{
+
+.info-review-populares-padre {
     width: 49%;
     display: flex;
     border-bottom: 1px solid #8595A3;
     margin-top: 10px;
 }
-.info-review-populares-poster{
+
+.info-review-populares-poster {
     width: 130px;
     height: 180px;
     margin-bottom: 10px;
@@ -85,31 +104,45 @@
     border: 1px solid #8595A3;
     border-radius: 4px;
 }
-.info-review-populares{
+
+.info-review-populares {
     width: 100%;
 }
-.info-review-populares-titulo{
+
+.info-review-populares-titulo {
     color: aliceblue;
+    cursor: pointer;
 }
-.info-review-populares-comentario{
+
+.info-review-populares-titulo:hover {
+    cursor: pointer;
+    color: #38a5d8;
+}
+
+.info-review-populares-comentario {
     margin-top: 10px;
     color: #8595A3;
     font-style: italic;
 }
+
 @media (max-width: 767px) {
-    .reviews-de-populares{
+    .reviews-de-populares {
         flex-direction: column;
     }
-    .info-review-populares-padre{
+
+    .info-review-populares-padre {
         width: 100%;
     }
-    .carousel-central-populares{
+
+    .carousel-central-populares {
         flex-direction: column-reverse;
     }
-    .usuarios-conocidos-inicio{
-       width: 100%;
-    }
-    .carousel-central-hijo{
+
+    .usuarios-conocidos-inicio {
         width: 100%;
     }
-  }
+
+    .carousel-central-hijo {
+        width: 100%;
+    }
+}

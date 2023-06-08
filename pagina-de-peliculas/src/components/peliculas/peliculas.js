@@ -133,7 +133,7 @@ const Peliculas = () => {
   return (
     <div>
       <div className="container-peliculas">
-        <p className='breadcrumb'><span><Link class="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Peliculas</span></p>
+        <p className='breadcrumb'><span><Link className="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Peliculas</span></p>
         <div className="spinner">
           {/* {
             (peliculas.length === 0 || mostrarSpinner) && <SlSpinner

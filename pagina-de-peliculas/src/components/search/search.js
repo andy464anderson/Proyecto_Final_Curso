@@ -108,8 +108,6 @@ const Search = () => {
         promesaUsuarios.then((data) => {
             setUsuarios(data);
 
-        }).catch((error) => {
-            console.error(error);
         });
     }, []);
 
@@ -184,7 +182,7 @@ const Search = () => {
 
     return (
         <div>
-            <p className='breadcrumb'><span><Link class="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Buscador</span></p>
+            <p className='breadcrumb'><span><Link className="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Buscador</span></p>
             <div id='div-buscador'>
                 <input onKeyUp={buscarPeliculas} id="buscador" placeholder="Busca peliculas o usuarios..." autoFocus></input>
             </div>

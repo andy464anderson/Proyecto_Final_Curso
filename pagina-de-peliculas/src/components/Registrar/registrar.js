@@ -109,7 +109,7 @@ const Registrar = () => {
                     nombre_completo: name
                 }
 
-                fetch("http://localhost:8000/usuario/", {
+                fetch("http://localhost:8000/usuario", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

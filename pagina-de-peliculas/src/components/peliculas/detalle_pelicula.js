@@ -327,7 +327,7 @@ const DetallePelicula = () => {
   else {
     return (
       <div className="detalle-pelicula-cuerpo">
-        <p className='breadcrumb'><span><Link class="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span><Link class="link-breadcrumb" to="/peliculas">Peliculas</Link></span><span className='separador-breadcrumb'>&gt;</span><span>{pelicula.title}</span></p>
+        <p className='breadcrumb'><span><Link className="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span><Link className="link-breadcrumb" to="/peliculas">Peliculas</Link></span><span className='separador-breadcrumb'>&gt;</span><span>{pelicula.title}</span></p>
         <div className="detalle-pelicula">
           <div className="boton-volver">
             <button onClick={volver}><FontAwesomeIcon icon={faArrowLeft} /></button>
