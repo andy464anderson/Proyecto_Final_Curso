@@ -6,7 +6,7 @@ import { useAsyncError, useNavigate } from "react-router-dom";
 import React, { useEffect, useState, useContext } from "react";
 import { HeaderContext } from "../header/headerContext";
 import { Bar } from "react-chartjs-2";
-import { Chart as ChartJS } from "chart.js/auto";
+  import { Chart as ChartJS } from "chart.js/auto";
 import { faXmark, faStar, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import $ from 'jquery';
 import BotonLike from "../botonLike/botonLike";
@@ -30,7 +30,7 @@ const DetallePelicula = () => {
 
   useEffect(() => {
     const obtenerPelicula = async () => {
-      const data = await fetch(`http://localhost:8000/peliculas/${id}`, {
+      const data = await fetch(`https://api-peliculas-pagina.onrender.com/peliculas/${id}`, {
         method: "GET",
         headers: {
           accept: "application/json",
@@ -51,13 +51,13 @@ const DetallePelicula = () => {
       setGenres(genres);
       setCast(cast);
 
-      const responseReviews = await fetch(`http://localhost:8000/reviews/${id}`);
+      const responseReviews = await fetch(`https://api-peliculas-pagina.onrender.com/reviews/${id}`);
       const dataReviews = await responseReviews.json();
       setReviews(dataReviews);
       setListaReviewsFiltrada(dataReviews);
     };
     obtenerPelicula();
-  }, []);
+  }, [id]);
 
   const verUsuario = (nombreUsuario) => {
     navigate(`/perfil/${nombreUsuario}`);
@@ -230,7 +230,7 @@ const DetallePelicula = () => {
           fecha,
         };
 
-        const response = await fetch("http://localhost:8000/review", {
+        const response = await fetch("https://api-peliculas-pagina.onrender.com/review", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -243,7 +243,7 @@ const DetallePelicula = () => {
         setContenido("");
 
         const responseReviews = await fetch(
-          `http://localhost:8000/reviews/${pelicula.id}`
+          `https://api-peliculas-pagina.onrender.com/reviews/${pelicula.id}`
         );
         const dataReviews = await responseReviews.json();
         setReviews(dataReviews);
@@ -286,12 +286,12 @@ const DetallePelicula = () => {
   };
 
   const eliminarReview = async (reviewId) => {
-    const eliminar = await fetch(`http://localhost:8000/review/${reviewId}`, {
+    const eliminar = await fetch(`https://api-peliculas-pagina.onrender.com/review/${reviewId}`, {
       method: "DELETE"
     });
 
     const responseReviews = await fetch(
-      `http://localhost:8000/reviews/${pelicula.id}`
+      `https://api-peliculas-pagina.onrender.com/reviews/${pelicula.id}`
     );
     const dataReviews = await responseReviews.json();
     setReviews(dataReviews);
@@ -304,7 +304,7 @@ const DetallePelicula = () => {
       setListaReviewsFiltrada(reviews);
 
     } else if (opcion === "amigos") {
-      const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${userData.id}`);
+      const responseSeguidos = await fetch(`https://api-peliculas-pagina.onrender.com/seguidos/${userData.id}`);
       const dataSeguidos = await responseSeguidos.json();
       listaFiltrada = reviews.filter(review => {
         return dataSeguidos.some(seguido => seguido.id_usuario_seguido === review.id_usuario);

@@ -1,6 +1,6 @@
 import React from "react";
 import "./carta_pelicula.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import BotonLike from "../botonLike/botonLike";
 
 const CartaPelicula = ({ pelicula }) => {

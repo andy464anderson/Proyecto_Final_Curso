@@ -9,7 +9,15 @@ export const HeaderContext = createContext(
         userData: null,
         updateHeader: () => { },
         movieData: null,
-        updateMovieData: () => { }
+        updateMovieData: () => { },
+        dataUsuarios: null,
+        updateDataUsuario: () => { },
+        popularesUsuarios: null,
+        updatePopularesUsuarios: () => { },
+        mejorValoradas: null,
+        updateMejorValoradas: () => { },
+        topLikesPeliculas: null,
+        updateTopLikesPeliculas: () => { },
     }
 );
 
@@ -25,6 +33,11 @@ export const HeaderContextProvider = (props) => {
         nombre_usuario: null,
         nombre_completo: null
     });
+    const [dataUsuarios, setDataUsuarios] = useState(null);
+    const [popularesUsuarios, setPopularesUsuarios] = useState(null);
+    const [mejorValoradas, setMejorValoradas] = useState(null);
+    const [topLikesPeliculas, setTopLikesPeliculas] = useState(null);
+
 
     useEffect(() => {
         const storedData = sessionStorage.getItem("sessionData");
@@ -47,8 +60,24 @@ export const HeaderContextProvider = (props) => {
         setMoiveData(data)
     }
 
+    const updateDataUsuario = (data) => {
+        setDataUsuarios(data)
+    }
+
+    const updatePopularesUsuarios = (data) => {
+        setPopularesUsuarios(data)
+    }
+
+    const updateMejorValoradas = (data) => {
+        setMejorValoradas(data)
+    }
+
+    const updateTopLikesPeliculas = (data) => {
+        setTopLikesPeliculas(data)
+    }
+
     return (
-        <HeaderContext.Provider value={{ isLoggedIn, userData, updateHeader, movieData, updateMovieData }}>
+        <HeaderContext.Provider value={{ isLoggedIn, userData, updateHeader, movieData,updateTopLikesPeliculas,updateMejorValoradas, updateMovieData, updateDataUsuario, updatePopularesUsuarios }}>
             {props.children}
         </HeaderContext.Provider>
     );

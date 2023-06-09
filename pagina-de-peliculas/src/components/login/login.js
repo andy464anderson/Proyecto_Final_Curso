@@ -23,7 +23,7 @@ function Login() {
         const password = document.getElementById("password").value;
 
         try {
-            const response = await fetch(`http://localhost:8000/usuario/correo/${email}/${password}`)
+            const response = await fetch(`https://api-peliculas-pagina.onrender.com/usuario/correo/${email}/${password}`)
             const data = await response.json();
 
             if (!data.error) {

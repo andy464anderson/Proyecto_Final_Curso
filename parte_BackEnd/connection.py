@@ -5,10 +5,11 @@ import psycopg2
 def conectar():
     #creamos la conexion a la base de datos
     conn = psycopg2.connect(
-        host="localhost",
-        database="Usuarios",
-        user="postgres",
-        password="123qwe"
+        host="dpg-ci0vmj9mbg5ffcgrgp1g-a.frankfurt-postgres.render.com",
+        database="usuarios_3bbx",
+        user="default",
+        password="0quGIz37OzqNznc5nSTCvrWijLFoueZu",
+        sslmode="require"
     )
     #devolvemos la conexion
     return conn

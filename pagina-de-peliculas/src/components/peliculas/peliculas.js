@@ -7,15 +7,15 @@ import { HeaderContext } from "../header/headerContext";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
 import $ from 'jquery';
-
+import { SlSpinner } from "@shoelace-style/shoelace/dist/react";
 
 
 
 
 
 const Peliculas = () => {
-  const { updateMovieData } = useContext(HeaderContext);
   const [peliculasFiltradas, setPeliculasFiltradas] = useState(["Filtro"]);
+  const { movieData, updateMovieData } = useContext(HeaderContext);
   const [categoryFilter, setCategoryFilter] = useState('');
   const [yearFilter, setYearFilter] = useState('');
   const [durationFilter, setDurationFilter] = useState('');
@@ -23,6 +23,7 @@ const Peliculas = () => {
   const [visibleMovies, setVisibleMovies] = useState(30);
   const [peliculas, setPeliculas] = useState([]);
   const [mostrarSpinner, setMostrarSpinner] = useState(true);
+  var contador = 0;
   useEffect(() => {
     const timer = setTimeout(() => {
       setMostrarSpinner(false);
@@ -35,20 +36,23 @@ const Peliculas = () => {
   // hacemos fetch a la api de peliculas
   useEffect(() => {
     const obtenerPeliculas = async () => {
-      const data = await fetch('http://localhost:8000/peliculas', {
+      const data = await fetch('https://api-peliculas-pagina.onrender.com/peliculas', {
         method: 'GET',
         headers: {
           'accept': 'application/json'
         }
       })
       var peliculas = await data.json();
-      var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id !== 11853);
-      setPeliculas(filtradorPelis);
-      updateMovieData(filtradorPelis)
+      setPeliculas(peliculas);
+      updateMovieData(peliculas)
+      contador++;
+      console.log(contador);
     };
+    if(movieData === null && contador === 0 && peliculas.length === 0){
     obtenerPeliculas();
-
-  }, []);
+    }else
+    setPeliculas(movieData);
+  }, [movieData, updateMovieData, peliculas, contador]);
 
   useEffect(() => {
     const filtrarPeliculas = () => {
@@ -135,7 +139,7 @@ const Peliculas = () => {
       <div className="container-peliculas">
         <p className='breadcrumb'><span><Link className="link-breadcrumb" to="/">Inicio</Link></span><span className='separador-breadcrumb'>&gt;</span><span>Peliculas</span></p>
         <div className="spinner">
-          {/* {
+          {
             (peliculas.length === 0 || mostrarSpinner) && <SlSpinner
               style={{
                 'fontSize': '2rem',
@@ -144,7 +148,7 @@ const Peliculas = () => {
                 'marginTop': '20px',
               }}
             />
-          } */}
+          }
         </div>
         {mostrarSpinner === false && (
           <>

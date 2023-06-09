@@ -36,7 +36,7 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
             setCorreo(usuario.correo);
 
             if (userData) {
-                const responseSiguiendo = await fetch(`http://localhost:8000/seguidos/${userData.id}`);
+                const responseSiguiendo = await fetch(`https://api-peliculas-pagina.onrender.com/seguidos/${userData.id}`);
                 const dataSiguiendo = await responseSiguiendo.json();
                 if (dataSiguiendo.find(user => user.id_usuario_seguido === usuario.id)) {
                     setSiguiendo(true);
@@ -55,7 +55,7 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
             id_usuario_seguido
         };
 
-        const response = await fetch("http://localhost:8000/seguidor", {
+        const response = await fetch("https://api-peliculas-pagina.onrender.com/seguidor", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -64,11 +64,11 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
         });
 
 
-        const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${usuario.id}`);
+        const responseSeguidores = await fetch(`https://api-peliculas-pagina.onrender.com/seguidores/${usuario.id}`);
         const dataSeguidores = await responseSeguidores.json();
         setSeguidores(dataSeguidores);
 
-        const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${usuario.id}`);
+        const responseSeguidos = await fetch(`https://api-peliculas-pagina.onrender.com/seguidos/${usuario.id}`);
         const dataSeguidos = await responseSeguidos.json();
         setSeguidos(dataSeguidos);
         if (typeof actualizarDatos === "function") {
@@ -78,15 +78,15 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
     }
 
     const dejarDeSeguir = async (id_usuario_seguidor, id_usuario_seguido) => {
-        const dejarSeguir = await fetch(`http://localhost:8000/seguidor/${id_usuario_seguidor}/${id_usuario_seguido}`, {
+        const dejarSeguir = await fetch(`https://api-peliculas-pagina.onrender.com/seguidor/${id_usuario_seguidor}/${id_usuario_seguido}`, {
             method: "DELETE"
         });
 
-        const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${usuario.id}`);
+        const responseSeguidores = await fetch(`https://api-peliculas-pagina.onrender.com/seguidores/${usuario.id}`);
         const dataSeguidores = await responseSeguidores.json();
         setSeguidores(dataSeguidores);
 
-        const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${usuario.id}`);
+        const responseSeguidos = await fetch(`https://api-peliculas-pagina.onrender.com/seguidos/${usuario.id}`);
         const dataSeguidos = await responseSeguidos.json();
         setSeguidos(dataSeguidos);
         if (typeof actualizarDatos === "function") {
@@ -107,7 +107,7 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
                     nombre_completo: nombreCompleto
                 }
 
-                const response = await fetch(`http://localhost:8000/usuario/${userData.id}`, {
+                const response = await fetch(`https://api-peliculas-pagina.onrender.com/usuario/${userData.id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",
@@ -137,7 +137,7 @@ const BotonSeguir = ({ usuario, actualizarDatos }) => {
             setNombreUsuarioError("");
             setEmailError("");
 
-            const responseUsuarios = await fetch(`http://localhost:8000/usuarios`);
+            const responseUsuarios = await fetch(`https://api-peliculas-pagina.onrender.com/usuarios`);
             const dataUsuarios = await responseUsuarios.json();
 
             const listaExisteUsuario = dataUsuarios.filter(usuario => usuario.nombre_usuario === nombreUsuario && userData.nombre_usuario !== nombreUsuario);

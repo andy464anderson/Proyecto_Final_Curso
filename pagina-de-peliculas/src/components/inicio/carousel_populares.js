@@ -12,27 +12,33 @@ const CarouselPoulares = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [personasCercanas, setPersonasCercanas] = useState([]);
   const [listaUsuarios, setUsuarios] = useState([]);
+  const { dataUsuarios, updateDataUsuario } = useContext(HeaderContext);
   const { userData, isLoggedIn, movieData } = useContext(HeaderContext);
 
   useEffect(() => {
+   
     const obtenerDatosUsuario = async () => {
-      const responseUsuario = await fetch(`http://localhost:8000/usuarios`, {
+      
+      const responseUsuario = await fetch(`https://api-peliculas-pagina.onrender.com/usuarios`, {
         method: "GET",
         headers: {
           accept: "application/json",
         },
       });
+      
       var dataUsuarios = await responseUsuario.json();
       setUsuarios(dataUsuarios);
+      updateDataUsuario(dataUsuarios);
+
     };
 
-    if (!listaUsuarios || listaUsuarios.length === 0) {
+    if (dataUsuarios==null) {
       obtenerDatosUsuario();
     }
 
     const obtenerUsuariosPopulares = async () => {
       if (isLoggedIn && userData) {
-        const personasCercanas = await fetch(`http://localhost:8000/cercanas/${userData.id}`);
+        const personasCercanas = await fetch(`https://api-peliculas-pagina.onrender.com/cercanas/${userData.id}`);
         const dataPersonasCercanas = await personasCercanas.json();
         var dataFiltrado = dataPersonasCercanas.filter(data => data.id_usuario !== userData.id);
         setPersonasCercanas(dataFiltrado);
@@ -43,7 +49,7 @@ const CarouselPoulares = ({ items }) => {
     if (!personasCercanas || personasCercanas.length === 0) {
       obtenerUsuariosPopulares();
     }
-  }, []);
+  },[]);
 
   const handlePrev = () => {
     setActiveIndex(prevIndex => (prevIndex === 0 ? items.length - 1 : prevIndex - 1));

@@ -16,7 +16,7 @@ function Social() {
 
     useEffect(() => {
         const obtenerDatosUsuario = async () => {
-            const responseUsuario = await fetch(`http://localhost:8000/perfil/${nombre_usuario}`, {
+            const responseUsuario = await fetch(`https://api-peliculas-pagina.onrender.com/perfil/${nombre_usuario}`, {
                 method: "GET",
                 headers: {
                     accept: "application/json",
@@ -26,12 +26,12 @@ function Social() {
             setUsuario(dataUsuario);
 
             // obtener las listas del usuario
-            const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${dataUsuario.id}`);
+            const responseSeguidores = await fetch(`https://api-peliculas-pagina.onrender.com/seguidores/${dataUsuario.id}`);
             const dataSeguidores = await responseSeguidores.json();
             setSeguidores(dataSeguidores);
 
             // obtener las listas del usuario
-            const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${dataUsuario.id}`);
+            const responseSeguidos = await fetch(`https://api-peliculas-pagina.onrender.com/seguidos/${dataUsuario.id}`);
             const dataSeguidos = await responseSeguidos.json();
             setSeguidos(dataSeguidos);
         };

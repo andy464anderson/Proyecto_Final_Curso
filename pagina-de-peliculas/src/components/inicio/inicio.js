@@ -17,45 +17,33 @@ const Inicio = () => {
   const [actividadSeguidos, setActividadSeguidos] = useState([]);
   const [listaUsuarios, setUsuarios] = useState([]);
   const [seguidos, setSeguidos] = useState([]);
-  const { userData, isLoggedIn, updateMovieData, movieData } = useContext(HeaderContext);
+  const { userData, isLoggedIn, updateMovieData, movieData, dataUsuarios, popularesUsuarios, updatePopularesUsuarios, topLikesPeliculas, updateTopLikesPeliculas, mejorValoradas, updateMejorValoradas } = useContext(HeaderContext);
 
   useEffect(() => {
     const obtenerPeliculas = async () => {
-      const data = await fetch('http://localhost:8000/peliculas', {
+      const data = await fetch('https://api-peliculas-pagina.onrender.com/peliculas', {
         method: 'GET',
         headers: {
           'accept': 'application/json'
         }
       })
       var peliculas = await data.json();
-      var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id !== 11853);
-      updateMovieData(filtradorPelis);
+      updateMovieData(peliculas);
     };
 
-    if (!movieData || movieData.length === 0) {
+    if (movieData === null) {
       obtenerPeliculas();
     }
 
   }, []);
 
   useEffect(() => {
-    const obtenerDatosUsuario = async () => {
-      const responseUsuario = await fetch(`http://localhost:8000/usuarios`, {
-        method: "GET",
-        headers: {
-          accept: "application/json",
-        },
-      });
-      var dataUsuarios = await responseUsuario.json();
-      setUsuarios(dataUsuarios);
-    };
+    
+    setUsuarios(dataUsuarios);
 
-    if (listaUsuarios.length === 0) {
-      obtenerDatosUsuario();
-    }
 
     const obtenerDatosSeguidos = async () => {
-      const responseSiguiendo = await fetch(`http://localhost:8000/seguidos/${userData.id}`, {
+      const responseSiguiendo = await fetch(`https://api-peliculas-pagina.onrender.com/seguidos/${userData.id}`, {
         method: "GET",
         headers: {
           accept: "application/json",
@@ -71,7 +59,7 @@ const Inicio = () => {
     }
 
     const obtenerDatosActividad = async () => {
-      const responseActividad = await fetch(`http://localhost:8000/actividad/${userData.id}`, {
+      const responseActividad = await fetch(`https://api-peliculas-pagina.onrender.com/actividad/${userData.id}`, {
         method: "GET",
         headers: {
           accept: "application/json",
@@ -90,31 +78,34 @@ const Inicio = () => {
 
     const obtenerUsuariosPopulares = async () => {
       if (!usuariosPopulares || usuariosPopulares.length === 0) {
-        const usuariosPopulares = await fetch(`http://localhost:8000/populares`);
+        const usuariosPopulares = await fetch(`https://api-peliculas-pagina.onrender.com/populares`);
         const dataUsuariosPopulares = await usuariosPopulares.json();
+        updatePopularesUsuarios(dataUsuariosPopulares);
         setUsuariosPopulares(dataUsuariosPopulares);
       }
 
       if (!ultimasReviews || ultimasReviews.length === 0) {
-        const ultimasReviews = await fetch(`http://localhost:8000/reviews`);
+        const ultimasReviews = await fetch(`https://api-peliculas-pagina.onrender.com/reviews`);
         const dataUltimasReviews = await ultimasReviews.json();
         setReviews(dataUltimasReviews);
       }
 
-      if (!topLikes || topLikes.length === 0) {
-        const topLikes = await fetch(`http://localhost:8000/toplikes`);
+      if (topLikes) {
+        const topLikes = await fetch(`https://api-peliculas-pagina.onrender.com/toplikes`);
         const dataTopLikes = await topLikes.json();
+        updateTopLikesPeliculas(dataTopLikes);
         setTopLikes(dataTopLikes);
       }
 
       if (!topValoracion || topValoracion.length === 0) {
-        const topValoracion = await fetch(`http://localhost:8000/topvaloracion`);
+        const topValoracion = await fetch(`https://api-peliculas-pagina.onrender.com/topvaloracion`);
         const datatopValoracion = await topValoracion.json();
+        updateMejorValoradas(datatopValoracion);
         setTopValoracion(datatopValoracion);
       }
 
-      if ((!personasCercanas || personasCercanas.length === 0) && isLoggedIn) {
-        const personasCercanas = await fetch(`http://localhost:8000/cercanas/${userData.id}`);
+      if ((!personasCercanas || personasCercanas.length === 0)  && isLoggedIn) {
+        const personasCercanas = await fetch(`https://api-peliculas-pagina.onrender.com/cercanas/${userData.id}`);
         const dataPersonasCercanas = await personasCercanas.json();
         var dataFiltrado = dataPersonasCercanas.filter((data) => data.id_usuario !== userData.id);
         setPersonasCercanas(dataFiltrado);
@@ -124,7 +115,7 @@ const Inicio = () => {
     };
 
     obtenerUsuariosPopulares();
-  }, [isLoggedIn]);
+  }, []);
 
   const items = [
     {

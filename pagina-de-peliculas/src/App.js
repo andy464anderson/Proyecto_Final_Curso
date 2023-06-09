@@ -28,8 +28,9 @@ function App() {
     location.pathname.startsWith('/perfil/');
 
   return (
+    <HeaderContextProvider>
     <div className="app">
-      <HeaderContextProvider>
+      
         <Header />
         <div className="content">
           <Routes>
@@ -47,8 +48,9 @@ function App() {
         </div>
         {showFooter && <Footer />}
         < ToastContainer />
+        </div>
       </HeaderContextProvider>
-    </div>
+  
   );
 }
 

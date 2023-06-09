@@ -38,7 +38,7 @@ function Perfil() {
 
     useEffect(() => {
         const obtenerPeliculas = async () => {
-            const data = await fetch('http://localhost:8000/peliculas', {
+            const data = await fetch('https://api-peliculas-pagina.onrender.com/peliculas', {
                 method: 'GET',
                 headers: {
                     'accept': 'application/json'
@@ -56,7 +56,7 @@ function Perfil() {
 
     useEffect(() => {
         const obtenerDatosUsuario = async () => {
-            const responseUsuario = await fetch(`http://localhost:8000/perfil/${nombre_usuario}`, {
+            const responseUsuario = await fetch(`https://api-peliculas-pagina.onrender.com/perfil/${nombre_usuario}`, {
                 method: "GET",
                 headers: {
                     accept: "application/json",
@@ -68,19 +68,19 @@ function Perfil() {
             setNombreCompleto(dataUsuario.nombre_completo);
             setNombreUsuario(dataUsuario.nombre_usuario);
 
-            const responseReviews = await fetch(`http://localhost:8000/reviews/usuario/${dataUsuario.id}`);
+            const responseReviews = await fetch(`https://api-peliculas-pagina.onrender.com/reviews/usuario/${dataUsuario.id}`);
             const dataReviews = await responseReviews.json();
             setReviews(dataReviews);
 
-            const responseListas = await fetch(`http://localhost:8000/listas/${dataUsuario.id}`);
+            const responseListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${dataUsuario.id}`);
             const dataListas = await responseListas.json();
             setListas(dataListas);
 
-            const responseSeguidores = await fetch(`http://localhost:8000/seguidores/${dataUsuario.id}`);
+            const responseSeguidores = await fetch(`https://api-peliculas-pagina.onrender.com/seguidores/${dataUsuario.id}`);
             const dataSeguidores = await responseSeguidores.json();
             setSeguidores(dataSeguidores);
 
-            const responseSeguidos = await fetch(`http://localhost:8000/seguidos/${dataUsuario.id}`);
+            const responseSeguidos = await fetch(`https://api-peliculas-pagina.onrender.com/seguidos/${dataUsuario.id}`);
             const dataSeguidos = await responseSeguidos.json();
             setSeguidos(dataSeguidos);
         };
@@ -261,7 +261,7 @@ function Perfil() {
             id,
             peliculas
         };
-        const response = await fetch(`http://localhost:8000/peliculasLista/${idLista}`, {
+        const response = await fetch(`https://api-peliculas-pagina.onrender.com/peliculasLista/${idLista}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -269,7 +269,7 @@ function Perfil() {
             body: JSON.stringify(lista),
         });
         const dataResponse = await response.json();
-        const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
+        const responseListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${usuario.id}`);
         const dataListas = await responseListas.json();
         setListas(dataListas);
         setListaPeliculas(peliculas);
@@ -290,11 +290,11 @@ function Perfil() {
     }
 
     const eliminarLista = async (id) => {
-        const eliminar = await fetch(`http://localhost:8000/lista/${id}`, {
+        const eliminar = await fetch(`https://api-peliculas-pagina.onrender.com/lista/${id}`, {
             method: "DELETE"
         });
 
-        const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
+        const responseListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${usuario.id}`);
         const dataListas = await responseListas.json();
         setListas(dataListas);
     }
@@ -307,7 +307,7 @@ function Perfil() {
                     publica: publica,
                 };
 
-                const response = await fetch(`http://localhost:8000/lista/${lista.id}`, {
+                const response = await fetch(`https://api-peliculas-pagina.onrender.com/lista/${lista.id}`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
@@ -316,7 +316,7 @@ function Perfil() {
                 });
                 const dataResponse = await response.json();
 
-                const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
+                const responseListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${usuario.id}`);
                 const dataListas = await responseListas.json();
                 setListas(dataListas);
                 setNombreListaError("");
@@ -348,7 +348,7 @@ function Perfil() {
                 peliculas: []
             }
 
-            const response = await fetch(`http://localhost:8000/lista`, {
+            const response = await fetch(`https://api-peliculas-pagina.onrender.com/lista`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -357,7 +357,7 @@ function Perfil() {
             });
             const dataResponse = await response.json();
 
-            const responseListas = await fetch(`http://localhost:8000/listas/${usuario.id}`);
+            const responseListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${usuario.id}`);
             const dataListas = await responseListas.json();
             toast.success("Lista creada con éxito", { autoClose: 2500 });
             setListas(dataListas);

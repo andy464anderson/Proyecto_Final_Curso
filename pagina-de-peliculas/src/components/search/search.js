@@ -22,7 +22,7 @@ const Search = () => {
 
     useEffect(() => {
         const obtenerPeliculas = async () => {
-            const data = await fetch('http://localhost:8000/peliculas', {
+            const data = await fetch('https://api-peliculas-pagina.onrender.com/peliculas', {
                 method: 'GET',
                 headers: {
                     'accept': 'application/json'
@@ -94,7 +94,7 @@ const Search = () => {
 
     useEffect(() => {
         const obtenerDatosUsuario = async () => {
-            const responseUsuario = await fetch(`http://localhost:8000/usuarios`, {
+            const responseUsuario = await fetch(`https://api-peliculas-pagina.onrender.com/usuarios`, {
                 method: "GET",
                 headers: {
                     accept: "application/json",

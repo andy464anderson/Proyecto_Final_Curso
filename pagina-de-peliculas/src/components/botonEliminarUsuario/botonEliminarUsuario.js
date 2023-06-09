@@ -12,28 +12,28 @@ const BotonEliminarUsuario = ({ usuario, actualizar }) => {
                 actualizar(usuario);
             }
 
-            const eliminarListas = await fetch(`http://localhost:8000/listasUsuario/${usuario.id}`, {
+            const eliminarListas = await fetch(`https://api-peliculas-pagina.onrender.com/listasUsuario/${usuario.id}`, {
                 method: "DELETE"
             });
 
-            const eliminarReviews = await fetch(`http://localhost:8000/reviewsUsuario/${usuario.id}`, {
+            const eliminarReviews = await fetch(`https://api-peliculas-pagina.onrender.com/${usuario.id}`, {
                 method: "DELETE"
             });
 
-            const eliminarSeguidores = await fetch(`http://localhost:8000/seguidoresUsuario/${usuario.id}`, {
+            const eliminarSeguidores = await fetch(`https://api-peliculas-pagina.onrender.com/${usuario.id}`, {
                 method: "DELETE"
             });
 
-            const eliminarSeguidos = await fetch(`http://localhost:8000/seguidosUsuario/${usuario.id}`, {
+            const eliminarSeguidos = await fetch(`https://api-peliculas-pagina.onrender.com/${usuario.id}`, {
                 method: "DELETE"
             });
 
-            const eliminar = await fetch(`http://localhost:8000/usuario/${usuario.id}`, {
+            const eliminar = await fetch(`https://api-peliculas-pagina.onrender.com/${usuario.id}`, {
                 method: "DELETE"
             });
             const dataEliminar = await eliminar.json();
 
-            const responseUsuarios = await fetch(`http://localhost:8000/usuarios`);
+            const responseUsuarios = await fetch(`https://api-peliculas-pagina.onrender.com/usuarios`);
             const dataUsuarios = await responseUsuarios.json();
             
             toast.success("Usuario eliminado correctamente", { autoClose: 2500 });

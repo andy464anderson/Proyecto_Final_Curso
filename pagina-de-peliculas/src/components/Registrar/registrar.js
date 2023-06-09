@@ -47,7 +47,7 @@ const Registrar = () => {
         });
 
 
-        const responseUsuarios = await fetch(`http://localhost:8000/usuarios`);
+        const responseUsuarios = await fetch(`https://api-peliculas-pagina.onrender.com/usuarios`);
         const dataUsuarios = await responseUsuarios.json();
 
         const listaExisteUsuario = dataUsuarios.filter(usuario => usuario.nombre_usuario === nombreUsuario);
@@ -109,7 +109,7 @@ const Registrar = () => {
                     nombre_completo: name
                 }
 
-                fetch("http://localhost:8000/usuario", {
+                fetch("https://api-peliculas-pagina.onrender.com/usuario", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"
