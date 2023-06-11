@@ -45,8 +45,7 @@ function Perfil() {
                 }
             })
             var peliculas = await data.json();
-            var filtradorPelis = peliculas.filter(pelicula => pelicula.poster && /^http/.test(pelicula.poster) && pelicula.id !== 11853);
-            updateMovieData(filtradorPelis);
+            updateMovieData(peliculas);
         };
 
         if (!movieData) {
@@ -268,7 +267,7 @@ function Perfil() {
             },
             body: JSON.stringify(lista),
         });
-        const dataResponse = await response.json();
+        await response.json();
         const responseListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${usuario.id}`);
         const dataListas = await responseListas.json();
         setListas(dataListas);
@@ -283,22 +282,23 @@ function Perfil() {
         if (Object.keys(listaActual).length > 0 && $("#infoListasNormales").is(":visible")) {
             verLista(listaActual);
         }
-    }, [listaActual]);
+    }, [listaActual, listaPeliculas, pelisSeleccionadas, idLista, verLista]);
 
     const cerrarSearch = (cerrar) => {
         setShowSearch(cerrar);
     }
 
     const eliminarLista = async (id) => {
-        const eliminar = await fetch(`https://api-peliculas-pagina.onrender.com/lista/${id}`, {
+        await fetch(`https://api-peliculas-pagina.onrender.com/lista/${id}`, {
             method: "DELETE"
         });
 
+      
         const responseListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${usuario.id}`);
         const dataListas = await responseListas.json();
         setListas(dataListas);
     }
-
+    let contador = 0;
     const editarLista = async (lista) => {
         if (nombreEditarLista !== "") {
             if (lista.nombre_lista !== nombreEditarLista || lista.publica !== publica) {
@@ -306,7 +306,7 @@ function Perfil() {
                     nombre_lista: nombreEditarLista,
                     publica: publica,
                 };
-
+                if(contador === 0) {
                 const response = await fetch(`https://api-peliculas-pagina.onrender.com/lista/${lista.id}`, {
                     method: 'PUT',
                     headers: {
@@ -314,11 +314,17 @@ function Perfil() {
                     },
                     body: JSON.stringify(editarLista),
                 });
-                const dataResponse = await response.json();
+                await response.json();
+                }
 
+                if(contador === 0) {
                 const responseListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${usuario.id}`);
                 const dataListas = await responseListas.json();
+                console.log(dataListas);
                 setListas(dataListas);
+                contador++;
+                }
+
                 setNombreListaError("");
                 setVerEditarLista(false);
 
@@ -355,7 +361,7 @@ function Perfil() {
                 },
                 body: JSON.stringify(lista),
             });
-            const dataResponse = await response.json();
+            await response.json();
 
             const responseListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${usuario.id}`);
             const dataListas = await responseListas.json();

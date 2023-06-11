@@ -18,6 +18,10 @@ export const HeaderContext = createContext(
         updateMejorValoradas: () => { },
         topLikesPeliculas: null,
         updateTopLikesPeliculas: () => { },
+        reviewData: null,
+        updateReviewData: () => { },
+        datosLikePeliculas: null,
+        updatedatosLikePeliculas: () => {}
     }
 );
 
@@ -37,6 +41,8 @@ export const HeaderContextProvider = (props) => {
     const [popularesUsuarios, setPopularesUsuarios] = useState(null);
     const [mejorValoradas, setMejorValoradas] = useState(null);
     const [topLikesPeliculas, setTopLikesPeliculas] = useState(null);
+    const [reviewData, setReviewData] = useState(null);
+    const[datosLikePeliculas, setDatosLikePelicula] = useState(null)
 
 
     useEffect(() => {
@@ -76,8 +82,17 @@ export const HeaderContextProvider = (props) => {
         setTopLikesPeliculas(data)
     }
 
+    const updateReviewData = (data) => {
+        setReviewData(data)
+    }
+
+    const updatedatosLikePeliculas = (data) => {
+        setDatosLikePelicula(data)
+    }
+
+
     return (
-        <HeaderContext.Provider value={{ isLoggedIn, userData, updateHeader, movieData,updateTopLikesPeliculas,updateMejorValoradas, updateMovieData, updateDataUsuario, updatePopularesUsuarios }}>
+        <HeaderContext.Provider value={{ datosLikePeliculas, updatedatosLikePeliculas, isLoggedIn,reviewData, updateReviewData, dataUsuarios, popularesUsuarios, mejorValoradas,topLikesPeliculas, userData, updateHeader, movieData,updateTopLikesPeliculas,updateMejorValoradas, updateMovieData, updateDataUsuario, updatePopularesUsuarios }}>
             {props.children}
         </HeaderContext.Provider>
     );

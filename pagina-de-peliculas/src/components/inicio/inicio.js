@@ -17,7 +17,7 @@ const Inicio = () => {
   const [actividadSeguidos, setActividadSeguidos] = useState([]);
   const [listaUsuarios, setUsuarios] = useState([]);
   const [seguidos, setSeguidos] = useState([]);
-  const { userData, isLoggedIn, updateMovieData, movieData, dataUsuarios, popularesUsuarios, updatePopularesUsuarios, topLikesPeliculas, updateTopLikesPeliculas, mejorValoradas, updateMejorValoradas } = useContext(HeaderContext);
+  const { reviewData, updateReviewData, userData, isLoggedIn, updateMovieData, movieData, dataUsuarios, popularesUsuarios, updatePopularesUsuarios, topLikesPeliculas, updateTopLikesPeliculas, mejorValoradas, updateMejorValoradas } = useContext(HeaderContext);
 
   useEffect(() => {
     const obtenerPeliculas = async () => {
@@ -39,6 +39,7 @@ const Inicio = () => {
 
   useEffect(() => {
     
+    if(dataUsuarios !== null && dataUsuarios.length > 0)
     setUsuarios(dataUsuarios);
 
 
@@ -77,32 +78,43 @@ const Inicio = () => {
     }
 
     const obtenerUsuariosPopulares = async () => {
-      if (!usuariosPopulares || usuariosPopulares.length === 0) {
+      if ((!usuariosPopulares || usuariosPopulares.length === 0) && popularesUsuarios == null) {
         const usuariosPopulares = await fetch(`https://api-peliculas-pagina.onrender.com/populares`);
         const dataUsuariosPopulares = await usuariosPopulares.json();
         updatePopularesUsuarios(dataUsuariosPopulares);
         setUsuariosPopulares(dataUsuariosPopulares);
+      }else{
+        setUsuariosPopulares(popularesUsuarios);
       }
 
-      if (!ultimasReviews || ultimasReviews.length === 0) {
-        const ultimasReviews = await fetch(`https://api-peliculas-pagina.onrender.com/reviews`);
-        const dataUltimasReviews = await ultimasReviews.json();
-        setReviews(dataUltimasReviews);
-      }
-
-      if (topLikes) {
+      if ((!topLikes || topLikes.length===0) && topLikesPeliculas == null) {
         const topLikes = await fetch(`https://api-peliculas-pagina.onrender.com/toplikes`);
         const dataTopLikes = await topLikes.json();
         updateTopLikesPeliculas(dataTopLikes);
         setTopLikes(dataTopLikes);
+      }else{
+        setTopLikes(topLikesPeliculas);
       }
 
-      if (!topValoracion || topValoracion.length === 0) {
+      if ((!topValoracion || topValoracion.length === 0) && mejorValoradas == null) {
         const topValoracion = await fetch(`https://api-peliculas-pagina.onrender.com/topvaloracion`);
         const datatopValoracion = await topValoracion.json();
         updateMejorValoradas(datatopValoracion);
         setTopValoracion(datatopValoracion);
+      }else{
+        setTopValoracion(mejorValoradas);
       }
+
+
+      if ((!ultimasReviews || ultimasReviews.length === 0) && !reviewData) {
+        const ultimasReviews = await fetch(`https://api-peliculas-pagina.onrender.com/reviews`);
+        const dataUltimasReviews = await ultimasReviews.json();
+        setReviews(dataUltimasReviews);
+        updateReviewData(reviewData)
+      }else{
+        setReviews(reviewData)
+      }
+
 
       if ((!personasCercanas || personasCercanas.length === 0)  && isLoggedIn) {
         const personasCercanas = await fetch(`https://api-peliculas-pagina.onrender.com/cercanas/${userData.id}`);
@@ -169,7 +181,7 @@ const Inicio = () => {
     return lista;
   }
 
-  if (movieData) {
+
     return (
       <div>
         <div id='central-inicio'>
@@ -182,7 +194,7 @@ const Inicio = () => {
           <div>
             <Carousel items={items} />
           </div>
-          {isLoggedIn && actividadSeguidos && actividadSeguidos.length > 0 && seguidos && seguidos.length > 0 && (
+          {movieData && isLoggedIn && actividadSeguidos && actividadSeguidos.length > 0 && seguidos && seguidos.length > 0 && (
             <div>
               <p className='titular-inicio'>Actividad de tus amigos</p>
               <div id="actividadSeguidores">
@@ -246,7 +258,7 @@ const Inicio = () => {
             )}
           </div>
           <div>
-            {cargarReviewsPopulares().length > 0 && (
+            {movieData && cargarReviewsPopulares().length > 0 && (
               <CarouselPoulares items={cargarReviewsPopulares()} />
             )}
           </div>
@@ -254,7 +266,7 @@ const Inicio = () => {
           <div>
             <p className='titular-inicio'>Las favoritas de los usuarios</p>
             <div id="divTopLikes">
-              {topLikes && topLikes.length > 0 && (
+              {movieData && topLikes && topLikes.length > 0 && (
                 topLikes.map((peli, i) => {
                   const pelicula = movieData.find(p => p.id === peli.pelicula_id);
                   if (pelicula) {
@@ -274,7 +286,7 @@ const Inicio = () => {
 
             <p className='titular-inicio'>Las mejor valoradas por los usuarios</p>
             <div id="divTopValoracion">
-              {topValoracion && topValoracion.length > 0 && (
+              {movieData && topValoracion && topValoracion.length > 0 && (
                 topValoracion.map((peli, i) => {
                   const pelicula = movieData.find(p => p.id === peli.pelicula_id);
                   if (pelicula) {
@@ -300,7 +312,7 @@ const Inicio = () => {
 
       </div>
     );
-  }
+  
 };
 
 export default Inicio;

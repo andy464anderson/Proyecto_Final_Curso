@@ -15,12 +15,12 @@ import { SlSpinner } from "@shoelace-style/shoelace/dist/react";
 
 const Peliculas = () => {
   const [peliculasFiltradas, setPeliculasFiltradas] = useState(["Filtro"]);
-  const { movieData, updateMovieData } = useContext(HeaderContext);
+  const { movieData, updateMovieData, isLoggedIn, userData,updatedatosLikePeliculas, datosLikePeliculas } = useContext(HeaderContext);
   const [categoryFilter, setCategoryFilter] = useState('');
   const [yearFilter, setYearFilter] = useState('');
   const [durationFilter, setDurationFilter] = useState('');
   const [sortOrder, setSortOrder] = useState('');
-  const [visibleMovies, setVisibleMovies] = useState(30);
+  const [visibleMovies, setVisibleMovies] = useState(20);
   const [peliculas, setPeliculas] = useState([]);
   const [mostrarSpinner, setMostrarSpinner] = useState(true);
   var contador = 0;
@@ -31,6 +31,19 @@ const Peliculas = () => {
 
     return () => clearTimeout(timer);
   }, []);
+
+    useEffect(() => {
+      const listaLikesUsuario = async () => {
+        if(isLoggedIn){
+          const verListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${userData.id}`);
+          const dataVerListas = await verListas.json();
+          const listaFiltrada = dataVerListas.find((lista) => lista.tipo.toLowerCase() === "likes");
+          updatedatosLikePeliculas(listaFiltrada);
+        }
+      }
+      listaLikesUsuario();
+    }, []);
+
 
 
   // hacemos fetch a la api de peliculas
@@ -131,7 +144,7 @@ const Peliculas = () => {
   });
 
   const mostrarMasPelis = () => {
-    setVisibleMovies((numeroPelis) => numeroPelis + 30);
+    setVisibleMovies((numeroPelis) => numeroPelis + 20);
   };
 
   return (

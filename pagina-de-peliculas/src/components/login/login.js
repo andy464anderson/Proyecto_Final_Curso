@@ -10,17 +10,22 @@ function Login() {
     const { updateHeader, isLoggedIn } = useContext(HeaderContext);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (isLoggedIn) {
-            navigate("/");
-            toast.warning("No puedes acceder a esa página si ya has iniciado sesión", { autoClose: 2500 });
-        }
-    }, [isLoggedIn, navigate]);
+    // useEffect(() => {
+    //     if (isLoggedIn) {
+    //         navigate("/");
+    //         toast.success("No puedes acceder a esa página si ya has iniciado sesión", { autoClose: 2500 });
+    //     }
+    // }, [isLoggedIn, navigate]);
 
 
     const handleLogin = async () => {
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
+
+        if (email === "" || password === ""){
+            setError(true)
+            return
+        }
 
         try {
             const response = await fetch(`https://api-peliculas-pagina.onrender.com/usuario/correo/${email}/${password}`)
@@ -29,6 +34,7 @@ function Login() {
             if (!data.error) {
                 setError(false);
                 updateHeader(true, data);
+                toast.success("Has iniciado sesión correctamente", { autoClose: 2500})
                 navigate('/')
             } else {
                 setError(true);

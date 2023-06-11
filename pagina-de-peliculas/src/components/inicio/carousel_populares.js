@@ -12,8 +12,7 @@ const CarouselPoulares = ({ items }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [personasCercanas, setPersonasCercanas] = useState([]);
   const [listaUsuarios, setUsuarios] = useState([]);
-  const { dataUsuarios, updateDataUsuario } = useContext(HeaderContext);
-  const { userData, isLoggedIn, movieData } = useContext(HeaderContext);
+  const { userData, isLoggedIn, movieData, dataUsuarios, updateDataUsuario } = useContext(HeaderContext);
 
   useEffect(() => {
    
@@ -34,7 +33,12 @@ const CarouselPoulares = ({ items }) => {
 
     if (dataUsuarios==null) {
       obtenerDatosUsuario();
+    } else {
+      setUsuarios(dataUsuarios);
     }
+  }, []);
+
+  useEffect(() => {
 
     const obtenerUsuariosPopulares = async () => {
       if (isLoggedIn && userData) {

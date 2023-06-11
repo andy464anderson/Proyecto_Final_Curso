@@ -8,22 +8,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
 
 const BotonLike = ({ idPeli }) => {
-    const { userData, isLoggedIn } = useContext(HeaderContext);
+    const { userData, isLoggedIn, datosLikePeliculas } = useContext(HeaderContext);
     const [tieneLike, setTieneLike] = useState(false);
 
     useEffect(() => {
         const verificarLike = async () => {
             if (!isLoggedIn) return;
-            const verListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${userData.id}`);
-            const dataVerListas = await verListas.json();
-            const listaFiltrada = dataVerListas.find((lista) => lista.tipo.toLowerCase() === "likes");
-            if (listaFiltrada && listaFiltrada.peliculas.includes(idPeli)) {
+            if (datosLikePeliculas && datosLikePeliculas.peliculas.includes(idPeli)) {
                 setTieneLike(true);
             }
         };
 
         verificarLike();
-    }, []);
+    }, [idPeli, isLoggedIn]);
 
     const darLike = async () => {
         const verListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${userData.id}`);
