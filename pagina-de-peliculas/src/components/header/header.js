@@ -1,12 +1,10 @@
-import "./header.css";
-import { Link, useLocation } from "react-router-dom";
-import { useContext, useState, useEffect, React } from "react";
+import React, { useContext, useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { HeaderContext } from "./headerContext";
-import { useNavigate } from "react-router-dom";
-import $ from 'jquery';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
+import "./header.css";
 
 function Header({ children }) {
   const { isLoggedIn, data, updateHeader, userData } = useContext(HeaderContext);
@@ -14,17 +12,12 @@ function Header({ children }) {
   const navigate = useNavigate();
   const location = useLocation();
   const [rutaActual, setRutaActual] = useState("");
-  const [abierto, setAbierto] = useState(false);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth); // Estado para almacenar el ancho de la ventana
+  const [isMenuBurgerOpen, setMenuBurgerOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
     setRutaActual(location.pathname);
   }, [location]);
-
-  var nombre_usuario = "";
-  if (userData !== undefined) {
-    nombre_usuario = "/perfil/" + userData.nombre_usuario;
-  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -43,6 +36,9 @@ function Header({ children }) {
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
+      if (window.innerWidth > 767 && isMenuBurgerOpen) {
+        setMenuBurgerOpen(false);
+      }
     };
 
     window.addEventListener("resize", handleResize);
@@ -50,7 +46,7 @@ function Header({ children }) {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []); // El segundo argumento del useEffect está vacío para que solo se ejecute una vez al montar el componente
+  }, [isMenuBurgerOpen]);
 
   const handleLogout = (e) => {
     setShowDropdown(!showDropdown);
@@ -68,25 +64,14 @@ function Header({ children }) {
   };
 
   const toggleMenuBurger = () => {
-    var top = $("#menu-burger").css("left");
-    if (top === "0px") {
-      $("#menu-burger").css({
-        "left": "-200px"
-      });
-    } else {
-      $("#menu-burger").css({
-        "left": "0px"
-      });
-    }
+    setMenuBurgerOpen(!isMenuBurgerOpen);
   };
 
   return (
     <div>
-
       <div>
-
         <nav>
-          <div id="menu-burger">
+          <div id="menu-burger" style={{ left: isMenuBurgerOpen ? "0px" : "-200px" }}>
             <ul>
               <li>
                 <Link onClick={toggleMenuBurger} to="/">Inicio</Link>
@@ -122,18 +107,18 @@ function Header({ children }) {
                   <Link onClick={toggleMenuBurger} to="/search">Buscador</Link>
                 </li>
               )}
-                <li>
-                  <button className="burger-icono-boton" onClick={toggleMenuBurger}>
-                    <FontAwesomeIcon className="burger-icono" icon={faArrowLeft} />
-                  </button>
-                </li>
+              <li>
+                <button className="burger-icono-boton" onClick={toggleMenuBurger}>
+                  <FontAwesomeIcon className="burger-icono" icon={isMenuBurgerOpen ? faArrowLeft : faBars} />
+                </button>
+              </li>
             </ul>
           </div>
           <div className="menu-left">
             <img src="logo.svg" alt="Logo" />
           </div>
           <div className="menu-middle">
-            {window.innerWidth > 767 && (
+            {windowWidth > 767 && (
               <ul>
                 <li>
                   <Link to="/">Inicio</Link>
@@ -174,9 +159,9 @@ function Header({ children }) {
             )}
           </div>
           <div className="menu-right">
-            {(windowWidth <= 767 || abierto) && (
+            {(windowWidth <= 767 || isMenuBurgerOpen) && (
               <button className="burger-icono-boton" onClick={toggleMenuBurger}>
-                <FontAwesomeIcon className="burger-icono" icon={faBars} />
+                <FontAwesomeIcon className="burger-icono" icon={isMenuBurgerOpen ? faArrowLeft : faBars} />
               </button>
             )}
             {location.pathname !== "/search" && windowWidth > 767 && (
@@ -185,14 +170,10 @@ function Header({ children }) {
               </Link>
             )}
           </div>
-
         </nav>
       </div>
 
-
-
-      <div id="separador-header">
-      </div>
+      <div id="separador-header"></div>
       <main className="content">
         {children}
       </main>
