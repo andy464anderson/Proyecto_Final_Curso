@@ -23,7 +23,7 @@ const BotonLike = ({ idPeli }) => {
     }, [idPeli, isLoggedIn]);
 
     const darLike = async () => {
-        const verListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${userData.id}`);
+        const verListas = await fetch(`https://13.48.181.115/listas/${userData.id}`);
         const dataVerListas = await verListas.json();
         const listaFiltrada = dataVerListas.filter((lista) => lista.tipo.toLowerCase() === "likes");
 
@@ -37,7 +37,7 @@ const BotonLike = ({ idPeli }) => {
                 peliculas: []
             }
 
-            const response = await fetch(`https://api-peliculas-pagina.onrender.com/lista`, {
+            const response = await fetch(`https://13.48.181.115/lista`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,7 +47,7 @@ const BotonLike = ({ idPeli }) => {
             const dataResponse = await response.json();
         }
 
-        const verListasActualizadas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${userData.id}`);
+        const verListasActualizadas = await fetch(`https://13.48.181.115/listas/${userData.id}`);
         const dataVerListasActualizadas = await verListasActualizadas.json();
         const listaFiltradaAct = dataVerListasActualizadas.filter((lista) => lista.tipo.toLowerCase() === "likes");
         var pelis = listaFiltradaAct[0].peliculas;
@@ -56,7 +56,7 @@ const BotonLike = ({ idPeli }) => {
             id: listaFiltradaAct[0].id,
             peliculas: pelis
         };
-        const response = await fetch(`https://api-peliculas-pagina.onrender.com/peliculasLista/${listaFiltradaAct[0].id}`, {
+        const response = await fetch(`https://13.48.181.115/peliculasLista/${listaFiltradaAct[0].id}`, {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
@@ -68,7 +68,7 @@ const BotonLike = ({ idPeli }) => {
     };
 
     const quitarLike = async () => {
-        const verListasActualizadas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${userData.id}`);
+        const verListasActualizadas = await fetch(`https://13.48.181.115/listas/${userData.id}`);
         const dataVerListasActualizadas = await verListasActualizadas.json();
         const listaFiltradaAct = dataVerListasActualizadas.filter((lista) => lista.tipo.toLowerCase() === "likes");
 
@@ -84,7 +84,7 @@ const BotonLike = ({ idPeli }) => {
                     peliculas: peliculas
                 };
 
-                const response = await fetch(`https://api-peliculas-pagina.onrender.com/peliculasLista/${listaFiltradaAct[0].id}`, {
+                const response = await fetch(`https://13.48.181.115/peliculasLista/${listaFiltradaAct[0].id}`, {
                     method: "PUT",
                     headers: {
                         "Content-Type": "application/json",

@@ -18,7 +18,7 @@ const CarouselPoulares = ({ items }) => {
    
     const obtenerDatosUsuario = async () => {
       
-      const responseUsuario = await fetch(`https://api-peliculas-pagina.onrender.com/usuarios`, {
+      const responseUsuario = await fetch(`https://13.48.181.115/usuarios`, {
         method: "GET",
         headers: {
           accept: "application/json",
@@ -42,7 +42,7 @@ const CarouselPoulares = ({ items }) => {
 
     const obtenerUsuariosPopulares = async () => {
       if (isLoggedIn && userData) {
-        const personasCercanas = await fetch(`https://api-peliculas-pagina.onrender.com/cercanas/${userData.id}`);
+        const personasCercanas = await fetch(`https://13.48.181.115/cercanas/${userData.id}`);
         const dataPersonasCercanas = await personasCercanas.json();
         var dataFiltrado = dataPersonasCercanas.filter(data => data.id_usuario !== userData.id);
         setPersonasCercanas(dataFiltrado);

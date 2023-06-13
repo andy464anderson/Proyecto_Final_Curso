@@ -406,7 +406,7 @@ body::-webkit-scrollbar-thumb,
 }
 
 .editar-lista:hover {
-    border-bottom: 1px solid rgb(159, 46, 252);
+    border-bottom: 1px solid #40BCF4;
 }
 
 .eliminar-lista:hover {

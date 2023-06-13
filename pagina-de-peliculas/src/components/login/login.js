@@ -28,7 +28,7 @@ function Login() {
         }
 
         try {
-            const response = await fetch(`https://api-peliculas-pagina.onrender.com/usuario/correo/${email}/${password}`)
+            const response = await fetch(`https://13.48.181.115/usuario/correo/${email}/${password}`)
             const data = await response.json();
 
             if (!data.error) {

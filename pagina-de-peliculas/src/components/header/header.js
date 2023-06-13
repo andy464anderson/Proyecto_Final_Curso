@@ -115,7 +115,7 @@ function Header({ children }) {
             </ul>
           </div>
           <div className="menu-left">
-            <img src="logo.svg" alt="Logo" />
+            <img style={{cursor: "pointer"}} onClick={() => navigate("/")} src="logo.svg" alt="Logo" />
           </div>
           <div className="menu-middle">
             {windowWidth > 767 && (

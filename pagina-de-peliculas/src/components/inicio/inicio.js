@@ -21,7 +21,7 @@ const Inicio = () => {
 
   useEffect(() => {
     const obtenerPeliculas = async () => {
-      const data = await fetch('https://api-peliculas-pagina.onrender.com/peliculas', {
+      const data = await fetch('https://13.48.181.115/peliculas', {
         method: 'GET',
         headers: {
           'accept': 'application/json'
@@ -44,7 +44,7 @@ const Inicio = () => {
 
 
     const obtenerDatosSeguidos = async () => {
-      const responseSiguiendo = await fetch(`https://api-peliculas-pagina.onrender.com/seguidos/${userData.id}`, {
+      const responseSiguiendo = await fetch(`https://13.48.181.115/seguidos/${userData.id}`, {
         method: "GET",
         headers: {
           accept: "application/json",
@@ -60,7 +60,7 @@ const Inicio = () => {
     }
 
     const obtenerDatosActividad = async () => {
-      const responseActividad = await fetch(`https://api-peliculas-pagina.onrender.com/actividad/${userData.id}`, {
+      const responseActividad = await fetch(`https://13.48.181.115/actividad/${userData.id}`, {
         method: "GET",
         headers: {
           accept: "application/json",
@@ -79,7 +79,7 @@ const Inicio = () => {
 
     const obtenerUsuariosPopulares = async () => {
       if ((!usuariosPopulares || usuariosPopulares.length === 0) && popularesUsuarios == null) {
-        const usuariosPopulares = await fetch(`https://api-peliculas-pagina.onrender.com/populares`);
+        const usuariosPopulares = await fetch(`https://13.48.181.115/populares`);
         const dataUsuariosPopulares = await usuariosPopulares.json();
         updatePopularesUsuarios(dataUsuariosPopulares);
         setUsuariosPopulares(dataUsuariosPopulares);
@@ -88,7 +88,7 @@ const Inicio = () => {
       }
 
       if ((!topLikes || topLikes.length===0) && topLikesPeliculas == null) {
-        const topLikes = await fetch(`https://api-peliculas-pagina.onrender.com/toplikes`);
+        const topLikes = await fetch(`https://13.48.181.115/toplikes`);
         const dataTopLikes = await topLikes.json();
         updateTopLikesPeliculas(dataTopLikes);
         setTopLikes(dataTopLikes);
@@ -97,7 +97,7 @@ const Inicio = () => {
       }
 
       if ((!topValoracion || topValoracion.length === 0) && mejorValoradas == null) {
-        const topValoracion = await fetch(`https://api-peliculas-pagina.onrender.com/topvaloracion`);
+        const topValoracion = await fetch(`https://13.48.181.115/topvaloracion`);
         const datatopValoracion = await topValoracion.json();
         updateMejorValoradas(datatopValoracion);
         setTopValoracion(datatopValoracion);
@@ -107,7 +107,7 @@ const Inicio = () => {
 
 
       if ((!ultimasReviews || ultimasReviews.length === 0) && !reviewData) {
-        const ultimasReviews = await fetch(`https://api-peliculas-pagina.onrender.com/reviews`);
+        const ultimasReviews = await fetch(`https://13.48.181.115/reviews`);
         const dataUltimasReviews = await ultimasReviews.json();
         setReviews(dataUltimasReviews);
         updateReviewData(reviewData)
@@ -117,7 +117,7 @@ const Inicio = () => {
 
 
       if ((!personasCercanas || personasCercanas.length === 0)  && isLoggedIn) {
-        const personasCercanas = await fetch(`https://api-peliculas-pagina.onrender.com/cercanas/${userData.id}`);
+        const personasCercanas = await fetch(`https://13.48.181.115/cercanas/${userData.id}`);
         const dataPersonasCercanas = await personasCercanas.json();
         var dataFiltrado = dataPersonasCercanas.filter((data) => data.id_usuario !== userData.id);
         setPersonasCercanas(dataFiltrado);

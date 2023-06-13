@@ -35,7 +35,7 @@ const Peliculas = () => {
     useEffect(() => {
       const listaLikesUsuario = async () => {
         if(isLoggedIn){
-          const verListas = await fetch(`https://api-peliculas-pagina.onrender.com/listas/${userData.id}`);
+          const verListas = await fetch(`https://13.48.181.115/listas/${userData.id}`);
           const dataVerListas = await verListas.json();
           const listaFiltrada = dataVerListas.find((lista) => lista.tipo.toLowerCase() === "likes");
           updatedatosLikePeliculas(listaFiltrada);
@@ -49,7 +49,7 @@ const Peliculas = () => {
   // hacemos fetch a la api de peliculas
   useEffect(() => {
     const obtenerPeliculas = async () => {
-      const data = await fetch('https://api-peliculas-pagina.onrender.com/peliculas', {
+      const data = await fetch('https://13.48.181.115/peliculas', {
         method: 'GET',
         headers: {
           'accept': 'application/json'

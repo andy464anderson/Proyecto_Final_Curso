@@ -30,7 +30,7 @@ const DetallePelicula = () => {
 
   useEffect(() => {
     const obtenerPelicula = async () => {
-      const data = await fetch(`https://api-peliculas-pagina.onrender.com/peliculas/${id}`, {
+      const data = await fetch(`https://13.48.181.115/peliculas/${id}`, {
         method: "GET",
         headers: {
           accept: "application/json",
@@ -51,7 +51,7 @@ const DetallePelicula = () => {
       setGenres(genres);
       setCast(cast);
 
-      const responseReviews = await fetch(`https://api-peliculas-pagina.onrender.com/reviews/${id}`);
+      const responseReviews = await fetch(`https://13.48.181.115/reviews/${id}`);
       const dataReviews = await responseReviews.json();
       setReviews(dataReviews);
       setListaReviewsFiltrada(dataReviews);
@@ -230,7 +230,7 @@ const DetallePelicula = () => {
           fecha,
         };
 
-        const response = await fetch("https://api-peliculas-pagina.onrender.com/review", {
+        const response = await fetch("https://13.48.181.115/review", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -243,7 +243,7 @@ const DetallePelicula = () => {
         setContenido("");
 
         const responseReviews = await fetch(
-          `https://api-peliculas-pagina.onrender.com/reviews/${pelicula.id}`
+          `https://13.48.181.115/reviews/${pelicula.id}`
         );
         const dataReviews = await responseReviews.json();
         setReviews(dataReviews);
@@ -286,12 +286,12 @@ const DetallePelicula = () => {
   };
 
   const eliminarReview = async (reviewId) => {
-    const eliminar = await fetch(`https://api-peliculas-pagina.onrender.com/review/${reviewId}`, {
+    const eliminar = await fetch(`https://13.48.181.115/review/${reviewId}`, {
       method: "DELETE"
     });
 
     const responseReviews = await fetch(
-      `https://api-peliculas-pagina.onrender.com/reviews/${pelicula.id}`
+      `https://13.48.181.115/reviews/${pelicula.id}`
     );
     const dataReviews = await responseReviews.json();
     setReviews(dataReviews);
@@ -304,7 +304,7 @@ const DetallePelicula = () => {
       setListaReviewsFiltrada(reviews);
 
     } else if (opcion === "amigos") {
-      const responseSeguidos = await fetch(`https://api-peliculas-pagina.onrender.com/seguidos/${userData.id}`);
+      const responseSeguidos = await fetch(`https://13.48.181.115/seguidos/${userData.id}`);
       const dataSeguidos = await responseSeguidos.json();
       listaFiltrada = reviews.filter(review => {
         return dataSeguidos.some(seguido => seguido.id_usuario_seguido === review.id_usuario);
