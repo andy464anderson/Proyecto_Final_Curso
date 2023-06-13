@@ -142,7 +142,7 @@ const Search = () => {
                                         {isLoggedIn && (
                                             <>
                                                 <BotonSeguir usuario={usuario} actualizarDatos={undefined} />
-                                                {userData.rol === "admin" && (
+                                                {userData.rol.toLowerCase() === "admin" || userData.rol.toLowerCase() === "administrador" && (
                                                     <BotonEliminarUsuario usuario={usuario} actualizar={actualizar} />
                                                 )}
                                             </>

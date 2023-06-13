@@ -282,7 +282,7 @@ function Perfil() {
         if (Object.keys(listaActual).length > 0 && $("#infoListasNormales").is(":visible")) {
             verLista(listaActual);
         }
-    }, [listaActual, listaPeliculas, pelisSeleccionadas, idLista, verLista]);
+    }, [listaActual]);
 
     const cerrarSearch = (cerrar) => {
         setShowSearch(cerrar);
@@ -431,7 +431,7 @@ function Perfil() {
                         <h2>{nombreCompleto}</h2>
                         <h5>{nombreUsuario}</h5>
                         <BotonSeguir usuario={usuario} actualizarDatos={actualizarDatos} />
-                        {isLoggedIn && userData.rol === "admin" && userData.id !== usuario.id && (
+                        {isLoggedIn && (userData.rol.toLowerCase() === "admin" || userData.rol.toLowerCase() === "administrador") && userData.id !== usuario.id && (
                             <BotonEliminarUsuario usuario={usuario} actualizar={actualizar} />
                         )}
                     </div>
